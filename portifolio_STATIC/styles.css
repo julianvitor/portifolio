@@ -1,0 +1,12 @@
+/* CSS mínimo para complementar o Tailwind (CDN) */
+:root {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html, body {
+  height: 100%;
+}
