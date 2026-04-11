@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About — Seu Nome</title>
+    <title>Sobre</title>
 
     <script>
       (function () {
@@ -21,7 +21,8 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="../theme.js" defer></script>
-
+    <script src="../oneko.js" defer></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -38,11 +39,22 @@
     </style>
   </head>
 
-  <body class="min-h-screen bg-gray-100 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
-    <div class="min-h-screen lg:flex">
+  <body class="min-h-screen bg-gray-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100">
+    <button
+      id="menuBtn"
+      class="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-neutral-200 dark:bg-neutral-800"
+    >
+      ☰
+    </button>
+    <div class="min-h-screen flex flex-col lg:flex-row">
+      <div
+        id="overlay"
+        class="fixed inset-0 bg-black/50 hidden lg:hidden z-40"
+      ></div>
       <!-- Sidebar -->
       <aside
-        class="bg-neutral-100 dark:bg-neutral-950 border-b lg:border-b-0 lg:border-r border-neutral-200 dark:border-neutral-800 lg:w-56 lg:fixed lg:inset-y-0 lg:left-0"
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-50 w-56 bg-neutral-50 dark:bg-neutral-950 border-r border-neutral-200 dark:border-neutral-800 h-screen overflow-y-auto -translate-x-full transition-transform duration-200 lg:translate-x-0"
       >
         <div class="p-6">
           <div class="flex items-center gap-3">
@@ -52,8 +64,8 @@
               class="h-10 w-10 rounded-full object-cover"
             />
             <div class="text-sm">
-              <div class="font-semibold">Seu Nome</div>
-              <div class="text-neutral-500 dark:text-neutral-400">Seu cargo / área</div>
+              <div class="font-semibold">Julian Carreiro</div>
+              <div class="text-neutral-500 dark:text-neutral-400">Desenvolvimento de Software</div>
             </div>
           </div>
 
@@ -179,5 +191,23 @@
         </footer>
       </main>
     </div>
+    <script>
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const btn = document.getElementById("menuBtn");
+
+      function openMenu() {
+        sidebar.classList.remove("-translate-x-full");
+        overlay.classList.remove("hidden");
+      }
+
+      function closeMenu() {
+        sidebar.classList.add("-translate-x-full");
+        overlay.classList.add("hidden");
+      }
+
+      btn.addEventListener("click", openMenu);
+      overlay.addEventListener("click", closeMenu);
+    </script>
   </body>
 </html>

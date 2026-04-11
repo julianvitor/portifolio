@@ -86,10 +86,17 @@
   };
 
   function init() {
-    let nekoFile = "./oneko.gif"
-    const curScript = document.currentScript
+    let nekoFile = "/oneko.gif";
+    const curScript = document.currentScript;
+
     if (curScript && curScript.dataset.cat) {
-      nekoFile = curScript.dataset.cat
+      nekoFile = curScript.dataset.cat;
+    } else if (curScript && curScript.src) {
+      try {
+        nekoFile = new URL("oneko.gif", curScript.src).toString();
+      } catch {
+        // ignore
+      }
     }
     if (curScript && curScript.dataset.persistPosition) {
       if (curScript.dataset.persistPosition === "") {
