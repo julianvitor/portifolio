@@ -4,7 +4,37 @@ import argparse
 import os
 from pathlib import Path
 
-import htmlmin
+try:
+	import htmlmin2 as htmlmin  # type: ignore
+except ModuleNotFoundError:  # pragma: no cover
+	import htmlmin  # type: ignore
+
+
+IGNORE_DIR_NAMES = {
+	"dist",
+	"node_modules",
+	"__pycache__",
+	".git",
+	".venv",
+}
+
+IGNORE_FILE_NAMES = {
+	"minify.py",
+	"Dockerfile",
+	"dockerfile",
+	"compose.yaml",
+	"compose.yml",
+	"README.md",
+	"LICENSE",
+	".gitignore",
+}
+
+IGNORE_FILE_SUFFIXES = {
+	".py",
+	".md",
+	".yml",
+	".yaml",
+}
 
 
 def _minify_html(text: str) -> str:
@@ -27,7 +57,22 @@ def minify_tree(src_dir: Path, dst_dir: Path) -> tuple[int, int]:
 	copied = 0
 
 	for path in src_dir.rglob("*"):
+		# Avoid copying the output directory into itself when dst is inside src.
+		if path == dst_dir or dst_dir in path.parents:
+			continue
+
 		rel = path.relative_to(src_dir)
+
+		# Skip ignored folders anywhere in the tree.
+		if any(part in IGNORE_DIR_NAMES for part in rel.parts):
+			continue
+
+		# Skip known non-site files.
+		if path.is_file():
+			if path.name in IGNORE_FILE_NAMES:
+				continue
+			if path.suffix.lower() in IGNORE_FILE_SUFFIXES:
+				continue
 		out_path = dst_dir / rel
 
 		if path.is_dir():
@@ -53,8 +98,8 @@ def main() -> None:
 	)
 	parser.add_argument(
 		"--src",
-		default=os.environ.get("MINIFY_SRC", "./portifolio_STATIC"),
-		help="Source directory (default: ./portifolio_STATIC or $MINIFY_SRC)",
+		default=os.environ.get("MINIFY_SRC", "."),
+		help="Source directory (default: . or $MINIFY_SRC)",
 	)
 	parser.add_argument(
 		"--dst",

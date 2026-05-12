@@ -8,7 +8,7 @@ Este site é **100% estático**: só HTML + Tailwind (CDN) + dois arquivos auxil
 
 ## Rodar local
 
-Dentro da pasta `portifolio_STATIC/`:
+Dentro da pasta `portifolio_static/`:
 
 ```bash
 python3 -m http.server 4173
@@ -57,3 +57,15 @@ Dica: você pode dar Ctrl+Shift+F no VS Code e buscar por `Resume desativado`.
 
 O botão de tema usa `theme.js` e salva a preferência no `localStorage`.
 Se algo não mudar visualmente em alguma página, é porque ela ainda não recebeu as classes `dark:` (posso padronizar isso em todas). 
+
+## Minify (opcional)
+
+Se você quiser gerar uma pasta final minificada, o script usa `htmlmin2` (compatível com Python recente):
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install htmlmin2
+
+python3 minify.py --src . --dst ./dist
+```
