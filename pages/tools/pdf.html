@@ -1,0 +1,1263 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Utilitário de PDF — Julian Carreiro</title>
+    <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="../../assets/icons/favicon.ico" />
+
+    <script>
+      (function () {
+        const stored = localStorage.getItem('theme');
+        const prefersDark =
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = stored || (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
+
+    <style type="text/tailwindcss">
+      @custom-variant dark (&:where(.dark, .dark *));
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="../../assets/js/theme.js" defer></script>
+    <script src="../../assets/js/oneko.js" defer></script>
+    <!-- Bibliotecas client-side de manipulação de PDF e compressão ZIP -->
+    <script src="../../assets/js/pdf-lib.min.js"></script>
+    <script src="../../assets/js/jszip.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+    <style>
+      body {
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+          Cantarell, Noto Sans, sans-serif;
+      }
+      .tab-active {
+        border-color: #171717;
+        color: #171717;
+        font-weight: 600;
+      }
+      .dark .tab-active {
+        border-color: #f5f5f5;
+        color: #f5f5f5;
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen bg-gray-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100">
+    <button
+      id="menuBtn"
+      class="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-neutral-200 dark:bg-neutral-800"
+    >
+      ☰
+    </button>
+    <div class="min-h-screen flex flex-col lg:flex-row">
+      <div
+        id="overlay"
+        class="fixed inset-0 bg-black/50 hidden lg:hidden z-40"
+      ></div>
+
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-50 w-56 bg-neutral-50 dark:bg-neutral-950 border-r border-neutral-200 dark:border-neutral-800 h-screen overflow-y-auto -translate-x-full transition-transform duration-200 lg:translate-x-0"
+      >
+        <div class="p-6">
+          <div class="flex items-center gap-3">
+            <img
+              src="../../assets/images/profile.jpg"
+              alt="Avatar"
+              class="h-10 w-10 rounded-full object-cover"
+            />
+            <div class="text-sm">
+              <div class="font-semibold">Julian Carreiro</div>
+              <div class="text-neutral-500 dark:text-neutral-400">Software & Hardware</div>
+            </div>
+          </div>
+
+          <nav class="mt-6 space-y-1 text-sm">
+            <a
+              href="../../index.html"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+              >Início</a
+            >
+            <a
+              href="../../index.html#sobre"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+              >Sobre</a
+            >
+            <a
+              href="../projects.html"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+              >Projetos</a
+            >
+            <a
+              href="../blog.html"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+              >Artigos</a
+            >
+            <a
+              href="../tools.html"
+              class="block rounded-md px-2 py-2 bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 font-semibold shadow-sm"
+              >Utilidades</a
+            >
+            <a
+              href="../../index.html#contato"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+              >Contato</a
+            >
+          </nav>
+
+          <div class="mt-4">
+            <button
+              id="theme-toggle"
+              type="button"
+              class="w-full rounded-md px-2 py-2 text-sm font-semibold bg-neutral-200 text-neutral-900 border border-neutral-300/60 dark:bg-neutral-800/60 dark:text-neutral-50 dark:border-neutral-700/60 hover:bg-neutral-300/70 dark:hover:bg-neutral-700/60 hover:-translate-y-px active:translate-y-0 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+            >
+              Tema
+            </button>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-800">
+            <div
+              class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide"
+            >
+              Redes Sociais
+            </div>
+            <div class="mt-2 space-y-1 text-sm">
+              <a
+                href="https://github.com/julianvitor"
+                target="_blank"
+                rel="noreferrer"
+                class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40"
+                >GitHub</a
+              >
+              <a
+                href="https://www.linkedin.com/in/julian-carreiro/"
+                target="_blank"
+                rel="noreferrer"
+                class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40"
+                >LinkedIn</a
+              >
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Conteúdo Principal -->
+      <main class="flex-1 lg:ml-56">
+        <div class="max-w-5xl mx-auto px-4 md:px-10 py-12 md:py-20 space-y-8">
+          
+          <a
+            href="../tools.html"
+            class="inline-flex items-center text-sm text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+          >
+            ← Voltar para Utilidades
+          </a>
+
+          <div>
+            <span class="text-4xl">📄</span>
+            <h1 class="mt-3 text-3xl md:text-4xl font-extrabold">
+              Utilitário de PDF
+            </h1>
+            <p class="mt-2 text-neutral-600 dark:text-neutral-300 max-w-2xl leading-relaxed">
+              Junte múltiplos arquivos PDF em um único documento, converta imagens em PDF com ordenação personalizada e separe/extraia páginas específicas. Tudo 100% no seu navegador sem limite de tamanho ou envio para servidores.
+            </p>
+          </div>
+
+          <!-- Modos de Operação (Tabs) -->
+          <div class="flex border-b border-neutral-200 dark:border-neutral-800 gap-6 text-sm font-medium overflow-x-auto">
+            <button
+              id="tab-btn-merge"
+              class="tab-btn pb-3 border-b-2 tab-active text-neutral-900 dark:text-neutral-100 flex items-center gap-2 whitespace-nowrap cursor-pointer"
+              data-tab="merge"
+            >
+              <span>📑</span> Juntar PDFs
+            </button>
+            <button
+              id="tab-btn-img2pdf"
+              class="tab-btn pb-3 border-b-2 border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 flex items-center gap-2 whitespace-nowrap cursor-pointer"
+              data-tab="img2pdf"
+            >
+              <span>🖼️</span> Imagens em PDF
+            </button>
+            <button
+              id="tab-btn-split"
+              class="tab-btn pb-3 border-b-2 border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 flex items-center gap-2 whitespace-nowrap cursor-pointer"
+              data-tab="split"
+            >
+              <span>✂️</span> Separar PDF
+            </button>
+          </div>
+
+          <!-- ======================================================== -->
+          <!-- ABA 1: JUNTAR PDFS (MERGE)                               -->
+          <!-- ======================================================== -->
+          <div id="tab-content-merge" class="space-y-6">
+            
+            <!-- Zona de Upload de PDFs -->
+            <div
+              id="merge-dropzone"
+              class="group relative cursor-pointer rounded-2xl border-2 border-dashed border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-8 text-center hover:border-neutral-500 dark:hover:border-neutral-500 transition-colors shadow-sm"
+            >
+              <input
+                id="merge-file-input"
+                type="file"
+                accept="application/pdf"
+                multiple
+                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <div class="flex flex-col items-center justify-center space-y-2 pointer-events-none">
+                <span class="text-4xl group-hover:scale-110 transition-transform">📑</span>
+                <p class="font-semibold text-neutral-800 dark:text-neutral-200">
+                  Arraste arquivos PDF aqui ou clique para selecionar
+                </p>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400">
+                  Selecione dois ou mais PDFs para combiná-los na ordem desejada
+                </p>
+              </div>
+            </div>
+
+            <!-- Lista de Arquivos para Juntar -->
+            <div id="merge-list-container" class="hidden space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="text-sm font-bold text-neutral-900 dark:text-neutral-100">
+                  Arquivos na ordem de junção (<span id="merge-count">0</span>):
+                </div>
+                <button
+                  id="merge-clear-all-btn"
+                  type="button"
+                  class="text-xs text-red-600 dark:text-red-400 hover:underline font-medium cursor-pointer"
+                >
+                  ✕ Limpar todos
+                </button>
+              </div>
+
+              <div id="merge-items-list" class="space-y-2.5">
+                <!-- Itens inseridos dinamicamente -->
+              </div>
+
+              <!-- Painel de Ação de Junção -->
+              <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                  <div>
+                    <label for="merge-output-name" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                      Nome do PDF Final:
+                    </label>
+                    <input
+                      id="merge-output-name"
+                      type="text"
+                      value="documento_combinado.pdf"
+                      class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
+                    />
+                  </div>
+                  <div class="flex items-end">
+                    <button
+                      id="merge-btn"
+                      type="button"
+                      class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
+                    >
+                      📑 Combinar PDFs em Um Só
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Status / Progresso -->
+                <div id="merge-status" class="hidden text-xs text-center font-medium min-h-[1.5rem]"></div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ======================================================== -->
+          <!-- ABA 2: CONVERSOR DE IMAGENS EM PDF (IMG2PDF)             -->
+          <!-- ======================================================== -->
+          <div id="tab-content-img2pdf" class="hidden space-y-6">
+            
+            <!-- Zona de Upload de Imagens -->
+            <div
+              id="img2pdf-dropzone"
+              class="group relative cursor-pointer rounded-2xl border-2 border-dashed border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-8 text-center hover:border-neutral-500 dark:hover:border-neutral-500 transition-colors shadow-sm"
+            >
+              <input
+                id="img2pdf-file-input"
+                type="file"
+                accept="image/*"
+                multiple
+                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <div class="flex flex-col items-center justify-center space-y-2 pointer-events-none">
+                <span class="text-4xl group-hover:scale-110 transition-transform">🖼️</span>
+                <p class="font-semibold text-neutral-800 dark:text-neutral-200">
+                  Arraste imagens ou clique para selecionar
+                </p>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400">
+                  Suporta PNG, JPEG, WebP, GIF, SVG e BMP (Múltiplas imagens serão páginas consecutivas)
+                </p>
+              </div>
+            </div>
+
+            <!-- Lista de Imagens e Configurações de Página -->
+            <div id="img2pdf-list-container" class="hidden space-y-6">
+              
+              <div class="flex items-center justify-between">
+                <div class="text-sm font-bold text-neutral-900 dark:text-neutral-100">
+                  Imagens selecionadas (<span id="img2pdf-count">0</span> páginas):
+                </div>
+                <button
+                  id="img2pdf-clear-all-btn"
+                  type="button"
+                  class="text-xs text-red-600 dark:text-red-400 hover:underline font-medium cursor-pointer"
+                >
+                  ✕ Limpar todas
+                </button>
+              </div>
+
+              <!-- Grid de Miniaturas Reordenáveis -->
+              <div id="img2pdf-items-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <!-- Miniaturas adicionadas dinamicamente -->
+              </div>
+
+              <!-- Configurações do Documento PDF -->
+              <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm space-y-4">
+                <h3 class="text-sm font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+                  Configurações de Layout
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label for="img2pdf-pagesize" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                      Tamanho da Página:
+                    </label>
+                    <select
+                      id="img2pdf-pagesize"
+                      class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
+                    >
+                      <option value="A4" selected>A4 Padrão (210 × 297 mm)</option>
+                      <option value="Letter">Carta / Letter (8.5 × 11 pol)</option>
+                      <option value="Fit">Ajustar ao tamanho exato da imagem</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label for="img2pdf-orientation" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                      Orientação:
+                    </label>
+                    <select
+                      id="img2pdf-orientation"
+                      class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
+                    >
+                      <option value="auto" selected>Automática (adapta por imagem)</option>
+                      <option value="portrait">Retrato (Vertical)</option>
+                      <option value="landscape">Paisagem (Horizontal)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label for="img2pdf-margin" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                      Margens:
+                    </label>
+                    <select
+                      id="img2pdf-margin"
+                      class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
+                    >
+                      <option value="0" selected>Sem margem (Preencher página)</option>
+                      <option value="20">Pequena (20 pt)</option>
+                      <option value="40">Grande (40 pt)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                  <div>
+                    <label for="img2pdf-output-name" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                      Nome do Arquivo:
+                    </label>
+                    <input
+                      id="img2pdf-output-name"
+                      type="text"
+                      value="imagens_convertidas.pdf"
+                      class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
+                    />
+                  </div>
+
+                  <div class="flex items-end">
+                    <button
+                      id="img2pdf-btn"
+                      type="button"
+                      class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
+                    >
+                      📄 Gerar Documento PDF
+                    </button>
+                  </div>
+                </div>
+
+                <div id="img2pdf-status" class="hidden text-xs text-center font-medium min-h-[1.5rem]"></div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ======================================================== -->
+          <!-- ABA 3: SEPARAR PDF (SPLIT)                               -->
+          <!-- ======================================================== -->
+          <div id="tab-content-split" class="hidden space-y-6">
+            
+            <!-- Zona de Upload de 1 PDF para separar -->
+            <div
+              id="split-dropzone"
+              class="group relative cursor-pointer rounded-2xl border-2 border-dashed border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-8 text-center hover:border-neutral-500 dark:hover:border-neutral-500 transition-colors shadow-sm"
+            >
+              <input
+                id="split-file-input"
+                type="file"
+                accept="application/pdf"
+                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <div class="flex flex-col items-center justify-center space-y-2 pointer-events-none">
+                <span class="text-4xl group-hover:scale-110 transition-transform">✂️</span>
+                <p class="font-semibold text-neutral-800 dark:text-neutral-200">
+                  Arraste o arquivo PDF que deseja separar
+                </p>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400">
+                  Extraia páginas individuais, intervalos personalizados (ex: 1-3, 5) ou separe em arquivos únicos
+                </p>
+              </div>
+            </div>
+
+            <!-- Painel de Separação -->
+            <div id="split-panel" class="hidden space-y-6">
+              
+              <!-- Info do Arquivo Carregado -->
+              <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-xs">
+                <div class="flex items-center gap-3">
+                  <span class="text-2xl">📄</span>
+                  <div>
+                    <span id="split-doc-name" class="font-semibold text-sm text-neutral-900 dark:text-neutral-100 block">
+                      documento.pdf
+                    </span>
+                    <div class="flex items-center gap-2 mt-0.5 text-neutral-500 dark:text-neutral-400 font-mono">
+                      <span id="split-doc-size">0 KB</span>
+                      <span>•</span>
+                      <span id="split-doc-pages" class="font-bold text-neutral-700 dark:text-neutral-300">0 páginas</span>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  id="split-change-file-btn"
+                  type="button"
+                  class="text-xs text-red-600 dark:text-red-400 hover:underline font-medium cursor-pointer"
+                >
+                  ✕ Trocar arquivo
+                </button>
+              </div>
+
+              <!-- Escolha do Modo de Separação -->
+              <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm space-y-6">
+                
+                <div>
+                  <h3 class="text-sm font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-3">
+                    Modo de Separação
+                  </h3>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <!-- Opção 1: Extrair Intervalo Customizado -->
+                    <label class="flex items-start gap-3 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950 cursor-pointer hover:border-neutral-400 transition">
+                      <input type="radio" name="split-mode" value="range" checked class="mt-1 text-neutral-900 focus:ring-neutral-500" />
+                      <div>
+                        <div class="font-semibold text-sm text-neutral-900 dark:text-neutral-100">
+                          Extrair Intervalo Específico
+                        </div>
+                        <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+                          Gera um novo PDF apenas com as páginas selecionadas (ex: páginas 1 a 3 e 5).
+                        </p>
+                      </div>
+                    </label>
+
+                    <!-- Opção 2: Separar Todas as Páginas -->
+                    <label class="flex items-start gap-3 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950 cursor-pointer hover:border-neutral-400 transition">
+                      <input type="radio" name="split-mode" value="all" class="mt-1 text-neutral-900 focus:ring-neutral-500" />
+                      <div>
+                        <div class="font-semibold text-sm text-neutral-900 dark:text-neutral-100">
+                          Separar Todas as Páginas
+                        </div>
+                        <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+                          Cada página se torna um PDF individual, compactados em um arquivo .ZIP.
+                        </p>
+                      </div>
+                    </label>
+
+                  </div>
+                </div>
+
+                <!-- Campo de Intervalo de Páginas (visível no modo range) -->
+                <div id="split-range-wrapper" class="space-y-2">
+                  <label for="split-range-input" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400">
+                    Páginas para extrair (ex: 1-3, 5, 8-10):
+                  </label>
+                  <input
+                    id="split-range-input"
+                    type="text"
+                    placeholder="1-2"
+                    class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
+                  />
+                  <p class="text-[11px] text-neutral-500 dark:text-neutral-400" id="split-range-hint">
+                    Use hífens para intervalos e vírgulas para páginas soltas. Total disponível: <span id="split-hint-max">0</span> páginas.
+                  </p>
+                </div>
+
+                <!-- Botão de Ação -->
+                <div class="pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                  <button
+                    id="split-btn"
+                    type="button"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-3 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
+                  >
+                    ✂️ Processar e Baixar PDF Separado
+                  </button>
+                  <div id="split-status" class="hidden text-xs text-center font-medium mt-3 min-h-[1.5rem]"></div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Informações de Privacidade -->
+          <div class="rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-white/40 dark:bg-neutral-900/40 p-6 text-sm text-neutral-600 dark:text-neutral-400 flex items-start gap-4">
+            <span class="text-2xl">🔒</span>
+            <div>
+              <div class="font-semibold text-neutral-900 dark:text-neutral-100">Privacidade Absoluta dos Documentos</div>
+              <p class="mt-1 leading-relaxed">
+                Todas as operações de fusão, extração de páginas e conversão de imagens utilizam a biblioteca client-side <code>pdf-lib</code> e <code>JSZip</code> no seu próprio navegador. Seus contratos, relatórios e documentos nunca são carregados para nenhum servidor ou nuvem.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+    <!-- Scripts da Ferramenta -->
+    <script>
+      // Sidebar mobile
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const menuBtn = document.getElementById("menuBtn");
+
+      menuBtn?.addEventListener("click", () => {
+        sidebar.classList.remove("-translate-x-full");
+        overlay.classList.remove("hidden");
+      });
+      overlay?.addEventListener("click", () => {
+        sidebar.classList.add("-translate-x-full");
+        overlay.classList.add("hidden");
+      });
+
+      function formatBytes(bytes) {
+        if (!bytes || bytes === 0) return "0 B";
+        const k = 1024;
+        const sizes = ["B", "KB", "MB", "GB"];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
+      }
+
+      function downloadBlob(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      // Sistema de Abas
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabContents = {
+        "merge": document.getElementById("tab-content-merge"),
+        "img2pdf": document.getElementById("tab-content-img2pdf"),
+        "split": document.getElementById("tab-content-split")
+      };
+
+      function switchTab(tabId) {
+        tabBtns.forEach(btn => {
+          if (btn.dataset.tab === tabId) {
+            btn.classList.add("tab-active", "border-neutral-900", "dark:border-neutral-100", "text-neutral-900", "dark:text-neutral-100");
+            btn.classList.remove("border-transparent", "text-neutral-500");
+          } else {
+            btn.classList.remove("tab-active", "border-neutral-900", "dark:border-neutral-100", "text-neutral-900", "dark:text-neutral-100");
+            btn.classList.add("border-transparent", "text-neutral-500");
+          }
+        });
+
+        Object.keys(tabContents).forEach(key => {
+          if (key === tabId) {
+            tabContents[key].classList.remove("hidden");
+          } else {
+            tabContents[key].classList.add("hidden");
+          }
+        });
+      }
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+      });
+
+      // ========================================================
+      // MÓDULO 1: JUNTAR PDFS (MERGE)
+      // ========================================================
+      let mergeFiles = []; // Array de { file, pageCount }
+
+      const mergeDropzone = document.getElementById("merge-dropzone");
+      const mergeFileInput = document.getElementById("merge-file-input");
+      const mergeListContainer = document.getElementById("merge-list-container");
+      const mergeItemsList = document.getElementById("merge-items-list");
+      const mergeCount = document.getElementById("merge-count");
+      const mergeClearAllBtn = document.getElementById("merge-clear-all-btn");
+      const mergeBtn = document.getElementById("merge-btn");
+      const mergeOutputName = document.getElementById("merge-output-name");
+      const mergeStatus = document.getElementById("merge-status");
+
+      async function addMergeFiles(files) {
+        for (const file of files) {
+          if (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
+            let pageCount = "?";
+            try {
+              const arrayBuffer = await file.arrayBuffer();
+              const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+              pageCount = pdfDoc.getPageCount();
+            } catch (e) {
+              console.warn("Não foi possível ler contagem de páginas de", file.name, e);
+            }
+            mergeFiles.push({ file, pageCount });
+          }
+        }
+        renderMergeList();
+      }
+
+      function renderMergeList() {
+        mergeItemsList.innerHTML = "";
+        mergeCount.textContent = mergeFiles.length;
+
+        if (mergeFiles.length === 0) {
+          mergeListContainer.classList.add("hidden");
+          return;
+        }
+
+        mergeListContainer.classList.remove("hidden");
+
+        mergeFiles.forEach((item, index) => {
+          const row = document.createElement("div");
+          row.className = "flex items-center justify-between p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-xs text-xs";
+          
+          row.innerHTML = `
+            <div class="flex items-center gap-3 overflow-hidden">
+              <span class="w-6 h-6 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 flex items-center justify-center font-bold text-[11px] shrink-0">
+                ${index + 1}
+              </span>
+              <div class="truncate">
+                <div class="font-semibold text-neutral-900 dark:text-neutral-100 truncate">${item.file.name}</div>
+                <div class="text-neutral-500 dark:text-neutral-400 font-mono text-[11px] mt-0.5">
+                  ${formatBytes(item.file.size)} • ${item.pageCount} ${item.pageCount === 1 ? 'página' : 'páginas'}
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 shrink-0 ml-3">
+              <button type="button" data-idx="${index}" class="merge-up-btn p-1.5 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}" title="Mover para cima">
+                ⬆️
+              </button>
+              <button type="button" data-idx="${index}" class="merge-down-btn p-1.5 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 ${index === mergeFiles.length - 1 ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}" title="Mover para baixo">
+                ⬇️
+              </button>
+              <button type="button" data-idx="${index}" class="merge-del-btn p-1.5 rounded text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 cursor-pointer ml-1" title="Remover">
+                ✕
+              </button>
+            </div>
+          `;
+          mergeItemsList.appendChild(row);
+        });
+
+        // Listeners de ordenação
+        document.querySelectorAll(".merge-up-btn").forEach(b => {
+          b.addEventListener("click", (e) => {
+            const idx = parseInt(e.currentTarget.dataset.idx, 10);
+            if (idx > 0) {
+              const temp = mergeFiles[idx];
+              mergeFiles[idx] = mergeFiles[idx - 1];
+              mergeFiles[idx - 1] = temp;
+              renderMergeList();
+            }
+          });
+        });
+
+        document.querySelectorAll(".merge-down-btn").forEach(b => {
+          b.addEventListener("click", (e) => {
+            const idx = parseInt(e.currentTarget.dataset.idx, 10);
+            if (idx < mergeFiles.length - 1) {
+              const temp = mergeFiles[idx];
+              mergeFiles[idx] = mergeFiles[idx + 1];
+              mergeFiles[idx + 1] = temp;
+              renderMergeList();
+            }
+          });
+        });
+
+        document.querySelectorAll(".merge-del-btn").forEach(b => {
+          b.addEventListener("click", (e) => {
+            const idx = parseInt(e.currentTarget.dataset.idx, 10);
+            mergeFiles.splice(idx, 1);
+            renderMergeList();
+          });
+        });
+      }
+
+      mergeFileInput.addEventListener("change", (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+          addMergeFiles(Array.from(e.target.files));
+          mergeFileInput.value = "";
+        }
+      });
+
+      mergeClearAllBtn.addEventListener("click", () => {
+        mergeFiles = [];
+        renderMergeList();
+      });
+
+      // Drag and drop para Merge
+      ["dragenter", "dragover"].forEach(ev => {
+        mergeDropzone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          mergeDropzone.classList.add("border-neutral-900", "dark:border-neutral-100");
+        });
+      });
+      ["dragleave", "drop"].forEach(ev => {
+        mergeDropzone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          mergeDropzone.classList.remove("border-neutral-900", "dark:border-neutral-100");
+        });
+      });
+      mergeDropzone.addEventListener("drop", (e) => {
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          addMergeFiles(Array.from(e.dataTransfer.files));
+        }
+      });
+
+      // Executar Junção
+      mergeBtn.addEventListener("click", async () => {
+        if (mergeFiles.length < 2) {
+          alert("Adicione pelo menos 2 arquivos PDF para combinar.");
+          return;
+        }
+
+        try {
+          mergeBtn.disabled = true;
+          mergeStatus.classList.remove("hidden");
+          mergeStatus.textContent = "Combinando documentos PDF...";
+          mergeStatus.className = "text-xs text-center font-medium text-neutral-600 dark:text-neutral-400 min-h-[1.5rem]";
+
+          const mergedPdf = await PDFLib.PDFDocument.create();
+
+          for (let i = 0; i < mergeFiles.length; i++) {
+            const item = mergeFiles[i];
+            mergeStatus.textContent = `Processando arquivo ${i + 1} de ${mergeFiles.length}: ${item.file.name}...`;
+            const arrayBuf = await item.file.arrayBuffer();
+            const sourceDoc = await PDFLib.PDFDocument.load(arrayBuf);
+            const copiedPages = await mergedPdf.copyPages(sourceDoc, sourceDoc.getPageIndices());
+            copiedPages.forEach(p => mergedPdf.addPage(p));
+          }
+
+          mergeStatus.textContent = "Finalizando e gerando arquivo...";
+          const pdfBytes = await mergedPdf.save();
+          const blob = new Blob([pdfBytes], { type: "application/pdf" });
+          
+          let outName = mergeOutputName.value.trim() || "documento_combinado.pdf";
+          if (!outName.toLowerCase().endsWith(".pdf")) outName += ".pdf";
+
+          downloadBlob(blob, outName);
+
+          mergeStatus.textContent = `✓ Sucesso! ${mergeFiles.length} PDFs combinados (${formatBytes(blob.size)}).`;
+          mergeStatus.className = "text-xs text-center font-medium text-emerald-600 dark:text-emerald-400 min-h-[1.5rem]";
+        } catch (err) {
+          alert("Erro ao juntar PDFs: " + err.message);
+          mergeStatus.textContent = "Erro na junção.";
+          mergeStatus.className = "text-xs text-center font-medium text-red-500 min-h-[1.5rem]";
+        } finally {
+          mergeBtn.disabled = false;
+        }
+      });
+
+      // ========================================================
+      // MÓDULO 2: CONVERSOR DE IMAGENS EM PDF (IMG2PDF)
+      // ========================================================
+      let imgFiles = []; // Array de { file, previewUrl, width, height }
+
+      const img2pdfDropzone = document.getElementById("img2pdf-dropzone");
+      const img2pdfFileInput = document.getElementById("img2pdf-file-input");
+      const img2pdfListContainer = document.getElementById("img2pdf-list-container");
+      const img2pdfItemsGrid = document.getElementById("img2pdf-items-grid");
+      const img2pdfCount = document.getElementById("img2pdf-count");
+      const img2pdfClearAllBtn = document.getElementById("img2pdf-clear-all-btn");
+      const img2pdfPageSize = document.getElementById("img2pdf-pagesize");
+      const img2pdfOrientation = document.getElementById("img2pdf-orientation");
+      const img2pdfMargin = document.getElementById("img2pdf-margin");
+      const img2pdfOutputName = document.getElementById("img2pdf-output-name");
+      const img2pdfBtn = document.getElementById("img2pdf-btn");
+      const img2pdfStatus = document.getElementById("img2pdf-status");
+
+      async function addImageFiles(files) {
+        for (const file of files) {
+          if (file.type.startsWith("image/") || /\.(jpe?g|png|webp|gif|svg|bmp|avif)$/i.test(file.name)) {
+            const previewUrl = URL.createObjectURL(file);
+            const dim = await new Promise((res) => {
+              const img = new Image();
+              img.onload = () => res({ w: img.naturalWidth, h: img.naturalHeight });
+              img.onerror = () => res({ w: 800, h: 600 });
+              img.src = previewUrl;
+            });
+            imgFiles.push({ file, previewUrl, width: dim.w, height: dim.h });
+          }
+        }
+        renderImgList();
+      }
+
+      function renderImgList() {
+        img2pdfItemsGrid.innerHTML = "";
+        img2pdfCount.textContent = imgFiles.length;
+
+        if (imgFiles.length === 0) {
+          img2pdfListContainer.classList.add("hidden");
+          return;
+        }
+
+        img2pdfListContainer.classList.remove("hidden");
+
+        imgFiles.forEach((item, index) => {
+          const card = document.createElement("div");
+          card.className = "flex flex-col justify-between rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-2.5 shadow-xs relative text-xs";
+          
+          card.innerHTML = `
+            <div class="relative w-full h-32 rounded-lg bg-neutral-100 dark:bg-neutral-950 overflow-hidden flex items-center justify-center">
+              <img data-img-idx="${index}" alt="Preview" class="w-full h-full object-contain" />
+              <span class="absolute top-1.5 left-1.5 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">
+                Pág ${index + 1}
+              </span>
+            </div>
+            <div class="mt-2 truncate font-medium text-neutral-800 dark:text-neutral-200" title="${item.file.name}">
+              ${item.file.name}
+            </div>
+            <div class="text-[10px] text-neutral-400 font-mono">
+              ${item.width}×${item.height} px
+            </div>
+            <div class="mt-2 pt-2 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between">
+              <div class="flex gap-1">
+                <button type="button" data-idx="${index}" class="img-left-btn p-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}" title="Mover para esquerda">
+                  ◀
+                </button>
+                <button type="button" data-idx="${index}" class="img-right-btn p-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 ${index === imgFiles.length - 1 ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}" title="Mover para direita">
+                  ▶
+                </button>
+              </div>
+              <button type="button" data-idx="${index}" class="img-del-btn p-1 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded cursor-pointer" title="Remover">
+                ✕
+              </button>
+            </div>
+          `;
+          card.querySelector("img").src = item.previewUrl;
+          img2pdfItemsGrid.appendChild(card);
+        });
+
+        document.querySelectorAll(".img-left-btn").forEach(b => {
+          b.addEventListener("click", (e) => {
+            const idx = parseInt(e.currentTarget.dataset.idx, 10);
+            if (idx > 0) {
+              const temp = imgFiles[idx];
+              imgFiles[idx] = imgFiles[idx - 1];
+              imgFiles[idx - 1] = temp;
+              renderImgList();
+            }
+          });
+        });
+
+        document.querySelectorAll(".img-right-btn").forEach(b => {
+          b.addEventListener("click", (e) => {
+            const idx = parseInt(e.currentTarget.dataset.idx, 10);
+            if (idx < imgFiles.length - 1) {
+              const temp = imgFiles[idx];
+              imgFiles[idx] = imgFiles[idx + 1];
+              imgFiles[idx + 1] = temp;
+              renderImgList();
+            }
+          });
+        });
+
+        document.querySelectorAll(".img-del-btn").forEach(b => {
+          b.addEventListener("click", (e) => {
+            const idx = parseInt(e.currentTarget.dataset.idx, 10);
+            imgFiles.splice(idx, 1);
+            renderImgList();
+          });
+        });
+      }
+
+      img2pdfFileInput.addEventListener("change", (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+          addImageFiles(Array.from(e.target.files));
+          img2pdfFileInput.value = "";
+        }
+      });
+
+      img2pdfClearAllBtn.addEventListener("click", () => {
+        imgFiles.forEach(f => URL.revokeObjectURL(f.previewUrl));
+        imgFiles = [];
+        renderImgList();
+      });
+
+      ["dragenter", "dragover"].forEach(ev => {
+        img2pdfDropzone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          img2pdfDropzone.classList.add("border-neutral-900", "dark:border-neutral-100");
+        });
+      });
+      ["dragleave", "drop"].forEach(ev => {
+        img2pdfDropzone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          img2pdfDropzone.classList.remove("border-neutral-900", "dark:border-neutral-100");
+        });
+      });
+      img2pdfDropzone.addEventListener("drop", (e) => {
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          addImageFiles(Array.from(e.dataTransfer.files));
+        }
+      });
+
+      // Converte qualquer imagem em PNG Uint8Array via Canvas
+      async function imageFileToPngBytes(file) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          const url = URL.createObjectURL(file);
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            URL.revokeObjectURL(url);
+            canvas.toBlob(async (blob) => {
+              if (!blob) return reject(new Error("Erro ao converter imagem"));
+              const buf = await blob.arrayBuffer();
+              resolve(new Uint8Array(buf));
+            }, "image/png");
+          };
+          img.onerror = () => {
+            URL.revokeObjectURL(url);
+            reject(new Error("Falha ao abrir imagem"));
+          };
+          img.src = url;
+        });
+      }
+
+      // Executar Conversão de Imagens para PDF
+      img2pdfBtn.addEventListener("click", async () => {
+        if (imgFiles.length === 0) {
+          alert("Adicione pelo menos 1 imagem.");
+          return;
+        }
+
+        try {
+          img2pdfBtn.disabled = true;
+          img2pdfStatus.classList.remove("hidden");
+          img2pdfStatus.textContent = "Criando documento PDF...";
+          img2pdfStatus.className = "text-xs text-center font-medium text-neutral-600 dark:text-neutral-400 min-h-[1.5rem]";
+
+          const pdfDoc = await PDFLib.PDFDocument.create();
+
+          const pageChoice = img2pdfPageSize.value;
+          const orientChoice = img2pdfOrientation.value;
+          const margin = parseInt(img2pdfMargin.value, 10);
+
+          for (let i = 0; i < imgFiles.length; i++) {
+            const item = imgFiles[i];
+            img2pdfStatus.textContent = `Embutindo imagem ${i + 1} de ${imgFiles.length}: ${item.file.name}...`;
+
+            // Converte para PNG bytes para suportar WebP, BMP, SVG, PNG e JPG com transparência
+            const pngBytes = await imageFileToPngBytes(item.file);
+            const embeddedImage = await pdfDoc.embedPng(pngBytes);
+            const imgWidth = embeddedImage.width;
+            const imgHeight = embeddedImage.height;
+
+            let pageWidth, pageHeight;
+
+            if (pageChoice === "Fit") {
+              pageWidth = imgWidth + (margin * 2);
+              pageHeight = imgHeight + (margin * 2);
+            } else {
+              // Dimensões padrão em pontos (72 pontos = 1 polegada)
+              // A4: 595.28 x 841.89
+              // Letter: 612 x 792
+              let baseW = pageChoice === "Letter" ? 612 : 595.28;
+              let baseH = pageChoice === "Letter" ? 792 : 841.89;
+
+              let isLandscape = false;
+              if (orientChoice === "auto") {
+                isLandscape = imgWidth > imgHeight;
+              } else if (orientChoice === "landscape") {
+                isLandscape = true;
+              }
+
+              pageWidth = isLandscape ? Math.max(baseW, baseH) : Math.min(baseW, baseH);
+              pageHeight = isLandscape ? Math.min(baseW, baseH) : Math.max(baseW, baseH);
+            }
+
+            const page = pdfDoc.addPage([pageWidth, pageHeight]);
+
+            // Calcula dimensões escaladas com preservação de aspect ratio
+            const availW = Math.max(10, pageWidth - (margin * 2));
+            const availH = Math.max(10, pageHeight - (margin * 2));
+
+            const scale = Math.min(availW / imgWidth, availH / imgHeight);
+            const drawW = imgWidth * scale;
+            const drawH = imgHeight * scale;
+
+            const drawX = margin + ((availW - drawW) / 2);
+            const drawY = margin + ((availH - drawH) / 2);
+
+            page.drawImage(embeddedImage, {
+              x: drawX,
+              y: drawY,
+              width: drawW,
+              height: drawH
+            });
+          }
+
+          img2pdfStatus.textContent = "Finalizando PDF...";
+          const pdfBytes = await pdfDoc.save();
+          const blob = new Blob([pdfBytes], { type: "application/pdf" });
+
+          let outName = img2pdfOutputName.value.trim() || "imagens_convertidas.pdf";
+          if (!outName.toLowerCase().endsWith(".pdf")) outName += ".pdf";
+
+          downloadBlob(blob, outName);
+
+          img2pdfStatus.textContent = `✓ PDF gerado com sucesso! (${formatBytes(blob.size)})`;
+          img2pdfStatus.className = "text-xs text-center font-medium text-emerald-600 dark:text-emerald-400 min-h-[1.5rem]";
+        } catch (err) {
+          alert("Erro ao converter imagens em PDF: " + err.message);
+          img2pdfStatus.textContent = "Erro na conversão.";
+          img2pdfStatus.className = "text-xs text-center font-medium text-red-500 min-h-[1.5rem]";
+        } finally {
+          img2pdfBtn.disabled = false;
+        }
+      });
+
+      // ========================================================
+      // MÓDULO 3: SEPARAR PDF (SPLIT)
+      // ========================================================
+      let splitFile = null;
+      let splitDoc = null;
+      let splitTotalPages = 0;
+
+      const splitDropzone = document.getElementById("split-dropzone");
+      const splitFileInput = document.getElementById("split-file-input");
+      const splitPanel = document.getElementById("split-panel");
+      const splitDocName = document.getElementById("split-doc-name");
+      const splitDocSize = document.getElementById("split-doc-size");
+      const splitDocPages = document.getElementById("split-doc-pages");
+      const splitChangeFileBtn = document.getElementById("split-change-file-btn");
+      const splitRangeWrapper = document.getElementById("split-range-wrapper");
+      const splitRangeInput = document.getElementById("split-range-input");
+      const splitHintMax = document.getElementById("split-hint-max");
+      const splitBtn = document.getElementById("split-btn");
+      const splitStatus = document.getElementById("split-status");
+
+      async function loadSplitFile(file) {
+        if (!file || !file.name.toLowerCase().endsWith(".pdf")) {
+          alert("Selecione um arquivo PDF válido.");
+          return;
+        }
+
+        try {
+          const arrayBuf = await file.arrayBuffer();
+          splitDoc = await PDFLib.PDFDocument.load(arrayBuf, { ignoreEncryption: true });
+          splitTotalPages = splitDoc.getPageCount();
+          splitFile = file;
+
+          splitDocName.textContent = file.name;
+          splitDocSize.textContent = formatBytes(file.size);
+          splitDocPages.textContent = `${splitTotalPages} ${splitTotalPages === 1 ? 'página' : 'páginas'}`;
+          splitHintMax.textContent = splitTotalPages;
+
+          splitRangeInput.value = splitTotalPages > 1 ? `1-${Math.min(splitTotalPages, 2)}` : "1";
+
+          splitDropzone.classList.add("hidden");
+          splitPanel.classList.remove("hidden");
+        } catch (e) {
+          alert("Não foi possível carregar este PDF: " + e.message);
+        }
+      }
+
+      splitFileInput.addEventListener("change", (e) => {
+        if (e.target.files && e.target.files[0]) {
+          loadSplitFile(e.target.files[0]);
+        }
+      });
+
+      ["dragenter", "dragover"].forEach(ev => {
+        splitDropzone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          splitDropzone.classList.add("border-neutral-900", "dark:border-neutral-100");
+        });
+      });
+      ["dragleave", "drop"].forEach(ev => {
+        splitDropzone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          splitDropzone.classList.remove("border-neutral-900", "dark:border-neutral-100");
+        });
+      });
+      splitDropzone.addEventListener("drop", (e) => {
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          loadSplitFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      splitChangeFileBtn.addEventListener("click", () => {
+        splitFile = null;
+        splitDoc = null;
+        splitFileInput.value = "";
+        splitDropzone.classList.remove("hidden");
+        splitPanel.classList.add("hidden");
+      });
+
+      // Alterna visibilidade do input de range
+      document.querySelectorAll("input[name='split-mode']").forEach(r => {
+        r.addEventListener("change", () => {
+          const mode = document.querySelector("input[name='split-mode']:checked").value;
+          if (mode === "range") {
+            splitRangeWrapper.classList.remove("hidden");
+            splitBtn.textContent = "✂️ Processar e Baixar PDF com Intervalo";
+          } else {
+            splitRangeWrapper.classList.add("hidden");
+            splitBtn.textContent = "📦 Separar Todas as Páginas (.ZIP)";
+          }
+        });
+      });
+
+      // Parser de páginas: ex "1-3, 5, 8-10" -> array de índices [0, 1, 2, 4, 7, 8, 9]
+      function parsePageRange(rangeStr, maxPages) {
+        const indices = new Set();
+        const parts = rangeStr.split(",");
+        for (let part of parts) {
+          part = part.trim();
+          if (!part) continue;
+          if (part.includes("-")) {
+            const [startStr, endStr] = part.split("-").map(s => s.trim());
+            const start = parseInt(startStr, 10);
+            const end = parseInt(endStr, 10);
+            if (isNaN(start) || isNaN(end)) throw new Error(`Intervalo inválido: "${part}"`);
+            const min = Math.min(start, end);
+            const max = Math.max(start, end);
+            for (let p = min; p <= max; p++) {
+              if (p >= 1 && p <= maxPages) {
+                indices.add(p - 1);
+              }
+            }
+          } else {
+            const p = parseInt(part, 10);
+            if (isNaN(p)) throw new Error(`Página inválida: "${part}"`);
+            if (p >= 1 && p <= maxPages) {
+              indices.add(p - 1);
+            }
+          }
+        }
+        return Array.from(indices).sort((a, b) => a - b);
+      }
+
+      // Executar Separação de PDF
+      splitBtn.addEventListener("click", async () => {
+        if (!splitDoc || !splitFile) return;
+
+        const mode = document.querySelector("input[name='split-mode']:checked").value;
+
+        try {
+          splitBtn.disabled = true;
+          splitStatus.classList.remove("hidden");
+          splitStatus.className = "text-xs text-center font-medium text-neutral-600 dark:text-neutral-400 min-h-[1.5rem]";
+
+          const baseName = splitFile.name.replace(/\.[^/.]+$/, "");
+
+          if (mode === "range") {
+            const rangeStr = splitRangeInput.value.trim();
+            if (!rangeStr) {
+              alert("Por favor, digite o intervalo de páginas desejado.");
+              return;
+            }
+
+            const indices = parsePageRange(rangeStr, splitTotalPages);
+            if (indices.length === 0) {
+              alert(`Nenhuma página válida encontrada no intervalo para este documento (1 a ${splitTotalPages}).`);
+              return;
+            }
+
+            splitStatus.textContent = `Extraindo ${indices.length} páginas selecionadas...`;
+
+            const newPdf = await PDFLib.PDFDocument.create();
+            const copiedPages = await newPdf.copyPages(splitDoc, indices);
+            copiedPages.forEach(p => newPdf.addPage(p));
+
+            const bytes = await newPdf.save();
+            const blob = new Blob([bytes], { type: "application/pdf" });
+
+            const outName = `${baseName}_paginas_${indices.map(i => i + 1).join("-")}.pdf`;
+            downloadBlob(blob, outName);
+
+            splitStatus.textContent = `✓ Sucesso! ${indices.length} páginas extraídas em ${outName}.`;
+            splitStatus.className = "text-xs text-center font-medium text-emerald-600 dark:text-emerald-400 min-h-[1.5rem]";
+          } else {
+            // Modo All: cada página vira um PDF individual, compactado em ZIP
+            splitStatus.textContent = `Separando ${splitTotalPages} páginas individuais...`;
+            const zip = new JSZip();
+
+            for (let i = 0; i < splitTotalPages; i++) {
+              splitStatus.textContent = `Separando página ${i + 1} de ${splitTotalPages}...`;
+              const singlePdf = await PDFLib.PDFDocument.create();
+              const [copiedPage] = await singlePdf.copyPages(splitDoc, [i]);
+              singlePdf.addPage(copiedPage);
+              const singleBytes = await singlePdf.save();
+              
+              const pageNumStr = (i + 1).toString().padStart(Math.max(2, splitTotalPages.toString().length), "0");
+              zip.file(`${baseName}_pagina_${pageNumStr}.pdf`, singleBytes);
+            }
+
+            splitStatus.textContent = "Compactando arquivo ZIP...";
+            const zipBlob = await zip.generateAsync({ type: "blob" });
+
+            downloadBlob(zipBlob, `${baseName}_paginas_separadas.zip`);
+
+            splitStatus.textContent = `✓ Concluído! ${splitTotalPages} páginas compactadas em ZIP (${formatBytes(zipBlob.size)}).`;
+            splitStatus.className = "text-xs text-center font-medium text-emerald-600 dark:text-emerald-400 min-h-[1.5rem]";
+          }
+        } catch (err) {
+          alert("Erro ao separar PDF: " + err.message);
+          splitStatus.textContent = "Erro na separação do PDF.";
+          splitStatus.className = "text-xs text-center font-medium text-red-500 min-h-[1.5rem]";
+        } finally {
+          splitBtn.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>
