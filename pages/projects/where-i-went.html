@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Artigos — Julian Carreiro</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="alternate icon" type="image/x-icon" href="favicon.ico" />
+    <title>Where-I-Went Library — Julian Carreiro</title>
+    <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="../../assets/icons/favicon.ico" />
 
     <script>
       (function () {
@@ -22,8 +22,8 @@
       @custom-variant dark (&:where(.dark, .dark *));
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="theme.js" defer></script>
-    <script src="oneko.js" defer></script>
+    <script src="../../assets/js/theme.js" defer></script>
+    <script src="../../assets/js/oneko.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,7 +32,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
     <style>
       body {
         font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
@@ -61,7 +61,7 @@
         <div class="p-6">
           <div class="flex items-center gap-3">
             <img
-              src="images/profile.jpg"
+              src="../../assets/images/profile.jpg"
               alt="Avatar"
               class="h-10 w-10 rounded-full object-cover"
             />
@@ -73,32 +73,32 @@
 
           <nav class="mt-6 space-y-1 text-sm">
             <a
-              href="index.html"
+              href="../../index.html"
               class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
               >Início</a
             >
             <a
-              href="index.html#sobre"
+              href="../../index.html#sobre"
               class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
               >Sobre</a
             >
             <a
-              href="projects.html"
-              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+              href="../projects.html"
+              class="block rounded-md px-2 py-2 bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 font-semibold shadow-sm"
               >Projetos</a
             >
             <a
-              href="blog.html"
-              class="block rounded-md px-2 py-2 bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 font-semibold shadow-sm"
+              href="../blog.html"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
               >Artigos</a
             >
             <a
-              href="index.html#contato"
+              href="../../index.html#contato"
               class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
               >Contato</a
             >
             <a
-              href="tools.html"
+              href="../tools.html"
               class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
               >Utilidades</a
             >
@@ -138,47 +138,67 @@
             </div>
           </div>
         </div>
-
-        <!-- Resume desativado (para reativar, remova este comentário):
-        <div class="p-6 border-t border-neutral-200">
-          <a
-            href="index.html#sobre"
-            class="inline-flex items-center justify-center w-full rounded-full bg-neutral-900 text-white text-sm font-semibold px-4 py-2 hover:bg-neutral-800"
-          >
-            Ver currículo
-          </a>
-        </div>
-        -->
       </aside>
 
       <!-- Conteúdo -->
       <main class="flex-1 lg:ml-56">
         <div class="max-w-4xl mx-auto px-4 md:px-10 py-12 md:py-20">
-          <span class="text-4xl">📝</span>
-          <h1 class="mt-4 text-3xl md:text-4xl font-extrabold">
-            Artigos & Notas Técnicas
-          </h1>
-          <p class="mt-4 text-neutral-800 dark:text-neutral-200 max-w-xl leading-relaxed">
-            Espaço dedicado para artigos aprofundados sobre arquitetura de software, sistemas embarcados, IA local e hardware.
-          </p>
+          <a
+            href="../projects.html"
+            class="inline-flex items-center text-sm text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+          >
+            ← Voltar para Projetos
+          </a>
 
-          <div class="mt-10 rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-900/50 p-8 text-center max-w-xl">
-            <div class="text-3xl mb-3">🛠️</div>
-            <h2 class="text-lg font-bold text-neutral-900 dark:text-neutral-100">Novos artigos em produção</h2>
-            <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-              Estou preparando publicações técnicas sobre inferência de LLMs in-process com Go/Cgo, comunicação em tempo real via WebSockets no ESP32 e boas práticas com FastAPI. Em breve disponíveis aqui!
-            </p>
-            <div class="mt-6">
+          <div class="mt-8 flex flex-col gap-4">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+              <h1 class="text-3xl md:text-4xl font-extrabold">Where-I-Went Library</h1>
               <a
-                href="projects.html"
-                class="inline-flex items-center gap-2 rounded-full bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition"
+                href="https://github.com/julianvitor/where-i-went"
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex items-center gap-2 rounded-full bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-4 py-2 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition"
               >
-                Conheça meus projetos ↗
+                Ver no GitHub ↗
               </a>
             </div>
+
+            <div class="flex gap-2 flex-wrap">
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Python</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">EXIF Metadata</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Geolocalização</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Folium / OpenStreetMap</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Mapas Interativos</span>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <img
+              src="../../assets/images/where_i_went.png"
+              alt="Where I Went Map Preview"
+              class="w-full rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 object-cover"
+            />
+          </div>
+
+          <div class="mt-8 text-neutral-700 dark:text-neutral-300 space-y-6 leading-relaxed">
+            <p>
+              A <strong>Where-I-Went Library</strong> é uma biblioteca Python concebida para extrair informações precisas de geolocalização contidas nos cabeçalhos EXIF de imagens JPEG/JPG e gerar mapas interativos ricos utilizando Leaflet/Folium.
+            </p>
+
+            <h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 pt-4">Funcionalidades Principais</h2>
+            <ul class="list-disc pl-5 space-y-2">
+              <li><code>extrair_informacoes_localizacao(caminho_arquivo)</code>: Extrai latitude e longitude em graus decimais a partir dos dados brutos de GPS da imagem.</li>
+              <li><code>ajustar_coordenadas(latitude, longitude, ...)</code>: Converte e normaliza coordenadas para visualização sem distorções espaciais.</li>
+              <li><strong>Geração de Mapas Autônomos:</strong> Criação de arquivos HTML completos com marcadores georreferenciados prontos para incorporar em páginas web.</li>
+            </ul>
+
+            <h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 pt-4">Instalação e Uso</h2>
+            <pre class="bg-neutral-900 text-neutral-100 p-4 rounded-xl text-sm overflow-x-auto font-mono"><code>from where_i_went import extrair_informacoes_localizacao
+
+dados = extrair_informacoes_localizacao("minha_foto.jpg")
+print(f"Latitude: {dados['latitude']}, Longitude: {dados['longitude']}")</code></pre>
           </div>
         </div>
-
       </main>
     </div>
     <script>

@@ -30,25 +30,35 @@ Abra com a extensão **Live Server** diretamente pelo editor.
 
 ```text
 .
-├── 404.html                # Página de erro 404 personalizada
-├── blog.html               # Artigos & Notas Técnicas
-├── favicon.ico             # Favicon clássico
-├── favicon.svg             # Favicon moderno em SVG
-├── images/                 # Imagens de perfil, projetos reais e logos
-├── index.html              # Página principal unificada (Hero, Sobre, Destaques, Stack, Contato)
-├── oneko.gif               # Sprite do mascote
-├── oneko.js                # Script de interação do mascote
-├── projects.html           # Portfólio completo de projetos
-├── projects/               # Detalhes aprofundados dos projetos reais (.html)
-│   ├── apruma.html
-│   ├── boardcapture.html
-│   ├── llama3-go.html
-│   ├── pontinho-ufabc.html
-│   └── where-i-went.html
-├── qrcode.min.js           # Biblioteca offline para geração de QR Code
-├── styles.css              # Estilos complementares ao Tailwind e smooth scroll
-├── theme.js                # Alternador de tema claro/escuro com persistência (localStorage)
-└── tools.html              # Central de utilidades (Gerador de QR Code, UUID v4, Base64)
+├── index.html                  # Página principal unificada (Início, Sobre, Destaques, Stack, Contato)
+├── 404.html                    # Página de erro 404
+├── favicon.ico                 # Favicon padrão na raiz
+├── assets/                     # Todos os recursos estáticos organizados
+│   ├── css/
+│   │   └── styles.css          # Estilos complementares e rolagem suave
+│   ├── js/
+│   │   ├── theme.js            # Alternador de tema claro/escuro
+│   │   ├── qrcode.min.js       # Biblioteca offline para o Gerador de QR Code
+│   │   ├── oneko.js            # Script do mascote
+│   │   └── oneko.gif           # Sprite do mascote
+│   ├── images/                 # Fotos de perfil, previews de projetos e logos
+│   │   ├── profile.jpg
+│   │   ├── llama_go.jpg
+│   │   ├── where_i_went.png
+│   │   └── logos/
+│   └── icons/                  # Favicons e ícones SVG/ICO
+│       ├── favicon.svg
+│       └── favicon.ico
+└── pages/                      # Todas as páginas secundárias organizadas
+    ├── projects.html           # Portfólio completo com todos os projetos
+    ├── blog.html               # Artigos e notas técnicas
+    ├── tools.html              # Central de utilidades interativas (QR Code, UUID, Base64)
+    └── projects/               # Páginas individuais dos projetos
+        ├── apruma.html
+        ├── boardcapture.html
+        ├── llama3-go.html
+        ├── pontinho-ufabc.html
+        └── where-i-went.html
 ```
 
 ---

@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Apruma (IoT Postural) — Julian Carreiro</title>
-    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
-    <link rel="alternate icon" type="image/x-icon" href="../favicon.ico" />
+    <title>llama3.go — Julian Carreiro</title>
+    <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="../../assets/icons/favicon.ico" />
 
     <script>
       (function () {
@@ -22,8 +22,8 @@
       @custom-variant dark (&:where(.dark, .dark *));
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="../theme.js" defer></script>
-    <script src="../oneko.js" defer></script>
+    <script src="../../assets/js/theme.js" defer></script>
+    <script src="../../assets/js/oneko.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,7 +32,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
     <style>
       body {
         font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
@@ -61,7 +61,7 @@
         <div class="p-6">
           <div class="flex items-center gap-3">
             <img
-              src="../images/profile.jpg"
+              src="../../assets/images/profile.jpg"
               alt="Avatar"
               class="h-10 w-10 rounded-full object-cover"
             />
@@ -73,12 +73,12 @@
 
           <nav class="mt-6 space-y-1 text-sm">
             <a
-              href="../index.html"
+              href="../../index.html"
               class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
               >Início</a
             >
             <a
-              href="../index.html#sobre"
+              href="../../index.html#sobre"
               class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
               >Sobre</a
             >
@@ -93,7 +93,7 @@
               >Artigos</a
             >
             <a
-              href="../index.html#contato"
+              href="../../index.html#contato"
               class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
               >Contato</a
             >
@@ -152,9 +152,9 @@
 
           <div class="mt-8 flex flex-col gap-4">
             <div class="flex items-center justify-between flex-wrap gap-4">
-              <h1 class="text-3xl md:text-4xl font-extrabold">Apruma</h1>
+              <h1 class="text-3xl md:text-4xl font-extrabold">llama3.go</h1>
               <a
-                href="https://github.com/julianvitor/apruma"
+                href="https://github.com/julianvitor/llama3.go"
                 target="_blank"
                 rel="noreferrer"
                 class="inline-flex items-center gap-2 rounded-full bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-4 py-2 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition"
@@ -164,31 +164,38 @@
             </div>
 
             <div class="flex gap-2 flex-wrap">
-              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">C / C++</span>
-              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">ESP32 (NodeMCU)</span>
-              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">MPU-6050 (IMU)</span>
-              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">WebSockets</span>
-              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">IoT / Wearable</span>
-              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">SPIFFS</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Go (Golang)</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Cgo</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">GGUF</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Llama 3.2</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">AVX2 / ARM NEON</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Local AI</span>
             </div>
+          </div>
+
+          <div class="mt-6">
+            <img
+              src="../../assets/images/llama_go.jpg"
+              alt="llama3.go Terminal Chat"
+              class="w-full rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 object-cover"
+            />
           </div>
 
           <div class="mt-8 text-neutral-700 dark:text-neutral-300 space-y-6 leading-relaxed">
             <p>
-              O <strong>Apruma</strong> é um wearable biomédico e sistema embarcado inteligente desenvolvido para monitoramento ergonômico e alerta de desvios posturais em tempo real.
+              O <strong>llama3.go</strong> é um runtime de inteligência artificial em Go que realiza download automático de pesos quantizados em formato GGUF (especificamente <em>Llama 3.2 1B Instruct</em>) e executa inferência in-process diretamente no terminal, sem qualquer necessidade de servidores externos como Ollama ou APIs na nuvem.
             </p>
 
-            <h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 pt-4">Como Funciona</h2>
-            <p>
-              Equipado com o microcontrolador <strong>ESP32</strong> e uma unidade de medição inercial (IMU) <strong>MPU-6050</strong> conectada via barramento I2C, o dispositivo calcula os ângulos de inclinação (Pitch e Roll) da coluna vertebral em intervalos de alta frequência.
-            </p>
-
-            <h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 pt-4">Destaques do Projeto</h2>
+            <h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 pt-4">Destaques e Engenharia</h2>
             <ul class="list-disc pl-5 space-y-2">
-              <li><strong>Servidor Web & WebSockets Embarcados:</strong> O próprio ESP32 cria um Access Point Wi-Fi e hospeda uma interface web completa (armazenada em memória flash SPIFFS), transmitindo telemetria em tempo real sem latência.</li>
-              <li><strong>Limiares de Postura Parametrizáveis:</strong> Análise angular contínua que alerta vibrações ou sinalizadores caso a inclinação ultrapasse os limites biomecânicos recomendados.</li>
-              <li><strong>Integração Hardware-Software:</strong> Exemplo prático da união entre eletrônica de precisão, firmware de baixo nível e interface de visualização responsiva.</li>
+              <li><strong>Zero External Servers:</strong> A inferência roda no mesmo processo da CLI em Go, reduzindo latência de rede e simplificando o empacotamento.</li>
+              <li><strong>Desempenho Otimizado com Cgo:</strong> Aceleração vetorial com instruções SIMD compiladas nativamente via Cgo para arquiteturas x86 (AVX2) e ARMv8 (NEON para Apple Silicon e Raspberry Pi 4).</li>
+              <li><strong>Fallback 100% Go:</strong> Capacidade de compilação pura sem dependência de toolchain C quando necessário, facilitando portabilidade.</li>
+              <li><strong>Download Inteligente de Modelos:</strong> Detecção e download sob demanda do arquivo GGUF verificado diretamente do Hugging Face.</li>
             </ul>
+
+            <h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 pt-4">Como Executar</h2>
+            <pre class="bg-neutral-900 text-neutral-100 p-4 rounded-xl text-sm overflow-x-auto font-mono"><code>CGO_ENABLED=1 go run ./cmd/go-llama-chat</code></pre>
           </div>
         </div>
       </main>
