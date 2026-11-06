@@ -31,13 +31,11 @@ Abra com a extensão **Live Server** diretamente pelo editor.
 ```text
 .
 ├── 404.html                # Página de erro 404 personalizada
-├── about.html              # Página "Sobre"
 ├── blog.html               # Artigos & Notas Técnicas
-├── contact.html            # Página de contato
 ├── favicon.ico             # Favicon clássico
 ├── favicon.svg             # Favicon moderno em SVG
 ├── images/                 # Imagens de perfil, projetos reais e logos
-├── index.html              # Página inicial com projetos em destaque
+├── index.html              # Página principal unificada (Hero, Sobre, Destaques, Stack, Contato)
 ├── oneko.gif               # Sprite do mascote
 ├── oneko.js                # Script de interação do mascote
 ├── projects.html           # Portfólio completo de projetos
@@ -47,10 +45,10 @@ Abra com a extensão **Live Server** diretamente pelo editor.
 │   ├── llama3-go.html
 │   ├── pontinho-ufabc.html
 │   └── where-i-went.html
-├── resume.html             # Página de currículo
-├── styles.css              # Estilos complementares ao Tailwind
+├── qrcode.min.js           # Biblioteca offline para geração de QR Code
+├── styles.css              # Estilos complementares ao Tailwind e smooth scroll
 ├── theme.js                # Alternador de tema claro/escuro com persistência (localStorage)
-└── tools.html              # Ferramentas, tecnologias e linguagens
+└── tools.html              # Central de utilidades (Gerador de QR Code, UUID v4, Base64)
 ```
 
 ---
