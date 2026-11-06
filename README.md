@@ -32,27 +32,25 @@ Abra com a extensão **Live Server** diretamente pelo editor.
 .
 ├── 404.html                # Página de erro 404 personalizada
 ├── about.html              # Página "Sobre"
-├── blog.html               # Listagem de artigos
-├── blog/                   # Artigos e publicações individuais (.html)
-│   ├── clean-code.html
-│   ├── dark-mode-with-nextjs.html
-│   ├── how-to-win-clients.html
-│   └── tailwindcss-tips-and-tricks.html
+├── blog.html               # Artigos & Notas Técnicas
 ├── contact.html            # Página de contato
 ├── favicon.ico             # Favicon clássico
 ├── favicon.svg             # Favicon moderno em SVG
-├── images/                 # Imagens de perfil, projetos e logos de tecnologias
-├── index.html              # Página inicial / Home
+├── images/                 # Imagens de perfil, projetos reais e logos
+├── index.html              # Página inicial com projetos em destaque
 ├── oneko.gif               # Sprite do mascote
 ├── oneko.js                # Script de interação do mascote
-├── projects.html           # Listagem de projetos
-├── projects/               # Páginas individuais de projetos (.html)
-│   ├── projeto-1.html
-│   └── projeto-2.html
+├── projects.html           # Portfólio completo de projetos
+├── projects/               # Detalhes aprofundados dos projetos reais (.html)
+│   ├── apruma.html
+│   ├── boardcapture.html
+│   ├── llama3-go.html
+│   ├── pontinho-ufabc.html
+│   └── where-i-went.html
 ├── resume.html             # Página de currículo
 ├── styles.css              # Estilos complementares ao Tailwind
 ├── theme.js                # Alternador de tema claro/escuro com persistência (localStorage)
-└── tools.html              # Ferramentas e utilidades
+└── tools.html              # Ferramentas, tecnologias e linguagens
 ```
 
 ---

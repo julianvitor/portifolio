@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projeto 2 — Julian Carreiro</title>
+    <title>llama3.go — Julian Carreiro</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
     <link rel="alternate icon" type="image/x-icon" href="../favicon.ico" />
 
@@ -138,17 +138,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Resume desativado (para reativar, remova este comentário):
-        <div class="p-6 border-t border-neutral-200">
-          <a
-            href="../resume.html"
-            class="inline-flex items-center justify-center w-full rounded-full bg-neutral-900 text-white text-sm font-semibold px-4 py-2 hover:bg-neutral-800"
-          >
-            Ver currículo
-          </a>
-        </div>
-        -->
       </aside>
 
       <!-- Conteúdo -->
@@ -161,49 +150,54 @@
             ← Voltar para Projetos
           </a>
 
+          <div class="mt-8 flex flex-col gap-4">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+              <h1 class="text-3xl md:text-4xl font-extrabold">llama3.go</h1>
+              <a
+                href="https://github.com/julianvitor/llama3.go"
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex items-center gap-2 rounded-full bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-4 py-2 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition"
+              >
+                Ver no GitHub ↗
+              </a>
+            </div>
+
+            <div class="flex gap-2 flex-wrap">
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Go (Golang)</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Cgo</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">GGUF</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Llama 3.2</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">AVX2 / ARM NEON</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Local AI</span>
+            </div>
+          </div>
+
           <div class="mt-6">
             <img
-              src="../images/sidefolio-moonbeam-2.png"
-              alt="Projeto 2"
+              src="../images/llama_go.jpg"
+              alt="llama3.go Terminal Chat"
               class="w-full rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 object-cover"
             />
           </div>
 
-          <div class="mt-10 flex flex-col gap-3">
-            <h1 class="text-3xl md:text-4xl font-extrabold">Projeto 2</h1>
-            <div class="flex gap-2 flex-wrap">
-              <span
-                class="text-xs bg-neutral-100 dark:bg-neutral-900 px-2 py-1 rounded text-neutral-600 dark:text-neutral-300"
-                >Node</span
-              >
-              <span
-                class="text-xs bg-neutral-100 dark:bg-neutral-900 px-2 py-1 rounded text-neutral-600 dark:text-neutral-300"
-                >Postgres</span
-              >
-            </div>
-            <p class="text-neutral-700 dark:text-neutral-200 max-w-2xl">
-              Descreva seu projeto em 1-2 frases.
-            </p>
-          </div>
-
-          <div class="mt-8 text-neutral-700 dark:text-neutral-200 space-y-4">
+          <div class="mt-8 text-neutral-700 dark:text-neutral-300 space-y-6 leading-relaxed">
             <p>
-              Explique as partes mais interessantes: arquitetura, desafios e
-              trade-offs.
+              O <strong>llama3.go</strong> é um runtime de inteligência artificial em Go que realiza download automático de pesos quantizados em formato GGUF (especificamente <em>Llama 3.2 1B Instruct</em>) e executa inferência in-process diretamente no terminal, sem qualquer necessidade de servidores externos como Ollama ou APIs na nuvem.
             </p>
+
+            <h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 pt-4">Destaques e Engenharia</h2>
+            <ul class="list-disc pl-5 space-y-2">
+              <li><strong>Zero External Servers:</strong> A inferência roda no mesmo processo da CLI em Go, reduzindo latência de rede e simplificando o empacotamento.</li>
+              <li><strong>Desempenho Otimizado com Cgo:</strong> Aceleração vetorial com instruções SIMD compiladas nativamente via Cgo para arquiteturas x86 (AVX2) e ARMv8 (NEON para Apple Silicon e Raspberry Pi 4).</li>
+              <li><strong>Fallback 100% Go:</strong> Capacidade de compilação pura sem dependência de toolchain C quando necessário, facilitando portabilidade.</li>
+              <li><strong>Download Inteligente de Modelos:</strong> Detecção e download sob demanda do arquivo GGUF verificado diretamente do Hugging Face.</li>
+            </ul>
+
+            <h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 pt-4">Como Executar</h2>
+            <pre class="bg-neutral-900 text-neutral-100 p-4 rounded-xl text-sm overflow-x-auto font-mono"><code>CGO_ENABLED=1 go run ./cmd/go-llama-chat</code></pre>
           </div>
-
-          <a
-            href="https://seu-link-do-projeto-2.com"
-            target="_blank"
-            rel="noreferrer"
-            class="inline-flex items-center gap-2 mt-10 rounded-full bg-neutral-900 text-white text-sm font-semibold px-4 py-2 hover:bg-neutral-800"
-          >
-            Abrir projeto
-            <span aria-hidden="true">→</span>
-          </a>
         </div>
-
       </main>
     </div>
     <script>

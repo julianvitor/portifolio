@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projeto 1 — Julian Carreiro</title>
+    <title>Apruma (IoT Postural) — Julian Carreiro</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
     <link rel="alternate icon" type="image/x-icon" href="../favicon.ico" />
 
@@ -138,17 +138,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Resume desativado (para reativar, remova este comentário):
-        <div class="p-6 border-t border-neutral-200">
-          <a
-            href="../resume.html"
-            class="inline-flex items-center justify-center w-full rounded-full bg-neutral-900 text-white text-sm font-semibold px-4 py-2 hover:bg-neutral-800"
-          >
-            Ver currículo
-          </a>
-        </div>
-        -->
       </aside>
 
       <!-- Conteúdo -->
@@ -161,52 +150,47 @@
             ← Voltar para Projetos
           </a>
 
-          <div class="mt-6">
-            <img
-              src="../images/sidefolio-aceternity-2.png"
-              alt="Projeto 1"
-              class="w-full rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 object-cover"
-            />
-          </div>
-
-          <div class="mt-10 flex flex-col gap-3">
-            <h1 class="text-3xl md:text-4xl font-extrabold">Projeto 1</h1>
-            <div class="flex gap-2 flex-wrap">
-              <span
-                class="text-xs bg-neutral-100 dark:bg-neutral-900 px-2 py-1 rounded text-neutral-600 dark:text-neutral-300"
-                >Next.js</span
+          <div class="mt-8 flex flex-col gap-4">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+              <h1 class="text-3xl md:text-4xl font-extrabold">Apruma</h1>
+              <a
+                href="https://github.com/julianvitor/apruma"
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex items-center gap-2 rounded-full bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-4 py-2 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition"
               >
-              <span
-                class="text-xs bg-neutral-100 dark:bg-neutral-900 px-2 py-1 rounded text-neutral-600 dark:text-neutral-300"
-                >Tailwind</span
-              >
+                Ver no GitHub ↗
+              </a>
             </div>
-            <p class="text-neutral-700 dark:text-neutral-200 max-w-2xl">
-              Descreva seu projeto em 1-2 frases.
-            </p>
+
+            <div class="flex gap-2 flex-wrap">
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">C / C++</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">ESP32 (NodeMCU)</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">MPU-6050 (IMU)</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">WebSockets</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">IoT / Wearable</span>
+              <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">SPIFFS</span>
+            </div>
           </div>
 
-          <div class="mt-8 text-neutral-700 dark:text-neutral-200 space-y-4">
+          <div class="mt-8 text-neutral-700 dark:text-neutral-300 space-y-6 leading-relaxed">
             <p>
-              O que é esse projeto? Qual problema ele resolve? Qual foi seu
-              papel?
+              O <strong>Apruma</strong> é um wearable biomédico e sistema embarcado inteligente desenvolvido para monitoramento ergonômico e alerta de desvios posturais em tempo real.
             </p>
-            <p>
-              Destaque resultados: performance, usuários, stack, métricas, links.
-            </p>
-          </div>
 
-          <a
-            href="https://seu-link-do-projeto.com"
-            target="_blank"
-            rel="noreferrer"
-            class="inline-flex items-center gap-2 mt-10 rounded-full bg-neutral-900 text-white text-sm font-semibold px-4 py-2 hover:bg-neutral-800"
-          >
-            Abrir projeto
-            <span aria-hidden="true">→</span>
-          </a>
+            <h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 pt-4">Como Funciona</h2>
+            <p>
+              Equipado com o microcontrolador <strong>ESP32</strong> e uma unidade de medição inercial (IMU) <strong>MPU-6050</strong> conectada via barramento I2C, o dispositivo calcula os ângulos de inclinação (Pitch e Roll) da coluna vertebral em intervalos de alta frequência.
+            </p>
+
+            <h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 pt-4">Destaques do Projeto</h2>
+            <ul class="list-disc pl-5 space-y-2">
+              <li><strong>Servidor Web & WebSockets Embarcados:</strong> O próprio ESP32 cria um Access Point Wi-Fi e hospeda uma interface web completa (armazenada em memória flash SPIFFS), transmitindo telemetria em tempo real sem latência.</li>
+              <li><strong>Limiares de Postura Parametrizáveis:</strong> Análise angular contínua que alerta vibrações ou sinalizadores caso a inclinação ultrapasse os limites biomecânicos recomendados.</li>
+              <li><strong>Integração Hardware-Software:</strong> Exemplo prático da união entre eletrônica de precisão, firmware de baixo nível e interface de visualização responsiva.</li>
+            </ul>
+          </div>
         </div>
-
       </main>
     </div>
     <script>

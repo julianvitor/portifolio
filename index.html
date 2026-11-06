@@ -171,96 +171,133 @@
           </h1>
 
           <p class="mt-4 text-neutral-800 dark:text-neutral-200 max-w-xl leading-relaxed">
-            Meu nome é Julian, sou desenvolvedor de software e hardware embarcado. Eventualemnte escrevo artigos sobre tecnologia, ciência e outros assuntos relacionados.
+            Meu nome é Julian, sou desenvolvedor de software e hardware em Santo André - SP. Atuo conectando engenharia de software moderna (Go, Python, FastAPI) com desenvolvimento de baixo nível e sistemas embarcados (ESP32, C/C++, Linux ARM).
           </p>
 
           <p class="mt-4 text-neutral-800 dark:text-neutral-200 max-w-xl leading-relaxed">
-            Tenho experiência com backend, softwares microprocessados e aplicações desktop.
+            Tenho experiência com arquitetura de backend, inferência local de IA, processamento de sinais, IoT e aplicações desktop e web.
           </p>
 
           <h2 class="mt-16 mb-4 text-lg font-extrabold">
-            O que eu tenho feito
+            Projetos em Destaque
           </h2>
 
           <div class="grid grid-cols-1 gap-6">
-            <!-- Projeto 1 -->
+            <!-- 1. Pontinho UFABC -->
             <a
-              href="projects/projeto-1.html"
-              class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 rounded-2xl hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors"
+              href="projects/pontinho-ufabc.html"
+              class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors"
             >
-              <div class="flex flex-col md:flex-row gap-4">
-                <img
-                  src="images/where_i_went.png"
-                  class="h-36 w-full md:w-44 rounded-md object-cover"
-                />
-
-                <div class="flex-1">
-                  <div class="text-lg font-extrabold">
-                    Where-I-Went Library
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <div class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
+                    Pontinho UFABC
                   </div>
-
-                  <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                    biblioteca Python que permite extrair informações de geolocalização de imagens JPEG (ou JPG) e criar mapas interativos com base nesses dados.
+                  <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300 max-w-xl leading-relaxed">
+                    Plataforma mobile-first para conexões e eventos na UFABC. Backend assíncrono em Python 3.13 (FastAPI), frontend leve em Preact/Tailwind, banco SQLite com migrações automáticas e moderação de fotos por visão computacional (NudeNet).
                   </p>
+                </div>
+                <span class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
+                  Full Stack
+                </span>
+              </div>
+              <div class="mt-4 flex gap-2 flex-wrap">
+                <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">FastAPI</span>
+                <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Python 3.13</span>
+                <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Preact</span>
+                <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Tailwind CSS</span>
+                <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">NudeNet</span>
+              </div>
+            </a>
 
+            <!-- 2. llama3.go -->
+            <a
+              href="projects/llama3-go.html"
+              class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors"
+            >
+              <div class="flex flex-col md:flex-row gap-4 items-start">
+                <img
+                  src="images/llama_go.jpg"
+                  alt="llama3.go"
+                  class="h-32 w-full md:w-44 rounded-xl object-cover border border-neutral-200 dark:border-neutral-800"
+                />
+                <div class="flex-1">
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
+                      llama3.go
+                    </div>
+                    <span class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
+                      Local AI
+                    </span>
+                  </div>
+                  <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                    Runtime in-process em Go e Cgo para inferência local de Llama 3.2 1B Instruct (GGUF) com aceleração SIMD nativa (AVX2 e ARM NEON), sem necessidade de servidores externos.
+                  </p>
                   <div class="mt-3 flex gap-2 flex-wrap">
-                    <span
-                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md"
-                    >
-                      Python
-                    </span>
-
-                    <span
-                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md"
-                    >
-                      C
-                    </span>
-
-                    <span
-                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md"
-                    >
-                      HTML
-                    </span>
-
+                    <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Go</span>
+                    <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Cgo</span>
+                    <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Llama 3.2</span>
+                    <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">GGUF</span>
                   </div>
                 </div>
               </div>
             </a>
 
-            <!-- Projeto 2 -->
+            <!-- 3. Where-I-Went Library -->
             <a
-              href="projects/projeto-2.html"
-              class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 rounded-2xl hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors"
+              href="projects/where-i-went.html"
+              class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors"
             >
-              <div class="flex flex-col md:flex-row gap-4">
+              <div class="flex flex-col md:flex-row gap-4 items-start">
                 <img
-                  src="images/sidefolio-moonbeam-2.png"
-                  class="h-36 w-full md:w-44 rounded-md object-cover"
+                  src="images/where_i_went.png"
+                  alt="Where-I-Went"
+                  class="h-32 w-full md:w-44 rounded-xl object-cover border border-neutral-200 dark:border-neutral-800"
                 />
-
                 <div class="flex-1">
-                  <div class="text-lg font-extrabold">
-                    Projeto 2 (edite aqui)
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
+                      Where-I-Went Library
+                    </div>
+                    <span class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
+                      Python Library
+                    </span>
                   </div>
-
                   <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                    Descreva seu projeto em 1-2 frases.
+                    Biblioteca Python para extração de dados de geolocalização em metadados EXIF de fotografias JPEG/JPG e geração automatizada de mapas interativos navegáveis.
                   </p>
-
                   <div class="mt-3 flex gap-2 flex-wrap">
-                    <span
-                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md"
-                    >
-                      Node
-                    </span>
-
-                    <span
-                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md"
-                    >
-                      Postgres
-                    </span>
+                    <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Python</span>
+                    <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">EXIF</span>
+                    <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Folium</span>
                   </div>
                 </div>
+              </div>
+            </a>
+
+            <!-- 4. Apruma -->
+            <a
+              href="projects/apruma.html"
+              class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors"
+            >
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <div class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
+                    Apruma (Wearable IoT)
+                  </div>
+                  <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300 max-w-xl leading-relaxed">
+                    Dispositivo wearable com ESP32 e sensor inercial MPU-6050 para monitoramento e correção ergonômica da postura com transmissão de dados em tempo real via WebSockets.
+                  </p>
+                </div>
+                <span class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
+                  IoT / Hardware
+                </span>
+              </div>
+              <div class="mt-4 flex gap-2 flex-wrap">
+                <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">C++</span>
+                <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">ESP32</span>
+                <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">MPU-6050</span>
+                <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">WebSockets</span>
               </div>
             </a>
           </div>
