@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Editor & Conversor de Mídia — Julian Carreiro</title>
+    <title>Conversor Multimídia — Julian Carreiro</title>
     <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg" />
     <link rel="alternate icon" type="image/x-icon" href="../../assets/icons/favicon.ico" />
 
@@ -24,6 +24,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="../../assets/js/theme.js" defer></script>
     <script src="../../assets/js/oneko.js" defer></script>
+    <!-- Bibliotecas de conversão client-side (MP3 e GIF) -->
+    <script src="../../assets/js/lame.min.js"></script>
+    <script src="../../assets/js/gifshot.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -55,6 +58,15 @@
           linear-gradient(-45deg, #262626 25%, transparent 25%), 
           linear-gradient(45deg, transparent 75%, #262626 75%), 
           linear-gradient(-45deg, transparent 75%, #262626 75%);
+      }
+      .tab-active {
+        border-color: #171717;
+        color: #171717;
+        font-weight: 600;
+      }
+      .dark .tab-active {
+        border-color: #f5f5f5;
+        color: #f5f5f5;
       }
     </style>
   </head>
@@ -171,16 +183,41 @@
           </a>
 
           <div>
-            <span class="text-4xl">🖼️</span>
+            <span class="text-4xl">🎬</span>
             <h1 class="mt-3 text-3xl md:text-4xl font-extrabold">
-              Editor & Conversor de Mídia
+              Conversor Multimídia Universal
             </h1>
             <p class="mt-2 text-neutral-600 dark:text-neutral-300 max-w-2xl leading-relaxed">
-              Redimensione, comprima e converta imagens (WebP, PNG, JPEG) diretamente no seu navegador. Rápido, leve e com 100% de privacidade.
+              Extraia áudio de vídeos em MP3/WAV, transforme vídeos em GIFs animados e converta/redimensione imagens entre formatos. Processamento 100% privado e local no seu navegador.
             </p>
           </div>
 
-          <!-- Área de Upload / Dropzone -->
+          <!-- Modos de Operação (Tabs) -->
+          <div class="flex border-b border-neutral-200 dark:border-neutral-800 gap-6 text-sm font-medium">
+            <button
+              id="tab-btn-video-audio"
+              class="tab-btn pb-3 border-b-2 border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 flex items-center gap-2"
+              data-tab="video-audio"
+            >
+              <span>🎵</span> Vídeo para Áudio
+            </button>
+            <button
+              id="tab-btn-video-gif"
+              class="tab-btn pb-3 border-b-2 border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 flex items-center gap-2"
+              data-tab="video-gif"
+            >
+              <span>🎞️</span> Vídeo para GIF
+            </button>
+            <button
+              id="tab-btn-image"
+              class="tab-btn pb-3 border-b-2 tab-active text-neutral-900 dark:text-neutral-100 flex items-center gap-2"
+              data-tab="image"
+            >
+              <span>🖼️</span> Conversor de Imagens
+            </button>
+          </div>
+
+          <!-- Zona de Upload Unificada -->
           <div
             id="dropzone"
             class="group relative cursor-pointer rounded-2xl border-2 border-dashed border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-8 text-center hover:border-neutral-500 dark:hover:border-neutral-500 transition-colors shadow-sm"
@@ -188,53 +225,329 @@
             <input
               id="file-input"
               type="file"
-              accept="image/*"
+              accept="image/*,video/*,audio/*"
               class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />
             <div class="flex flex-col items-center justify-center space-y-2 pointer-events-none">
-              <span class="text-4xl group-hover:scale-110 transition-transform">📁</span>
-              <p class="font-semibold text-neutral-800 dark:text-neutral-200">
-                Arraste uma imagem ou clique para selecionar
+              <span id="dropzone-icon" class="text-4xl group-hover:scale-110 transition-transform">📁</span>
+              <p class="font-semibold text-neutral-800 dark:text-neutral-200" id="dropzone-title">
+                Arraste um vídeo, áudio ou imagem aqui
               </p>
-              <p class="text-xs text-neutral-500 dark:text-neutral-400">
-                Suporta PNG, JPEG, WebP, GIF, SVG e BMP (Processamento 100% local)
+              <p class="text-xs text-neutral-500 dark:text-neutral-400" id="dropzone-subtitle">
+                Suporta MP4, WebM, MOV, MKV, AVI, PNG, JPG, WebP, GIF, SVG e BMP
               </p>
               <button
                 id="load-sample-btn"
                 type="button"
                 class="mt-2 pointer-events-auto inline-flex items-center text-xs text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 underline decoration-dotted"
               >
-                ou carregar imagem de exemplo
+                ou carregar arquivo de teste
               </button>
             </div>
           </div>
 
-          <!-- Painel do Editor (oculto até carregar imagem) -->
-          <div id="editor-panel" class="hidden space-y-8">
-            
-            <!-- Barra de informações do arquivo original -->
-            <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-xs">
-              <div class="flex items-center gap-3">
-                <span class="font-semibold text-sm text-neutral-900 dark:text-neutral-100 truncate max-w-xs" id="info-name">
-                  imagem.png
+          <!-- Barra de Informações do Arquivo Carregado -->
+          <div id="file-info-bar" class="hidden flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-xs">
+            <div class="flex items-center gap-3">
+              <span id="info-icon" class="text-xl">📁</span>
+              <div>
+                <span class="font-semibold text-sm text-neutral-900 dark:text-neutral-100 truncate max-w-xs block" id="info-name">
+                  arquivo
                 </span>
-                <span class="px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 font-mono" id="info-original-dim">
-                  0 × 0 px
-                </span>
-                <span class="px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 font-mono" id="info-original-size">
-                  0 KB
-                </span>
+                <div class="flex items-center gap-2 mt-0.5 text-neutral-500 dark:text-neutral-400">
+                  <span id="info-type" class="uppercase font-mono">TIPO</span>
+                  <span>•</span>
+                  <span id="info-size" class="font-mono">0 KB</span>
+                  <span id="info-extra-dot">•</span>
+                  <span id="info-extra" class="font-mono">0x0 px</span>
+                </div>
               </div>
-              <button
-                id="clear-btn"
-                type="button"
-                class="text-red-600 dark:text-red-400 hover:underline font-medium"
-              >
-                ✕ Remover imagem
-              </button>
             </div>
+            <button
+              id="clear-btn"
+              type="button"
+              class="text-red-600 dark:text-red-400 hover:underline font-medium"
+            >
+              ✕ Trocar arquivo
+            </button>
+          </div>
 
-            <!-- Grid de Controles e Preview -->
+          <!-- ========================================== -->
+          <!-- ABA 1: VÍDEO PARA ÁUDIO                     -->
+          <!-- ========================================== -->
+          <div id="tab-content-video-audio" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              
+              <!-- Configurações de Extração de Áudio (5 colunas) -->
+              <div class="lg:col-span-5 space-y-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm">
+                <div>
+                  <h3 class="text-sm font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-3">
+                    Configuração do Áudio
+                  </h3>
+                  
+                  <div class="space-y-4">
+                    <div>
+                      <label for="audio-format-select" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                        Formato de Saída:
+                      </label>
+                      <select
+                        id="audio-format-select"
+                        class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
+                      >
+                        <option value="mp3" selected>MP3 (Universal, leve e compatível)</option>
+                        <option value="wav">WAV (Sem perdas, PCM 16-bit Master)</option>
+                      </select>
+                    </div>
+
+                    <div id="mp3-bitrate-wrapper">
+                      <label for="audio-bitrate-select" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                        Qualidade / Taxa de Bits:
+                      </label>
+                      <select
+                        id="audio-bitrate-select"
+                        class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
+                      >
+                        <option value="128">128 kbps (Padrão web)</option>
+                        <option value="192" selected>192 kbps (Alta qualidade - Recomendado)</option>
+                        <option value="256">256 kbps (Muito alta)</option>
+                        <option value="320">320 kbps (Máxima fidelidade)</option>
+                      </select>
+                    </div>
+
+                    <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800">
+                      <label class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                        Canais:
+                      </label>
+                      <div class="flex gap-4 text-xs">
+                        <label class="flex items-center gap-1.5 cursor-pointer">
+                          <input type="radio" name="audio-channels" value="stereo" checked class="text-neutral-900 focus:ring-neutral-500" />
+                          <span>Estéreo (2 canais)</span>
+                        </label>
+                        <label class="flex items-center gap-1.5 cursor-pointer">
+                          <input type="radio" name="audio-channels" value="mono" class="text-neutral-900 focus:ring-neutral-500" />
+                          <span>Mono (1 canal)</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Botão de Iniciar Extração -->
+                <div class="pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                  <button
+                    id="extract-audio-btn"
+                    type="button"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-3 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
+                  >
+                    🎵 Extrair e Converter Áudio
+                  </button>
+
+                  <!-- Barra de Progresso -->
+                  <div id="audio-progress-bar-container" class="hidden mt-4 space-y-1">
+                    <div class="flex justify-between text-[11px] text-neutral-500">
+                      <span id="audio-progress-label">Processando áudio...</span>
+                      <span id="audio-progress-pct" class="font-mono">0%</span>
+                    </div>
+                    <div class="w-full h-2 bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden">
+                      <div id="audio-progress-fill" class="h-full bg-neutral-900 dark:bg-neutral-100 transition-all duration-150" style="width: 0%"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Resultado do Áudio -->
+                <div id="audio-result-card" class="hidden pt-4 border-t border-neutral-200 dark:border-neutral-800 space-y-3">
+                  <div class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                    <span>✓</span> Áudio extraído com sucesso!
+                  </div>
+                  <audio id="audio-player" controls class="w-full h-10 rounded-lg"></audio>
+                  <a
+                    id="audio-download-btn"
+                    href="#"
+                    download="audio.mp3"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 text-xs font-semibold px-4 py-2.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition"
+                  >
+                    📥 Baixar Arquivo de Áudio (<span id="audio-result-size">0 KB</span>)
+                  </a>
+                </div>
+
+              </div>
+
+              <!-- Preview do Vídeo Original (7 colunas) -->
+              <div class="lg:col-span-7 space-y-4">
+                <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm">
+                  <div class="text-xs font-semibold text-neutral-700 dark:text-neutral-300 pb-3 border-b border-neutral-200 dark:border-neutral-800 flex justify-between">
+                    <span>Vídeo Original</span>
+                    <span id="video-preview-duration" class="font-mono text-neutral-500">00:00</span>
+                  </div>
+                  <div class="mt-4 flex items-center justify-center bg-black/5 dark:bg-black/40 rounded-xl overflow-hidden min-h-[260px]">
+                    <video id="source-video-audio" controls class="max-h-[420px] w-full rounded-lg"></video>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ========================================== -->
+          <!-- ABA 2: VÍDEO PARA GIF                       -->
+          <!-- ========================================== -->
+          <div id="tab-content-video-gif" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              
+              <!-- Controles de Criação de GIF (5 colunas) -->
+              <div class="lg:col-span-5 space-y-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm">
+                <div>
+                  <h3 class="text-sm font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-3">
+                    Configuração do GIF
+                  </h3>
+
+                  <div class="space-y-4">
+                    <!-- Intervalo de Tempo -->
+                    <div class="grid grid-cols-2 gap-3">
+                      <div>
+                        <label for="gif-start-time" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                          Início (segundos):
+                        </label>
+                        <input
+                          id="gif-start-time"
+                          type="number"
+                          min="0"
+                          step="0.5"
+                          value="0"
+                          class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
+                        />
+                      </div>
+                      <div>
+                        <label for="gif-duration" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                          Duração (segundos):
+                        </label>
+                        <input
+                          id="gif-duration"
+                          type="number"
+                          min="0.5"
+                          max="15"
+                          step="0.5"
+                          value="3"
+                          class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- Resolução / Largura -->
+                    <div>
+                      <label for="gif-width" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                        Largura do GIF:
+                      </label>
+                      <select
+                        id="gif-width"
+                        class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
+                      >
+                        <option value="240">Pequeno (240px - Mais leve)</option>
+                        <option value="360" selected>Médio (360px - Recomendado)</option>
+                        <option value="480">Grande (480px - Alta definição)</option>
+                      </select>
+                    </div>
+
+                    <!-- Taxa de Quadros (FPS) -->
+                    <div>
+                      <label for="gif-fps" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                        Taxa de Quadros (FPS):
+                      </label>
+                      <select
+                        id="gif-fps"
+                        class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
+                      >
+                        <option value="8">8 FPS (Arquivo bem pequeno)</option>
+                        <option value="10" selected>10 FPS (Equilíbrio ideal)</option>
+                        <option value="15">15 FPS (Animação bem fluida)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Botão de Converter -->
+                <div class="pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                  <button
+                    id="create-gif-btn"
+                    type="button"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-3 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
+                  >
+                    🎞️ Gerar GIF Animado
+                  </button>
+
+                  <!-- Barra de Progresso GIF -->
+                  <div id="gif-progress-bar-container" class="hidden mt-4 space-y-1">
+                    <div class="flex justify-between text-[11px] text-neutral-500">
+                      <span id="gif-progress-label">Capturando quadros...</span>
+                      <span id="gif-progress-pct" class="font-mono">0%</span>
+                    </div>
+                    <div class="w-full h-2 bg-neutral-200 dark:bg-neutral-800 rounded-full overflow-hidden">
+                      <div id="gif-progress-fill" class="h-full bg-neutral-900 dark:bg-neutral-100 transition-all duration-150" style="width: 0%"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Ações do GIF Gerado -->
+                <div id="gif-actions-container" class="hidden pt-4 border-t border-neutral-200 dark:border-neutral-800 flex flex-col gap-2">
+                  <button
+                    id="download-gif-btn"
+                    type="button"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-xs font-semibold px-4 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm"
+                  >
+                    📥 Baixar GIF (<span id="gif-result-size">0 KB</span>)
+                  </button>
+                  <button
+                    id="copy-gif-btn"
+                    type="button"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 dark:border-neutral-700 text-xs font-medium px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition"
+                  >
+                    📋 Copiar GIF
+                  </button>
+                  <div id="gif-status" class="text-xs text-center font-medium min-h-[1.25rem]"></div>
+                </div>
+
+              </div>
+
+              <!-- Preview do Vídeo e do GIF (7 colunas) -->
+              <div class="lg:col-span-7 space-y-4">
+                
+                <!-- Player de Vídeo para Definir Ponto de Início -->
+                <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm">
+                  <div class="text-xs font-semibold text-neutral-700 dark:text-neutral-300 pb-3 border-b border-neutral-200 dark:border-neutral-800 flex justify-between items-center">
+                    <span>Vídeo Fonte</span>
+                    <button
+                      id="set-start-here-btn"
+                      type="button"
+                      class="text-[11px] px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 font-medium"
+                    >
+                      📍 Usar posição atual como início
+                    </button>
+                  </div>
+                  <div class="mt-4 flex items-center justify-center bg-black/5 dark:bg-black/40 rounded-xl overflow-hidden min-h-[220px]">
+                    <video id="source-video-gif" controls class="max-h-[340px] w-full rounded-lg"></video>
+                  </div>
+                </div>
+
+                <!-- Preview do GIF Gerado -->
+                <div id="gif-result-preview-card" class="hidden rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm">
+                  <div class="text-xs font-semibold text-neutral-700 dark:text-neutral-300 pb-3 border-b border-neutral-200 dark:border-neutral-800 flex justify-between items-center">
+                    <span>GIF Animado Gerado</span>
+                    <span id="gif-meta-info" class="font-mono text-neutral-500">Pronto</span>
+                  </div>
+                  <div class="mt-4 flex items-center justify-center checkerboard rounded-xl p-4 min-h-[240px]">
+                    <img id="gif-result-img" alt="GIF Animado" class="max-w-full max-h-[380px] object-contain shadow-md rounded" />
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ========================================== -->
+          <!-- ABA 3: CONVERSOR & EDITOR DE IMAGENS       -->
+          <!-- ========================================== -->
+          <div id="tab-content-image" class="space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
               <!-- Coluna de Controles (5 colunas) -->
@@ -342,14 +655,14 @@
                     <button
                       id="rotate-btn"
                       type="button"
-                      class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium"
+                      class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium cursor-pointer"
                     >
                       🔄 Girar 90°
                     </button>
                     <button
                       id="flip-h-btn"
                       type="button"
-                      class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium"
+                      class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium cursor-pointer"
                     >
                       ↔️ Espelhar
                     </button>
@@ -366,19 +679,19 @@
                   </div>
                 </div>
 
-                <!-- Ações principais -->
+                <!-- Ações principais de Imagem -->
                 <div class="pt-4 border-t border-neutral-200 dark:border-neutral-800 flex flex-col gap-2">
                   <button
                     id="download-btn"
                     type="button"
-                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-3 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-3 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer"
                   >
                     📥 Baixar Imagem Processada
                   </button>
                   <button
                     id="copy-btn"
                     type="button"
-                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 dark:border-neutral-700 text-xs font-medium px-4 py-2.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 dark:border-neutral-700 text-xs font-medium px-4 py-2.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition cursor-pointer"
                   >
                     📋 Copiar para Área de Transferência
                   </button>
@@ -387,13 +700,13 @@
 
               </div>
 
-              <!-- Coluna de Preview (7 colunas) -->
+              <!-- Coluna de Preview de Imagem (7 colunas) -->
               <div class="lg:col-span-7 space-y-4">
                 
                 <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm">
                   <div class="flex items-center justify-between pb-3 border-b border-neutral-200 dark:border-neutral-800 text-xs">
                     <span class="font-semibold text-neutral-700 dark:text-neutral-300">
-                      Pré-visualização em Tempo Real
+                      Pré-visualização da Imagem
                     </span>
                     <span id="preview-meta" class="font-mono text-neutral-500 dark:text-neutral-400">
                       Calculando...
@@ -425,16 +738,15 @@
               </div>
 
             </div>
-
           </div>
 
-          <!-- Informações Técnicas e de Privacidade -->
+          <!-- Informações de Segurança / Privacidade -->
           <div class="rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-white/40 dark:bg-neutral-900/40 p-6 text-sm text-neutral-600 dark:text-neutral-400 flex items-start gap-4">
             <span class="text-2xl">🔒</span>
             <div>
-              <div class="font-semibold text-neutral-900 dark:text-neutral-100">Zero Envio para Servidores</div>
+              <div class="font-semibold text-neutral-900 dark:text-neutral-100">Execução 100% Local no Navegador</div>
               <p class="mt-1 leading-relaxed">
-                Todas as transformações, cálculos de matriz de cor, rotações e codificações para WebP/JPEG/PNG acontecem via HTML5 Canvas e Web APIs no processador da sua própria máquina. Seus arquivos nunca saem do seu navegador.
+                Nenhum byte de vídeo, áudio ou imagem é enviado para servidores. A decodificação de áudio, a amostragem de quadros para GIF e as conversões de imagem utilizam Web Audio API, Canvas e Web Workers diretamente na memória do seu dispositivo.
               </p>
             </div>
           </div>
@@ -443,7 +755,7 @@
       </main>
     </div>
 
-    <!-- Script de Processamento de Mídia -->
+    <!-- Script Geral do Conversor Multimídia -->
     <script>
       // Sidebar mobile
       const sidebar = document.getElementById("sidebar");
@@ -459,36 +771,615 @@
         overlay.classList.add("hidden");
       });
 
-      // Estado do Editor
-      const state = {
-        img: null,
-        filename: "imagem",
-        origWidth: 0,
-        origHeight: 0,
-        origSize: 0,
-        currentWidth: 0,
-        currentHeight: 0,
+      function formatBytes(bytes) {
+        if (!bytes || bytes === 0) return "0 B";
+        const k = 1024;
+        const sizes = ["B", "KB", "MB", "GB"];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
+      }
+
+      function formatDuration(sec) {
+        if (!sec || isNaN(sec)) return "00:00";
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+      }
+
+      // Sistema de Abas
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabContents = {
+        "video-audio": document.getElementById("tab-content-video-audio"),
+        "video-gif": document.getElementById("tab-content-video-gif"),
+        "image": document.getElementById("tab-content-image")
+      };
+
+      function switchTab(tabId) {
+        tabBtns.forEach(btn => {
+          if (btn.dataset.tab === tabId) {
+            btn.classList.add("tab-active", "border-neutral-900", "dark:border-neutral-100", "text-neutral-900", "dark:text-neutral-100");
+            btn.classList.remove("border-transparent", "text-neutral-500");
+          } else {
+            btn.classList.remove("tab-active", "border-neutral-900", "dark:border-neutral-100", "text-neutral-900", "dark:text-neutral-100");
+            btn.classList.add("border-transparent", "text-neutral-500");
+          }
+        });
+
+        Object.keys(tabContents).forEach(key => {
+          if (key === tabId) {
+            tabContents[key].classList.remove("hidden");
+          } else {
+            tabContents[key].classList.add("hidden");
+          }
+        });
+      }
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+      });
+
+      // Estado Global
+      const mediaState = {
+        type: null, // "video", "image", "audio"
+        file: null,
+        filename: "arquivo",
+        fileUrl: null,
+        videoDuration: 0,
+        videoWidth: 0,
+        videoHeight: 0,
+        // Estado de imagem
+        imageObj: null,
+        imgWidth: 0,
+        imgHeight: 0,
+        origImgWidth: 0,
+        origImgHeight: 0,
         rotation: 0,
         flipH: false,
         grayscale: false,
         invert: false,
-        format: "image/webp",
-        quality: 0.85,
-        aspectRatio: 1,
-        processedBlob: null
+        imgFormat: "image/webp",
+        imgQuality: 0.85,
+        imgAspectRatio: 1,
+        processedImageBlob: null
       };
 
-      // Elementos do DOM
+      // Elementos Comuns de Upload
       const dropzone = document.getElementById("dropzone");
       const fileInput = document.getElementById("file-input");
       const loadSampleBtn = document.getElementById("load-sample-btn");
-      const editorPanel = document.getElementById("editor-panel");
+      const fileInfoBar = document.getElementById("file-info-bar");
       const clearBtn = document.getElementById("clear-btn");
-
+      const infoIcon = document.getElementById("info-icon");
       const infoName = document.getElementById("info-name");
-      const infoOriginalDim = document.getElementById("info-original-dim");
-      const infoOriginalSize = document.getElementById("info-original-size");
+      const infoType = document.getElementById("info-type");
+      const infoSize = document.getElementById("info-size");
+      const infoExtra = document.getElementById("info-extra");
+      const infoExtraDot = document.getElementById("info-extra-dot");
 
+      // Manipulação de Arquivo Carregado
+      function processLoadedFile(file) {
+        if (!file) return;
+
+        if (mediaState.fileUrl) {
+          URL.revokeObjectURL(mediaState.fileUrl);
+        }
+
+        mediaState.file = file;
+        mediaState.filename = file.name.replace(/\.[^/.]+$/, "");
+        mediaState.fileUrl = URL.createObjectURL(file);
+
+        infoName.textContent = file.name;
+        infoSize.textContent = formatBytes(file.size);
+        fileInfoBar.classList.remove("hidden");
+
+        const isVideo = file.type.startsWith("video/") || /\.(mp4|webm|mov|mkv|avi|m4v|ogg)$/i.test(file.name);
+        const isAudio = file.type.startsWith("audio/") || /\.(mp3|wav|ogg|aac|flac|m4a)$/i.test(file.name);
+        const isImage = file.type.startsWith("image/") || /\.(png|jpe?g|webp|gif|svg|bmp|avif)$/i.test(file.name);
+
+        if (isVideo) {
+          mediaState.type = "video";
+          infoIcon.textContent = "🎬";
+          infoType.textContent = "VÍDEO";
+          setupVideoFile(file);
+          switchTab("video-audio");
+        } else if (isAudio) {
+          mediaState.type = "audio";
+          infoIcon.textContent = "🎵";
+          infoType.textContent = "ÁUDIO";
+          setupAudioFile(file);
+          switchTab("video-audio");
+        } else if (isImage) {
+          mediaState.type = "image";
+          infoIcon.textContent = "🖼️";
+          infoType.textContent = "IMAGEM";
+          setupImageFile(file);
+          switchTab("image");
+        } else {
+          // Tenta como vídeo ou imagem
+          mediaState.type = "video";
+          infoIcon.textContent = "📁";
+          infoType.textContent = "MÍDIA";
+          setupVideoFile(file);
+          switchTab("video-audio");
+        }
+      }
+
+      fileInput.addEventListener("change", (e) => {
+        if (e.target.files && e.target.files[0]) {
+          processLoadedFile(e.target.files[0]);
+        }
+      });
+
+      // Drag and drop
+      ["dragenter", "dragover"].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add("border-neutral-900", "dark:border-neutral-100");
+        });
+      });
+
+      ["dragleave", "drop"].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove("border-neutral-900", "dark:border-neutral-100");
+        });
+      });
+
+      dropzone.addEventListener("drop", (e) => {
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          processLoadedFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      // Limpar
+      clearBtn.addEventListener("click", () => {
+        fileInput.value = "";
+        fileInfoBar.classList.add("hidden");
+        if (mediaState.fileUrl) {
+          URL.revokeObjectURL(mediaState.fileUrl);
+          mediaState.fileUrl = null;
+        }
+      });
+
+      // Amostra de teste
+      loadSampleBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        fetch("../../assets/images/profile.jpg")
+          .then(res => res.blob())
+          .then(blob => {
+            const file = new File([blob], "perfil.jpg", { type: "image/jpeg" });
+            processLoadedFile(file);
+          });
+      });
+
+      // ========================================================
+      // MÓDULO 1: EXTRAÇÃO DE VÍDEO PARA ÁUDIO
+      // ========================================================
+      const sourceVideoAudio = document.getElementById("source-video-audio");
+      const videoPreviewDuration = document.getElementById("video-preview-duration");
+      const extractAudioBtn = document.getElementById("extract-audio-btn");
+      const audioFormatSelect = document.getElementById("audio-format-select");
+      const mp3BitrateWrapper = document.getElementById("mp3-bitrate-wrapper");
+      const audioBitrateSelect = document.getElementById("audio-bitrate-select");
+      const audioProgressBarContainer = document.getElementById("audio-progress-bar-container");
+      const audioProgressFill = document.getElementById("audio-progress-fill");
+      const audioProgressPct = document.getElementById("audio-progress-pct");
+      const audioProgressLabel = document.getElementById("audio-progress-label");
+      const audioResultCard = document.getElementById("audio-result-card");
+      const audioPlayer = document.getElementById("audio-player");
+      const audioDownloadBtn = document.getElementById("audio-download-btn");
+      const audioResultSize = document.getElementById("audio-result-size");
+
+      audioFormatSelect.addEventListener("change", () => {
+        if (audioFormatSelect.value === "wav") {
+          mp3BitrateWrapper.classList.add("hidden");
+        } else {
+          mp3BitrateWrapper.classList.remove("hidden");
+        }
+      });
+
+      function setupVideoFile(file) {
+        sourceVideoAudio.src = mediaState.fileUrl;
+        sourceVideoGif.src = mediaState.fileUrl;
+
+        sourceVideoAudio.onloadedmetadata = () => {
+          mediaState.videoDuration = sourceVideoAudio.duration;
+          mediaState.videoWidth = sourceVideoAudio.videoWidth;
+          mediaState.videoHeight = sourceVideoAudio.videoHeight;
+          videoPreviewDuration.textContent = formatDuration(sourceVideoAudio.duration);
+          infoExtra.textContent = `${sourceVideoAudio.videoWidth}×${sourceVideoAudio.videoHeight} • ${formatDuration(sourceVideoAudio.duration)}`;
+          infoExtraDot.classList.remove("hidden");
+        };
+      }
+
+      function setupAudioFile(file) {
+        sourceVideoAudio.src = mediaState.fileUrl;
+        sourceVideoAudio.onloadedmetadata = () => {
+          mediaState.videoDuration = sourceVideoAudio.duration;
+          videoPreviewDuration.textContent = formatDuration(sourceVideoAudio.duration);
+          infoExtra.textContent = formatDuration(sourceVideoAudio.duration);
+        };
+      }
+
+      // Conversor PCM para WAV RIFF 16-bit
+      function encodeAudioBufferToWav(buffer, optMono = false) {
+        const numChannels = optMono ? 1 : buffer.numberOfChannels;
+        const sampleRate = buffer.sampleRate;
+        const format = 1; // PCM
+        const bitDepth = 16;
+        const bytesPerSample = bitDepth / 8;
+        const blockAlign = numChannels * bytesPerSample;
+        const byteRate = sampleRate * blockAlign;
+        const dataLength = buffer.length * blockAlign;
+        const arrayBuffer = new ArrayBuffer(44 + dataLength);
+        const view = new DataView(arrayBuffer);
+
+        function writeString(v, offset, str) {
+          for (let i = 0; i < str.length; i++) {
+            v.setUint8(offset + i, str.charCodeAt(i));
+          }
+        }
+
+        writeString(view, 0, "RIFF");
+        view.setUint32(4, 36 + dataLength, true);
+        writeString(view, 8, "WAVE");
+        writeString(view, 12, "fmt ");
+        view.setUint32(16, 16, true);
+        view.setUint16(20, format, true);
+        view.setUint16(22, numChannels, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, byteRate, true);
+        view.setUint16(32, blockAlign, true);
+        view.setUint16(34, bitDepth, true);
+        writeString(view, 36, "data");
+        view.setUint32(40, dataLength, true);
+
+        const channels = [];
+        for (let i = 0; i < buffer.numberOfChannels; i++) {
+          channels.push(buffer.getChannelData(i));
+        }
+
+        let offset = 44;
+        for (let i = 0; i < buffer.length; i++) {
+          if (numChannels === 1) {
+            let sample = channels[0][i];
+            if (channels.length > 1) {
+              sample = (sample + channels[1][i]) / 2;
+            }
+            sample = Math.max(-1, Math.min(1, sample));
+            view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+            offset += 2;
+          } else {
+            for (let ch = 0; ch < numChannels; ch++) {
+              let sample = Math.max(-1, Math.min(1, channels[ch][i]));
+              view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+              offset += 2;
+            }
+          }
+        }
+        return new Blob([view], { type: "audio/wav" });
+      }
+
+      // Conversor PCM para MP3 via lamejs
+      async function encodeAudioBufferToMp3(buffer, kbps, optMono, onProgress) {
+        return new Promise((resolve) => {
+          const channels = optMono ? 1 : buffer.numberOfChannels;
+          const sampleRate = buffer.sampleRate;
+          const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+          const mp3Data = [];
+
+          const left = buffer.getChannelData(0);
+          const right = (!optMono && buffer.numberOfChannels > 1) ? buffer.getChannelData(1) : left;
+
+          const sampleBlockSize = 1152;
+          const leftInt16 = new Int16Array(sampleBlockSize);
+          const rightInt16 = new Int16Array(sampleBlockSize);
+
+          let i = 0;
+          function processChunk() {
+            const end = Math.min(i + (sampleBlockSize * 8), buffer.length);
+            for (; i < end; i += sampleBlockSize) {
+              const blockSize = Math.min(sampleBlockSize, buffer.length - i);
+              for (let j = 0; j < blockSize; j++) {
+                let l = left[i + j];
+                if (optMono && buffer.numberOfChannels > 1) {
+                  l = (l + buffer.getChannelData(1)[i + j]) / 2;
+                }
+                l = Math.max(-1, Math.min(1, l));
+                leftInt16[j] = l < 0 ? l * 0x8000 : l * 0x7FFF;
+
+                if (!optMono && channels > 1) {
+                  let r = Math.max(-1, Math.min(1, right[i + j]));
+                  rightInt16[j] = r < 0 ? r * 0x8000 : r * 0x7FFF;
+                }
+              }
+
+              const lSub = blockSize === sampleBlockSize ? leftInt16 : leftInt16.subarray(0, blockSize);
+              const rSub = blockSize === sampleBlockSize ? rightInt16 : rightInt16.subarray(0, blockSize);
+
+              const mp3buf = (channels === 1) 
+                ? mp3encoder.encodeBuffer(lSub) 
+                : mp3encoder.encodeBuffer(lSub, rSub);
+              if (mp3buf.length > 0) {
+                mp3Data.push(mp3buf);
+              }
+            }
+
+            if (onProgress) {
+              onProgress(Math.min(1, i / buffer.length));
+            }
+
+            if (i < buffer.length) {
+              setTimeout(processChunk, 0);
+            } else {
+              const endBuf = mp3encoder.flush();
+              if (endBuf.length > 0) {
+                mp3Data.push(endBuf);
+              }
+              const blob = new Blob(mp3Data, { type: "audio/mp3" });
+              resolve(blob);
+            }
+          }
+          processChunk();
+        });
+      }
+
+      extractAudioBtn.addEventListener("click", async () => {
+        if (!mediaState.file) {
+          alert("Por favor, selecione um arquivo de vídeo ou áudio primeiro.");
+          return;
+        }
+
+        try {
+          extractAudioBtn.disabled = true;
+          audioProgressBarContainer.classList.remove("hidden");
+          audioResultCard.classList.add("hidden");
+          audioProgressFill.style.width = "15%";
+          audioProgressPct.textContent = "15%";
+          audioProgressLabel.textContent = "Lendo e decodificando áudio...";
+
+          const arrayBuffer = await mediaState.file.arrayBuffer();
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          
+          audioProgressFill.style.width = "35%";
+          audioProgressPct.textContent = "35%";
+          audioProgressLabel.textContent = "Decodificando trilhas sonoras...";
+
+          let audioBuffer;
+          try {
+            audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+          } catch (decodeErr) {
+            throw new Error("Não foi possível decodificar o áudio deste arquivo de vídeo no navegador. Verifique se o vídeo possui trilha de áudio.");
+          }
+
+          const optMono = document.querySelector("input[name='audio-channels']:checked")?.value === "mono";
+          const targetFormat = audioFormatSelect.value;
+          let outputBlob;
+
+          if (targetFormat === "wav") {
+            audioProgressLabel.textContent = "Codificando em WAV PCM 16-bit...";
+            audioProgressFill.style.width = "75%";
+            audioProgressPct.textContent = "75%";
+            outputBlob = encodeAudioBufferToWav(audioBuffer, optMono);
+          } else {
+            const kbps = parseInt(audioBitrateSelect.value, 10);
+            audioProgressLabel.textContent = "Codificando em MP3...";
+            outputBlob = await encodeAudioBufferToMp3(audioBuffer, kbps, optMono, (p) => {
+              const pct = Math.round(35 + (p * 60));
+              audioProgressFill.style.width = `${pct}%`;
+              audioProgressPct.textContent = `${pct}%`;
+            });
+          }
+
+          audioProgressFill.style.width = "100%";
+          audioProgressPct.textContent = "100%";
+          audioProgressLabel.textContent = "Áudio pronto!";
+
+          // Configura player e botão de download
+          const audioBlobUrl = URL.createObjectURL(outputBlob);
+          audioPlayer.src = audioBlobUrl;
+          const ext = targetFormat === "wav" ? "wav" : "mp3";
+          const finalFilename = `${mediaState.filename}_audio.${ext}`;
+          audioDownloadBtn.href = audioBlobUrl;
+          audioDownloadBtn.download = finalFilename;
+          audioResultSize.textContent = formatBytes(outputBlob.size);
+
+          audioResultCard.classList.remove("hidden");
+        } catch (err) {
+          alert("Erro na conversão de áudio: " + err.message);
+          audioProgressBarContainer.classList.add("hidden");
+        } finally {
+          extractAudioBtn.disabled = false;
+        }
+      });
+
+      // ========================================================
+      // MÓDULO 2: VÍDEO PARA GIF ANIMADO
+      // ========================================================
+      const sourceVideoGif = document.getElementById("source-video-gif");
+      const setStartHereBtn = document.getElementById("set-start-here-btn");
+      const gifStartTimeInput = document.getElementById("gif-start-time");
+      const gifDurationInput = document.getElementById("gif-duration");
+      const gifWidthSelect = document.getElementById("gif-width");
+      const gifFpsSelect = document.getElementById("gif-fps");
+      const createGifBtn = document.getElementById("create-gif-btn");
+      const gifProgressBarContainer = document.getElementById("gif-progress-bar-container");
+      const gifProgressFill = document.getElementById("gif-progress-fill");
+      const gifProgressPct = document.getElementById("gif-progress-pct");
+      const gifProgressLabel = document.getElementById("gif-progress-label");
+      const gifActionsContainer = document.getElementById("gif-actions-container");
+      const gifResultPreviewCard = document.getElementById("gif-result-preview-card");
+      const gifResultImg = document.getElementById("gif-result-img");
+      const gifResultSize = document.getElementById("gif-result-size");
+      const gifMetaInfo = document.getElementById("gif-meta-info");
+      const downloadGifBtn = document.getElementById("download-gif-btn");
+      const copyGifBtn = document.getElementById("copy-gif-btn");
+      const gifStatus = document.getElementById("gif-status");
+
+      let currentGeneratedGifBlob = null;
+
+      setStartHereBtn.addEventListener("click", () => {
+        if (sourceVideoGif.currentTime) {
+          gifStartTimeInput.value = sourceVideoGif.currentTime.toFixed(1);
+        }
+      });
+
+      // Função para capturar frames de vídeo com precisão e renderizar GIF
+      async function convertVideoToGif() {
+        const video = document.createElement("video");
+        video.src = mediaState.fileUrl;
+        video.muted = true;
+        video.playsInline = true;
+
+        await new Promise((resolve) => {
+          video.onloadedmetadata = resolve;
+          video.load();
+        });
+
+        const startSec = Math.max(0, parseFloat(gifStartTimeInput.value) || 0);
+        const durationSec = Math.max(0.5, Math.min(15, parseFloat(gifDurationInput.value) || 3));
+        const targetWidth = parseInt(gifWidthSelect.value, 10);
+        const fps = parseInt(gifFpsSelect.value, 10);
+        const interval = 1 / fps;
+        const totalFrames = Math.round(durationSec * fps);
+
+        const aspect = video.videoWidth / video.videoHeight;
+        const targetHeight = Math.round(targetWidth / aspect);
+
+        const canvas = document.createElement("canvas");
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+        const frameCanvases = [];
+        gifProgressLabel.textContent = "Capturando quadros do vídeo...";
+
+        for (let i = 0; i < totalFrames; i++) {
+          const t = startSec + (i * interval);
+          if (t > video.duration) break;
+
+          video.currentTime = t;
+          await new Promise((res) => {
+            const onSeeked = () => {
+              video.removeEventListener("seeked", onSeeked);
+              res();
+            };
+            video.addEventListener("seeked", onSeeked);
+            setTimeout(res, 500); // timeout de segurança
+          });
+
+          ctx.drawImage(video, 0, 0, targetWidth, targetHeight);
+          // Cria cópia do canvas para o array de frames
+          const frameCopy = document.createElement("canvas");
+          frameCopy.width = targetWidth;
+          frameCopy.height = targetHeight;
+          frameCopy.getContext("2d").drawImage(canvas, 0, 0);
+          frameCanvases.push(frameCopy);
+
+          const pct = Math.round((i / totalFrames) * 60);
+          gifProgressFill.style.width = `${pct}%`;
+          gifProgressPct.textContent = `${pct}%`;
+        }
+
+        gifProgressLabel.textContent = "Codificando GIF animado...";
+        gifProgressFill.style.width = "75%";
+        gifProgressPct.textContent = "75%";
+
+        return new Promise((resolve, reject) => {
+          gifshot.createGIF(
+            {
+              images: frameCanvases,
+              gifWidth: targetWidth,
+              gifHeight: targetHeight,
+              interval: interval,
+              numWorkers: 2
+            },
+            function (obj) {
+              if (obj.error) {
+                reject(new Error("Falha na codificação do GIF."));
+                return;
+              }
+
+              // Converte dataURL retornado para Blob
+              fetch(obj.image)
+                .then((r) => r.blob())
+                .then((blob) => {
+                  resolve({ blob, dataUrl: obj.image, width: targetWidth, height: targetHeight });
+                })
+                .catch(reject);
+            }
+          );
+        });
+      }
+
+      createGifBtn.addEventListener("click", async () => {
+        if (!mediaState.file) {
+          alert("Por favor, selecione um arquivo de vídeo primeiro.");
+          return;
+        }
+
+        try {
+          createGifBtn.disabled = true;
+          gifProgressBarContainer.classList.remove("hidden");
+          gifActionsContainer.classList.add("hidden");
+          gifResultPreviewCard.classList.add("hidden");
+          gifProgressFill.style.width = "5%";
+          gifProgressPct.textContent = "5%";
+
+          const result = await convertVideoToGif();
+          currentGeneratedGifBlob = result.blob;
+
+          gifProgressFill.style.width = "100%";
+          gifProgressPct.textContent = "100%";
+          gifProgressLabel.textContent = "GIF concluído!";
+
+          gifResultImg.src = result.dataUrl;
+          gifResultSize.textContent = formatBytes(result.blob.size);
+          gifMetaInfo.textContent = `${result.width}×${result.height} px • ${formatBytes(result.blob.size)}`;
+
+          gifResultPreviewCard.classList.remove("hidden");
+          gifActionsContainer.classList.remove("hidden");
+        } catch (err) {
+          alert("Erro ao gerar GIF: " + err.message);
+          gifProgressBarContainer.classList.add("hidden");
+        } finally {
+          createGifBtn.disabled = false;
+        }
+      });
+
+      downloadGifBtn.addEventListener("click", () => {
+        if (!currentGeneratedGifBlob) return;
+        const url = URL.createObjectURL(currentGeneratedGifBlob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${mediaState.filename}_animado.gif`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+
+      copyGifBtn.addEventListener("click", async () => {
+        if (!currentGeneratedGifBlob) return;
+        try {
+          await navigator.clipboard.write([
+            new ClipboardItem({ "image/gif": currentGeneratedGifBlob })
+          ]);
+          gifStatus.textContent = "✓ GIF copiado com sucesso!";
+          gifStatus.className = "text-xs text-center font-medium text-emerald-600 dark:text-emerald-400 min-h-[1.25rem]";
+          setTimeout(() => { gifStatus.textContent = ""; }, 3000);
+        } catch (e) {
+          gifStatus.textContent = "⚠ O navegador não suporta cópia direta de GIF. Use o botão Baixar.";
+          gifStatus.className = "text-xs text-center font-medium text-amber-600 dark:text-amber-400 min-h-[1.25rem]";
+          setTimeout(() => { gifStatus.textContent = ""; }, 3500);
+        }
+      });
+
+      // ========================================================
+      // MÓDULO 3: CONVERSOR & EDITOR DE IMAGENS
+      // ========================================================
       const widthInput = document.getElementById("width-input");
       const heightInput = document.getElementById("height-input");
       const aspectLock = document.getElementById("aspect-lock");
@@ -514,253 +1405,167 @@
       const statNew = document.getElementById("stat-new");
       const statDiff = document.getElementById("stat-diff");
 
-      function formatBytes(bytes) {
-        if (!bytes || bytes === 0) return "0 B";
-        const k = 1024;
-        const sizes = ["B", "KB", "MB", "GB"];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
-      }
-
-      // Carregar arquivo de imagem
-      function handleFile(file) {
-        if (!file || !file.type.startsWith("image/")) {
-          alert("Por favor, selecione um arquivo de imagem válido.");
-          return;
-        }
-
-        state.filename = file.name.replace(/\.[^/.]+$/, "");
-        state.origSize = file.size;
-
+      function setupImageFile(file) {
         const reader = new FileReader();
         reader.onload = (e) => {
           const img = new Image();
           img.onload = () => {
-            state.img = img;
-            state.origWidth = img.naturalWidth;
-            state.origHeight = img.naturalHeight;
-            state.currentWidth = img.naturalWidth;
-            state.currentHeight = img.naturalHeight;
-            state.aspectRatio = img.naturalWidth / img.naturalHeight;
-            state.rotation = 0;
-            state.flipH = false;
-            state.grayscale = false;
-            state.invert = false;
+            mediaState.imageObj = img;
+            mediaState.origImgWidth = img.naturalWidth;
+            mediaState.origImgHeight = img.naturalHeight;
+            mediaState.imgWidth = img.naturalWidth;
+            mediaState.imgHeight = img.naturalHeight;
+            mediaState.imgAspectRatio = img.naturalWidth / img.naturalHeight;
+            mediaState.rotation = 0;
+            mediaState.flipH = false;
+            mediaState.grayscale = false;
+            mediaState.invert = false;
             grayscaleCheck.checked = false;
             invertCheck.checked = false;
 
-            // Preenche infos
-            infoName.textContent = file.name;
-            infoOriginalDim.textContent = `${img.naturalWidth} × ${img.naturalHeight} px`;
-            infoOriginalSize.textContent = formatBytes(file.size);
+            infoExtra.textContent = `${img.naturalWidth}×${img.naturalHeight} px`;
+            infoExtraDot.classList.remove("hidden");
             statOrig.textContent = formatBytes(file.size);
 
             widthInput.value = img.naturalWidth;
             heightInput.value = img.naturalHeight;
 
-            dropzone.classList.add("hidden");
-            editorPanel.classList.remove("hidden");
-
-            render();
+            renderImage();
           };
           img.src = e.target.result;
         };
         reader.readAsDataURL(file);
       }
 
-      // Input file listener
-      fileInput.addEventListener("change", (e) => {
-        if (e.target.files && e.target.files[0]) {
-          handleFile(e.target.files[0]);
-        }
-      });
-
-      // Drag and drop listeners
-      ["dragenter", "dragover"].forEach((eventName) => {
-        dropzone.addEventListener(eventName, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          dropzone.classList.add("border-neutral-900", "dark:border-neutral-100");
-        });
-      });
-
-      ["dragleave", "drop"].forEach((eventName) => {
-        dropzone.addEventListener(eventName, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          dropzone.classList.remove("border-neutral-900", "dark:border-neutral-100");
-        });
-      });
-
-      dropzone.addEventListener("drop", (e) => {
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-          handleFile(e.dataTransfer.files[0]);
-        }
-      });
-
-      // Carregar exemplo
-      loadSampleBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        fetch("../../assets/images/profile.jpg")
-          .then((res) => res.blob())
-          .then((blob) => {
-            const file = new File([blob], "profile.jpg", { type: "image/jpeg" });
-            handleFile(file);
-          })
-          .catch(() => {
-            alert("Não foi possível carregar a imagem de exemplo.");
-          });
-      });
-
-      // Botão Limpar / Trocar
-      clearBtn.addEventListener("click", () => {
-        state.img = null;
-        fileInput.value = "";
-        dropzone.classList.remove("hidden");
-        editorPanel.classList.add("hidden");
-      });
-
-      // Controle de Largura/Altura
       widthInput.addEventListener("input", () => {
         const w = parseInt(widthInput.value, 10);
         if (w > 0) {
-          state.currentWidth = w;
+          mediaState.imgWidth = w;
           if (aspectLock.checked) {
-            const h = Math.round(w / state.aspectRatio);
-            state.currentHeight = h;
+            const h = Math.round(w / mediaState.imgAspectRatio);
+            mediaState.imgHeight = h;
             heightInput.value = h;
           }
-          debouncedRender();
+          debouncedRenderImage();
         }
       });
 
       heightInput.addEventListener("input", () => {
         const h = parseInt(heightInput.value, 10);
         if (h > 0) {
-          state.currentHeight = h;
+          mediaState.imgHeight = h;
           if (aspectLock.checked) {
-            const w = Math.round(h * state.aspectRatio);
-            state.currentWidth = w;
+            const w = Math.round(h * mediaState.imgAspectRatio);
+            mediaState.imgWidth = w;
             widthInput.value = w;
           }
-          debouncedRender();
+          debouncedRenderImage();
         }
       });
 
-      // Botões de escala %
       scaleBtns.forEach((btn) => {
         btn.addEventListener("click", () => {
           const factor = parseFloat(btn.dataset.scale);
-          state.currentWidth = Math.max(1, Math.round(state.origWidth * factor));
-          state.currentHeight = Math.max(1, Math.round(state.origHeight * factor));
-          widthInput.value = state.currentWidth;
-          heightInput.value = state.currentHeight;
-          render();
+          mediaState.imgWidth = Math.max(1, Math.round(mediaState.origImgWidth * factor));
+          mediaState.imgHeight = Math.max(1, Math.round(mediaState.origImgHeight * factor));
+          widthInput.value = mediaState.imgWidth;
+          heightInput.value = mediaState.imgHeight;
+          renderImage();
         });
       });
 
-      // Seleção de formato e slider de qualidade
       formatSelect.addEventListener("change", () => {
-        state.format = formatSelect.value;
-        if (state.format === "image/png") {
+        mediaState.imgFormat = formatSelect.value;
+        if (mediaState.imgFormat === "image/png") {
           qualityWrapper.classList.add("opacity-50", "pointer-events-none");
         } else {
           qualityWrapper.classList.remove("opacity-50", "pointer-events-none");
         }
-        render();
+        renderImage();
       });
 
       qualitySlider.addEventListener("input", () => {
-        state.quality = parseInt(qualitySlider.value, 10) / 100;
+        mediaState.imgQuality = parseInt(qualitySlider.value, 10) / 100;
         qualityValue.textContent = qualitySlider.value + "%";
-        debouncedRender();
+        debouncedRenderImage();
       });
 
-      // Efeitos e rotação
       rotateBtn.addEventListener("click", () => {
-        state.rotation = (state.rotation + 90) % 360;
-        // Inverte dimensões em 90 ou 270 graus
-        const temp = state.currentWidth;
-        state.currentWidth = state.currentHeight;
-        state.currentHeight = temp;
-        state.aspectRatio = state.currentWidth / state.currentHeight;
-        widthInput.value = state.currentWidth;
-        heightInput.value = state.currentHeight;
-        render();
+        mediaState.rotation = (mediaState.rotation + 90) % 360;
+        const temp = mediaState.imgWidth;
+        mediaState.imgWidth = mediaState.imgHeight;
+        mediaState.imgHeight = temp;
+        mediaState.imgAspectRatio = mediaState.imgWidth / mediaState.imgHeight;
+        widthInput.value = mediaState.imgWidth;
+        heightInput.value = mediaState.imgHeight;
+        renderImage();
       });
 
       flipHBtn.addEventListener("click", () => {
-        state.flipH = !state.flipH;
-        render();
+        mediaState.flipH = !mediaState.flipH;
+        renderImage();
       });
 
       grayscaleCheck.addEventListener("change", () => {
-        state.grayscale = grayscaleCheck.checked;
-        render();
+        mediaState.grayscale = grayscaleCheck.checked;
+        renderImage();
       });
 
       invertCheck.addEventListener("change", () => {
-        state.invert = invertCheck.checked;
-        render();
+        mediaState.invert = invertCheck.checked;
+        renderImage();
       });
 
-      let renderTimeout;
-      function debouncedRender() {
-        clearTimeout(renderTimeout);
-        renderTimeout = setTimeout(render, 150);
+      let renderImgTimeout;
+      function debouncedRenderImage() {
+        clearTimeout(renderImgTimeout);
+        renderImgTimeout = setTimeout(renderImage, 120);
       }
 
-      // Renderização do Canvas e Geração do Blob
-      function render() {
-        if (!state.img) return;
+      function renderImage() {
+        if (!mediaState.imageObj) return;
 
         const canvas = previewCanvas;
         const ctx = canvas.getContext("2d");
 
-        const targetW = Math.max(1, state.currentWidth);
-        const targetH = Math.max(1, state.currentHeight);
+        const targetW = Math.max(1, mediaState.imgWidth);
+        const targetH = Math.max(1, mediaState.imgHeight);
 
         canvas.width = targetW;
         canvas.height = targetH;
 
         ctx.clearRect(0, 0, targetW, targetH);
-
-        // Salva estado de contexto
         ctx.save();
 
-        // Filtros nativos de canvas
         let filters = [];
-        if (state.grayscale) filters.push("grayscale(100%)");
-        if (state.invert) filters.push("invert(100%)");
+        if (mediaState.grayscale) filters.push("grayscale(100%)");
+        if (mediaState.invert) filters.push("invert(100%)");
         ctx.filter = filters.length > 0 ? filters.join(" ") : "none";
 
-        // Aplica transformações (rotação e espelhamento)
         ctx.translate(targetW / 2, targetH / 2);
-        ctx.rotate((state.rotation * Math.PI) / 180);
-        if (state.flipH) {
+        ctx.rotate((mediaState.rotation * Math.PI) / 180);
+        if (mediaState.flipH) {
           ctx.scale(-1, 1);
         }
 
-        // Se a rotação for 90 ou 270, desenha com dimensões invertidas em relação ao centro
-        const isSwapped = state.rotation === 90 || state.rotation === 270;
+        const isSwapped = mediaState.rotation === 90 || mediaState.rotation === 270;
         const drawW = isSwapped ? targetH : targetW;
         const drawH = isSwapped ? targetW : targetH;
 
-        ctx.drawImage(state.img, -drawW / 2, -drawH / 2, drawW, drawH);
+        ctx.drawImage(mediaState.imageObj, -drawW / 2, -drawH / 2, drawW, drawH);
         ctx.restore();
 
-        // Geração do Blob com formato e qualidade selecionados
         canvas.toBlob(
           (blob) => {
             if (!blob) return;
-            state.processedBlob = blob;
+            mediaState.processedImageBlob = blob;
 
             previewMeta.textContent = `${targetW} × ${targetH} px`;
             statNew.textContent = formatBytes(blob.size);
 
-            if (state.origSize > 0) {
-              const diffBytes = blob.size - state.origSize;
-              const diffPct = Math.round((diffBytes / state.origSize) * 100);
+            if (mediaState.file && mediaState.file.size > 0) {
+              const diffBytes = blob.size - mediaState.file.size;
+              const diffPct = Math.round((diffBytes / mediaState.file.size) * 100);
               if (diffPct < 0) {
                 statDiff.textContent = `${diffPct}%`;
                 statDiff.className = "font-mono font-bold mt-0.5 text-emerald-600 dark:text-emerald-400";
@@ -773,24 +1578,23 @@
               }
             }
           },
-          state.format,
-          state.quality
+          mediaState.imgFormat,
+          mediaState.imgQuality
         );
       }
 
-      // Download da imagem
       downloadBtn.addEventListener("click", () => {
-        if (!state.processedBlob) return;
+        if (!mediaState.processedImageBlob) return;
 
         const extMap = {
           "image/webp": "webp",
           "image/jpeg": "jpg",
           "image/png": "png"
         };
-        const ext = extMap[state.format] || "png";
-        const downloadName = `${state.filename}_edit.${ext}`;
+        const ext = extMap[mediaState.imgFormat] || "png";
+        const downloadName = `${mediaState.filename}_convert.${ext}`;
 
-        const url = URL.createObjectURL(state.processedBlob);
+        const url = URL.createObjectURL(mediaState.processedImageBlob);
         const a = document.createElement("a");
         a.href = url;
         a.download = downloadName;
@@ -804,12 +1608,9 @@
         setTimeout(() => { actionStatus.textContent = ""; }, 3000);
       });
 
-      // Copiar para área de transferência
       copyBtn.addEventListener("click", async () => {
         if (!previewCanvas) return;
-
         try {
-          // Clipboard API aceita prioritariamente image/png
           previewCanvas.toBlob(async (blob) => {
             if (!blob) return;
             await navigator.clipboard.write([
