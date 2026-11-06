@@ -169,8 +169,8 @@
             <h1 class="mt-3 text-3xl md:text-4xl font-extrabold">
               Utilitário de PDF
             </h1>
-            <p class="mt-2 text-neutral-600 dark:text-neutral-300 max-w-2xl leading-relaxed">
-              Junte múltiplos arquivos PDF em um único documento, converta imagens em PDF com ordenação personalizada e separe/extraia páginas específicas. Tudo 100% no seu navegador sem limite de tamanho ou envio para servidores.
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+              Junte, separe páginas ou converta imagens em PDF.
             </p>
           </div>
 
@@ -188,7 +188,7 @@
               class="tab-btn pb-3 border-b-2 border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 flex items-center gap-2 whitespace-nowrap cursor-pointer"
               data-tab="img2pdf"
             >
-              <span>🖼️</span> Imagens em PDF
+              <span>🖼️</span> Imagens para PDF
             </button>
             <button
               id="tab-btn-split"
@@ -219,10 +219,10 @@
               <div class="flex flex-col items-center justify-center space-y-2 pointer-events-none">
                 <span class="text-4xl group-hover:scale-110 transition-transform">📑</span>
                 <p class="font-semibold text-neutral-800 dark:text-neutral-200">
-                  Arraste arquivos PDF aqui ou clique para selecionar
+                  Arraste arquivos PDF ou clique para selecionar
                 </p>
                 <p class="text-xs text-neutral-500 dark:text-neutral-400">
-                  Selecione dois ou mais PDFs para combiná-los na ordem desejada
+                  Selecione 2 ou mais arquivos
                 </p>
               </div>
             </div>
@@ -337,15 +337,15 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <label for="img2pdf-pagesize" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
-                      Tamanho da Página:
+                      Tamanho:
                     </label>
                     <select
                       id="img2pdf-pagesize"
                       class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
                     >
-                      <option value="A4" selected>A4 Padrão (210 × 297 mm)</option>
-                      <option value="Letter">Carta / Letter (8.5 × 11 pol)</option>
-                      <option value="Fit">Ajustar ao tamanho exato da imagem</option>
+                      <option value="A4" selected>A4</option>
+                      <option value="Letter">Carta / Letter</option>
+                      <option value="Fit">Ajustar à imagem</option>
                     </select>
                   </div>
 
@@ -357,9 +357,9 @@
                       id="img2pdf-orientation"
                       class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
                     >
-                      <option value="auto" selected>Automática (adapta por imagem)</option>
-                      <option value="portrait">Retrato (Vertical)</option>
-                      <option value="landscape">Paisagem (Horizontal)</option>
+                      <option value="auto" selected>Automática</option>
+                      <option value="portrait">Retrato</option>
+                      <option value="landscape">Paisagem</option>
                     </select>
                   </div>
 
@@ -371,9 +371,9 @@
                       id="img2pdf-margin"
                       class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
                     >
-                      <option value="0" selected>Sem margem (Preencher página)</option>
-                      <option value="20">Pequena (20 pt)</option>
-                      <option value="40">Grande (40 pt)</option>
+                      <option value="0" selected>Sem margem</option>
+                      <option value="20">Pequena</option>
+                      <option value="40">Grande</option>
                     </select>
                   </div>
                 </div>
@@ -381,7 +381,7 @@
                 <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                   <div>
                     <label for="img2pdf-output-name" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
-                      Nome do Arquivo:
+                      Nome do arquivo:
                     </label>
                     <input
                       id="img2pdf-output-name"
@@ -397,7 +397,7 @@
                       type="button"
                       class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
                     >
-                      📄 Gerar Documento PDF
+                      📄 Gerar PDF
                     </button>
                   </div>
                 </div>
@@ -478,10 +478,10 @@
                       <input type="radio" name="split-mode" value="range" checked class="mt-1 text-neutral-900 focus:ring-neutral-500" />
                       <div>
                         <div class="font-semibold text-sm text-neutral-900 dark:text-neutral-100">
-                          Extrair Intervalo Específico
+                          Extrair intervalo
                         </div>
                         <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                          Gera um novo PDF apenas com as páginas selecionadas (ex: páginas 1 a 3 e 5).
+                          Novo PDF com as páginas selecionadas.
                         </p>
                       </div>
                     </label>
@@ -491,10 +491,10 @@
                       <input type="radio" name="split-mode" value="all" class="mt-1 text-neutral-900 focus:ring-neutral-500" />
                       <div>
                         <div class="font-semibold text-sm text-neutral-900 dark:text-neutral-100">
-                          Separar Todas as Páginas
+                          Todas as páginas (.ZIP)
                         </div>
                         <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                          Cada página se torna um PDF individual, compactados em um arquivo .ZIP.
+                          Gera 1 arquivo PDF para cada página.
                         </p>
                       </div>
                     </label>
@@ -505,7 +505,7 @@
                 <!-- Campo de Intervalo de Páginas (visível no modo range) -->
                 <div id="split-range-wrapper" class="space-y-2">
                   <label for="split-range-input" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400">
-                    Páginas para extrair (ex: 1-3, 5, 8-10):
+                    Páginas para extrair (ex: 1-3, 5):
                   </label>
                   <input
                     id="split-range-input"
@@ -514,7 +514,7 @@
                     class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
                   />
                   <p class="text-[11px] text-neutral-500 dark:text-neutral-400" id="split-range-hint">
-                    Use hífens para intervalos e vírgulas para páginas soltas. Total disponível: <span id="split-hint-max">0</span> páginas.
+                    Total disponível: <span id="split-hint-max">0</span> páginas.
                   </p>
                 </div>
 
@@ -523,9 +523,9 @@
                   <button
                     id="split-btn"
                     type="button"
-                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-3 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
                   >
-                    ✂️ Processar e Baixar PDF Separado
+                    ✂️ Separar PDF
                   </button>
                   <div id="split-status" class="hidden text-xs text-center font-medium mt-3 min-h-[1.5rem]"></div>
                 </div>
@@ -536,16 +536,9 @@
 
           </div>
 
-          <!-- Informações de Privacidade -->
-          <div class="rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-white/40 dark:bg-neutral-900/40 p-6 text-sm text-neutral-600 dark:text-neutral-400 flex items-start gap-4">
-            <span class="text-2xl">🔒</span>
-            <div>
-              <div class="font-semibold text-neutral-900 dark:text-neutral-100">Privacidade Absoluta dos Documentos</div>
-              <p class="mt-1 leading-relaxed">
-                Todas as operações de fusão, extração de páginas e conversão de imagens utilizam a biblioteca client-side <code>pdf-lib</code> e <code>JSZip</code> no seu próprio navegador. Seus contratos, relatórios e documentos nunca são carregados para nenhum servidor ou nuvem.
-              </p>
-            </div>
-          </div>
+          <p class="text-xs text-neutral-400 dark:text-neutral-500 text-center pt-4">
+            Processamento local no navegador. Nenhum arquivo é enviado para servidores.
+          </p>
 
         </div>
       </main>

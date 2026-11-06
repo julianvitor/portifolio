@@ -185,10 +185,10 @@
           <div>
             <span class="text-4xl">🎬</span>
             <h1 class="mt-3 text-3xl md:text-4xl font-extrabold">
-              Conversor Multimídia Universal
+              Conversor Multimídia
             </h1>
-            <p class="mt-2 text-neutral-600 dark:text-neutral-300 max-w-2xl leading-relaxed">
-              Extraia áudio de vídeos em MP3/WAV, transforme vídeos em GIFs animados e converta/redimensione imagens entre formatos. Processamento 100% privado e local no seu navegador.
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+              Extraia áudio de vídeos, gere GIFs animados e converta imagens.
             </p>
           </div>
 
@@ -196,24 +196,24 @@
           <div class="flex border-b border-neutral-200 dark:border-neutral-800 gap-6 text-sm font-medium">
             <button
               id="tab-btn-video-audio"
-              class="tab-btn pb-3 border-b-2 border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 flex items-center gap-2"
+              class="tab-btn pb-3 border-b-2 border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 flex items-center gap-2 cursor-pointer"
               data-tab="video-audio"
             >
-              <span>🎵</span> Vídeo para Áudio
+              <span>🎵</span> Áudio (MP3/WAV)
             </button>
             <button
               id="tab-btn-video-gif"
-              class="tab-btn pb-3 border-b-2 border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 flex items-center gap-2"
+              class="tab-btn pb-3 border-b-2 border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 flex items-center gap-2 cursor-pointer"
               data-tab="video-gif"
             >
-              <span>🎞️</span> Vídeo para GIF
+              <span>🎞️</span> GIF Animado
             </button>
             <button
               id="tab-btn-image"
-              class="tab-btn pb-3 border-b-2 tab-active text-neutral-900 dark:text-neutral-100 flex items-center gap-2"
+              class="tab-btn pb-3 border-b-2 tab-active text-neutral-900 dark:text-neutral-100 flex items-center gap-2 cursor-pointer"
               data-tab="image"
             >
-              <span>🖼️</span> Conversor de Imagens
+              <span>🖼️</span> Imagens
             </button>
           </div>
 
@@ -234,14 +234,14 @@
                 Arraste um vídeo, áudio ou imagem aqui
               </p>
               <p class="text-xs text-neutral-500 dark:text-neutral-400" id="dropzone-subtitle">
-                Suporta MP4, WebM, MOV, MKV, AVI, PNG, JPG, WebP, GIF, SVG e BMP
+                MP4, WebM, MOV, MKV, PNG, JPG, WebP
               </p>
               <button
                 id="load-sample-btn"
                 type="button"
-                class="mt-2 pointer-events-auto inline-flex items-center text-xs text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 underline decoration-dotted"
+                class="mt-2 pointer-events-auto inline-flex items-center text-xs text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 underline decoration-dotted"
               >
-                ou carregar arquivo de teste
+                ou carregar exemplo
               </button>
             </div>
           </div>
@@ -288,29 +288,29 @@
                   <div class="space-y-4">
                     <div>
                       <label for="audio-format-select" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
-                        Formato de Saída:
+                        Formato:
                       </label>
                       <select
                         id="audio-format-select"
-                        class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
+                        class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
                       >
-                        <option value="mp3" selected>MP3 (Universal, leve e compatível)</option>
-                        <option value="wav">WAV (Sem perdas, PCM 16-bit Master)</option>
+                        <option value="mp3" selected>MP3</option>
+                        <option value="wav">WAV</option>
                       </select>
                     </div>
 
                     <div id="mp3-bitrate-wrapper">
                       <label for="audio-bitrate-select" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
-                        Qualidade / Taxa de Bits:
+                        Taxa de bits:
                       </label>
                       <select
                         id="audio-bitrate-select"
                         class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
                       >
-                        <option value="128">128 kbps (Padrão web)</option>
-                        <option value="192" selected>192 kbps (Alta qualidade - Recomendado)</option>
-                        <option value="256">256 kbps (Muito alta)</option>
-                        <option value="320">320 kbps (Máxima fidelidade)</option>
+                        <option value="128">128 kbps</option>
+                        <option value="192" selected>192 kbps</option>
+                        <option value="256">256 kbps</option>
+                        <option value="320">320 kbps</option>
                       </select>
                     </div>
 
@@ -321,11 +321,11 @@
                       <div class="flex gap-4 text-xs">
                         <label class="flex items-center gap-1.5 cursor-pointer">
                           <input type="radio" name="audio-channels" value="stereo" checked class="text-neutral-900 focus:ring-neutral-500" />
-                          <span>Estéreo (2 canais)</span>
+                          <span>Estéreo</span>
                         </label>
                         <label class="flex items-center gap-1.5 cursor-pointer">
                           <input type="radio" name="audio-channels" value="mono" class="text-neutral-900 focus:ring-neutral-500" />
-                          <span>Mono (1 canal)</span>
+                          <span>Mono</span>
                         </label>
                       </div>
                     </div>
@@ -337,7 +337,10 @@
                   <button
                     id="extract-audio-btn"
                     type="button"
-                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-3 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
+                  >
+                    🎵 Extrair Áudio
+                  </button>
                   >
                     🎵 Extrair e Converter Áudio
                   </button>
@@ -436,30 +439,30 @@
                     <!-- Resolução / Largura -->
                     <div>
                       <label for="gif-width" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
-                        Largura do GIF:
+                        Largura:
                       </label>
                       <select
                         id="gif-width"
                         class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
                       >
-                        <option value="240">Pequeno (240px - Mais leve)</option>
-                        <option value="360" selected>Médio (360px - Recomendado)</option>
-                        <option value="480">Grande (480px - Alta definição)</option>
+                        <option value="240">240px</option>
+                        <option value="360" selected>360px</option>
+                        <option value="480">480px</option>
                       </select>
                     </div>
 
                     <!-- Taxa de Quadros (FPS) -->
                     <div>
                       <label for="gif-fps" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
-                        Taxa de Quadros (FPS):
+                        Taxa de quadros:
                       </label>
                       <select
                         id="gif-fps"
                         class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
                       >
-                        <option value="8">8 FPS (Arquivo bem pequeno)</option>
-                        <option value="10" selected>10 FPS (Equilíbrio ideal)</option>
-                        <option value="15">15 FPS (Animação bem fluida)</option>
+                        <option value="8">8 FPS</option>
+                        <option value="10" selected>10 FPS</option>
+                        <option value="15">15 FPS</option>
                       </select>
                     </div>
                   </div>
@@ -470,9 +473,9 @@
                   <button
                     id="create-gif-btn"
                     type="button"
-                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-3 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer disabled:opacity-50"
                   >
-                    🎞️ Gerar GIF Animado
+                    🎞️ Gerar GIF
                   </button>
 
                   <!-- Barra de Progresso GIF -->
@@ -614,21 +617,21 @@
                   <div class="space-y-3">
                     <div>
                       <label for="format-select" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
-                        Formato de Destino:
+                        Formato:
                       </label>
                       <select
                         id="format-select"
                         class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
                       >
-                        <option value="image/webp" selected>WebP (Mais leve e moderno)</option>
-                        <option value="image/jpeg">JPEG (Fotográfico com compressão)</option>
-                        <option value="image/png">PNG (Lossless com transparência)</option>
+                        <option value="image/webp" selected>WebP</option>
+                        <option value="image/jpeg">JPEG</option>
+                        <option value="image/png">PNG</option>
                       </select>
                     </div>
 
                     <div id="quality-wrapper">
                       <div class="flex justify-between items-center text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
-                        <span>Qualidade da Compressão:</span>
+                        <span>Qualidade:</span>
                         <span id="quality-value" class="font-mono text-neutral-900 dark:text-neutral-100">85%</span>
                       </div>
                       <input
@@ -639,9 +642,6 @@
                         value="85"
                         class="w-full h-2 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-neutral-900 dark:accent-neutral-100"
                       />
-                      <p class="text-[11px] text-neutral-400 mt-1">
-                        Valores entre 75% e 85% oferecem a melhor relação peso/qualidade visual.
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -684,16 +684,16 @@
                   <button
                     id="download-btn"
                     type="button"
-                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-3 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm cursor-pointer"
                   >
-                    📥 Baixar Imagem Processada
+                    📥 Baixar Imagem
                   </button>
                   <button
                     id="copy-btn"
                     type="button"
-                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 dark:border-neutral-700 text-xs font-medium px-4 py-2.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition cursor-pointer"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 dark:border-neutral-700 text-xs font-medium px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition cursor-pointer"
                   >
-                    📋 Copiar para Área de Transferência
+                    📋 Copiar
                   </button>
                   <div id="action-status" class="text-xs text-center font-medium min-h-[1.25rem]"></div>
                 </div>
@@ -706,7 +706,7 @@
                 <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm">
                   <div class="flex items-center justify-between pb-3 border-b border-neutral-200 dark:border-neutral-800 text-xs">
                     <span class="font-semibold text-neutral-700 dark:text-neutral-300">
-                      Pré-visualização da Imagem
+                      Pré-visualização
                     </span>
                     <span id="preview-meta" class="font-mono text-neutral-500 dark:text-neutral-400">
                       Calculando...
@@ -740,16 +740,9 @@
             </div>
           </div>
 
-          <!-- Informações de Segurança / Privacidade -->
-          <div class="rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-white/40 dark:bg-neutral-900/40 p-6 text-sm text-neutral-600 dark:text-neutral-400 flex items-start gap-4">
-            <span class="text-2xl">🔒</span>
-            <div>
-              <div class="font-semibold text-neutral-900 dark:text-neutral-100">Execução 100% Local no Navegador</div>
-              <p class="mt-1 leading-relaxed">
-                Nenhum byte de vídeo, áudio ou imagem é enviado para servidores. A decodificação de áudio, a amostragem de quadros para GIF e as conversões de imagem utilizam Web Audio API, Canvas e Web Workers diretamente na memória do seu dispositivo.
-              </p>
-            </div>
-          </div>
+          <p class="text-xs text-neutral-400 dark:text-neutral-500 text-center pt-4">
+            Processamento local no navegador. Nenhum arquivo é enviado para servidores.
+          </p>
 
         </div>
       </main>

@@ -162,8 +162,8 @@
             <h1 class="mt-3 text-3xl md:text-4xl font-extrabold">
               Gerador de QR Code
             </h1>
-            <p class="mt-2 text-neutral-600 dark:text-neutral-300 max-w-xl leading-relaxed">
-              Crie QR codes instantâneos e customizados para sites, redes Wi-Fi, textos ou pagamentos. 100% executado no seu navegador.
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+              Gere QR codes para URLs, textos ou chaves PIX.
             </p>
           </div>
 
@@ -173,14 +173,14 @@
               <!-- Controles -->
               <div class="space-y-4">
                 <div>
-                  <label for="qr-text" class="block text-sm font-semibold mb-1 text-neutral-700 dark:text-neutral-300">
-                    Conteúdo ou Link:
+                  <label for="qr-text" class="block text-xs font-semibold mb-1 text-neutral-600 dark:text-neutral-400">
+                    Conteúdo ou URL:
                   </label>
                   <textarea
                     id="qr-text"
                     rows="4"
                     class="w-full rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
-                    placeholder="https://... ou qualquer texto"
+                    placeholder="https://... ou texto"
                   >https://github.com/julianvitor</textarea>
                 </div>
 
@@ -193,43 +193,43 @@
                       id="qr-size"
                       class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
                     >
-                      <option value="160">Pequeno (160px)</option>
-                      <option value="220" selected>Médio (220px)</option>
-                      <option value="300">Grande (300px)</option>
-                      <option value="420">HD (420px)</option>
+                      <option value="160">160px</option>
+                      <option value="220" selected>220px</option>
+                      <option value="300">300px</option>
+                      <option value="420">420px</option>
                     </select>
                   </div>
 
                   <div>
                     <label for="qr-error" class="block text-xs font-semibold mb-1 text-neutral-600 dark:text-neutral-400">
-                      Correção de Erro:
+                      Correção de erro:
                     </label>
                     <select
                       id="qr-error"
                       class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
                     >
-                      <option value="L">L (7% de recuperação)</option>
-                      <option value="M">M (15% de recuperação)</option>
-                      <option value="Q">Q (25% de recuperação)</option>
-                      <option value="H" selected>H (30% - Alta resiliência)</option>
+                      <option value="L">Baixa (L)</option>
+                      <option value="M">Média (M)</option>
+                      <option value="Q">Alta (Q)</option>
+                      <option value="H" selected>Máxima (H)</option>
                     </select>
                   </div>
                 </div>
 
-                <div class="flex flex-wrap gap-2 pt-3">
+                <div class="flex flex-wrap gap-2 pt-2">
                   <button
                     id="qr-download-btn"
                     type="button"
-                    class="inline-flex items-center gap-1.5 rounded-full bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-xs font-semibold px-5 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition"
+                    class="inline-flex items-center gap-1.5 rounded-full bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-xs font-semibold px-4 py-2 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition"
                   >
-                    📥 Baixar Imagem PNG
+                    📥 Baixar PNG
                   </button>
                   <button
                     id="qr-copy-btn"
                     type="button"
-                    class="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 dark:border-neutral-700 text-xs font-medium px-4 py-2.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition"
+                    class="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 dark:border-neutral-700 text-xs font-medium px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition"
                   >
-                    📋 Copiar Imagem
+                    📋 Copiar
                   </button>
                 </div>
               </div>
