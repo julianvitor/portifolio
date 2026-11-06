@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editor & Conversor de Mídia — Julian Carreiro</title>
+    <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="../../assets/icons/favicon.ico" />
+
+    <script>
+      (function () {
+        const stored = localStorage.getItem('theme');
+        const prefersDark =
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = stored || (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
+
+    <style type="text/tailwindcss">
+      @custom-variant dark (&:where(.dark, .dark *));
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="../../assets/js/theme.js" defer></script>
+    <script src="../../assets/js/oneko.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+    <style>
+      body {
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+          Cantarell, Noto Sans, sans-serif;
+      }
+      .checkerboard {
+        background-color: #f3f4f6;
+        background-image: 
+          linear-gradient(45deg, #e5e7eb 25%, transparent 25%), 
+          linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), 
+          linear-gradient(45deg, transparent 75%, #e5e7eb 75%), 
+          linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+        background-size: 16px 16px;
+        background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+      }
+      .dark .checkerboard {
+        background-color: #171717;
+        background-image: 
+          linear-gradient(45deg, #262626 25%, transparent 25%), 
+          linear-gradient(-45deg, #262626 25%, transparent 25%), 
+          linear-gradient(45deg, transparent 75%, #262626 75%), 
+          linear-gradient(-45deg, transparent 75%, #262626 75%);
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen bg-gray-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100">
+    <button
+      id="menuBtn"
+      class="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-neutral-200 dark:bg-neutral-800"
+    >
+      ☰
+    </button>
+    <div class="min-h-screen flex flex-col lg:flex-row">
+      <div
+        id="overlay"
+        class="fixed inset-0 bg-black/50 hidden lg:hidden z-40"
+      ></div>
+
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-50 w-56 bg-neutral-50 dark:bg-neutral-950 border-r border-neutral-200 dark:border-neutral-800 h-screen overflow-y-auto -translate-x-full transition-transform duration-200 lg:translate-x-0"
+      >
+        <div class="p-6">
+          <div class="flex items-center gap-3">
+            <img
+              src="../../assets/images/profile.jpg"
+              alt="Avatar"
+              class="h-10 w-10 rounded-full object-cover"
+            />
+            <div class="text-sm">
+              <div class="font-semibold">Julian Carreiro</div>
+              <div class="text-neutral-500 dark:text-neutral-400">Software & Hardware</div>
+            </div>
+          </div>
+
+          <nav class="mt-6 space-y-1 text-sm">
+            <a
+              href="../../index.html"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+              >Início</a
+            >
+            <a
+              href="../../index.html#sobre"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+              >Sobre</a
+            >
+            <a
+              href="../projects.html"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+              >Projetos</a
+            >
+            <a
+              href="../blog.html"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+              >Artigos</a
+            >
+            <a
+              href="../tools.html"
+              class="block rounded-md px-2 py-2 bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 font-semibold shadow-sm"
+              >Utilidades</a
+            >
+            <a
+              href="../../index.html#contato"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+              >Contato</a
+            >
+          </nav>
+
+          <div class="mt-4">
+            <button
+              id="theme-toggle"
+              type="button"
+              class="w-full rounded-md px-2 py-2 text-sm font-semibold bg-neutral-200 text-neutral-900 border border-neutral-300/60 dark:bg-neutral-800/60 dark:text-neutral-50 dark:border-neutral-700/60 hover:bg-neutral-300/70 dark:hover:bg-neutral-700/60 hover:-translate-y-px active:translate-y-0 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
+            >
+              Tema
+            </button>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-800">
+            <div
+              class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide"
+            >
+              Redes Sociais
+            </div>
+            <div class="mt-2 space-y-1 text-sm">
+              <a
+                href="https://github.com/julianvitor"
+                target="_blank"
+                rel="noreferrer"
+                class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40"
+                >GitHub</a
+              >
+              <a
+                href="https://www.linkedin.com/in/julian-carreiro/"
+                target="_blank"
+                rel="noreferrer"
+                class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40"
+                >LinkedIn</a
+              >
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Conteúdo da Ferramenta -->
+      <main class="flex-1 lg:ml-56">
+        <div class="max-w-5xl mx-auto px-4 md:px-10 py-12 md:py-20 space-y-8">
+          
+          <a
+            href="../tools.html"
+            class="inline-flex items-center text-sm text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
+          >
+            ← Voltar para Utilidades
+          </a>
+
+          <div>
+            <span class="text-4xl">🖼️</span>
+            <h1 class="mt-3 text-3xl md:text-4xl font-extrabold">
+              Editor & Conversor de Mídia
+            </h1>
+            <p class="mt-2 text-neutral-600 dark:text-neutral-300 max-w-2xl leading-relaxed">
+              Redimensione, comprima e converta imagens (WebP, PNG, JPEG) diretamente no seu navegador. Rápido, leve e com 100% de privacidade.
+            </p>
+          </div>
+
+          <!-- Área de Upload / Dropzone -->
+          <div
+            id="dropzone"
+            class="group relative cursor-pointer rounded-2xl border-2 border-dashed border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-8 text-center hover:border-neutral-500 dark:hover:border-neutral-500 transition-colors shadow-sm"
+          >
+            <input
+              id="file-input"
+              type="file"
+              accept="image/*"
+              class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            />
+            <div class="flex flex-col items-center justify-center space-y-2 pointer-events-none">
+              <span class="text-4xl group-hover:scale-110 transition-transform">📁</span>
+              <p class="font-semibold text-neutral-800 dark:text-neutral-200">
+                Arraste uma imagem ou clique para selecionar
+              </p>
+              <p class="text-xs text-neutral-500 dark:text-neutral-400">
+                Suporta PNG, JPEG, WebP, GIF, SVG e BMP (Processamento 100% local)
+              </p>
+              <button
+                id="load-sample-btn"
+                type="button"
+                class="mt-2 pointer-events-auto inline-flex items-center text-xs text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 underline decoration-dotted"
+              >
+                ou carregar imagem de exemplo
+              </button>
+            </div>
+          </div>
+
+          <!-- Painel do Editor (oculto até carregar imagem) -->
+          <div id="editor-panel" class="hidden space-y-8">
+            
+            <!-- Barra de informações do arquivo original -->
+            <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-xs">
+              <div class="flex items-center gap-3">
+                <span class="font-semibold text-sm text-neutral-900 dark:text-neutral-100 truncate max-w-xs" id="info-name">
+                  imagem.png
+                </span>
+                <span class="px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 font-mono" id="info-original-dim">
+                  0 × 0 px
+                </span>
+                <span class="px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 font-mono" id="info-original-size">
+                  0 KB
+                </span>
+              </div>
+              <button
+                id="clear-btn"
+                type="button"
+                class="text-red-600 dark:text-red-400 hover:underline font-medium"
+              >
+                ✕ Remover imagem
+              </button>
+            </div>
+
+            <!-- Grid de Controles e Preview -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              
+              <!-- Coluna de Controles (5 colunas) -->
+              <div class="lg:col-span-5 space-y-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm">
+                
+                <!-- Dimensões & Redimensionamento -->
+                <div>
+                  <h3 class="text-sm font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-3">
+                    1. Dimensões
+                  </h3>
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <label for="width-input" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                        Largura (px):
+                      </label>
+                      <input
+                        id="width-input"
+                        type="number"
+                        min="1"
+                        max="10000"
+                        class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
+                      />
+                    </div>
+                    <div>
+                      <label for="height-input" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                        Altura (px):
+                      </label>
+                      <input
+                        id="height-input"
+                        type="number"
+                        min="1"
+                        max="10000"
+                        class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500 font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Proporção e Atalhos -->
+                  <div class="mt-3 flex items-center justify-between">
+                    <label class="flex items-center gap-2 text-xs text-neutral-700 dark:text-neutral-300 cursor-pointer select-none">
+                      <input
+                        id="aspect-lock"
+                        type="checkbox"
+                        checked
+                        class="rounded border-neutral-300 dark:border-neutral-700 text-neutral-900 focus:ring-neutral-500"
+                      />
+                      <span>Manter proporção</span>
+                    </label>
+
+                    <div class="flex gap-1">
+                      <button type="button" data-scale="0.25" class="scale-btn text-[11px] px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 font-mono">25%</button>
+                      <button type="button" data-scale="0.5" class="scale-btn text-[11px] px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 font-mono">50%</button>
+                      <button type="button" data-scale="0.75" class="scale-btn text-[11px] px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 font-mono">75%</button>
+                      <button type="button" data-scale="1" class="scale-btn text-[11px] px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 font-mono">100%</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Formato de Saída -->
+                <div class="pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                  <h3 class="text-sm font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-3">
+                    2. Formato & Qualidade
+                  </h3>
+                  <div class="space-y-3">
+                    <div>
+                      <label for="format-select" class="block text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                        Formato de Destino:
+                      </label>
+                      <select
+                        id="format-select"
+                        class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-500"
+                      >
+                        <option value="image/webp" selected>WebP (Mais leve e moderno)</option>
+                        <option value="image/jpeg">JPEG (Fotográfico com compressão)</option>
+                        <option value="image/png">PNG (Lossless com transparência)</option>
+                      </select>
+                    </div>
+
+                    <div id="quality-wrapper">
+                      <div class="flex justify-between items-center text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-1">
+                        <span>Qualidade da Compressão:</span>
+                        <span id="quality-value" class="font-mono text-neutral-900 dark:text-neutral-100">85%</span>
+                      </div>
+                      <input
+                        id="quality-slider"
+                        type="range"
+                        min="10"
+                        max="100"
+                        value="85"
+                        class="w-full h-2 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-neutral-900 dark:accent-neutral-100"
+                      />
+                      <p class="text-[11px] text-neutral-400 mt-1">
+                        Valores entre 75% e 85% oferecem a melhor relação peso/qualidade visual.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Transformações e Efeitos Rápidos -->
+                <div class="pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                  <h3 class="text-sm font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-3">
+                    3. Orientação & Efeitos
+                  </h3>
+                  <div class="grid grid-cols-2 gap-2">
+                    <button
+                      id="rotate-btn"
+                      type="button"
+                      class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium"
+                    >
+                      🔄 Girar 90°
+                    </button>
+                    <button
+                      id="flip-h-btn"
+                      type="button"
+                      class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-950 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs font-medium"
+                    >
+                      ↔️ Espelhar
+                    </button>
+                  </div>
+                  <div class="mt-2 flex items-center justify-between text-xs">
+                    <label class="flex items-center gap-2 text-neutral-700 dark:text-neutral-300 cursor-pointer">
+                      <input id="grayscale-check" type="checkbox" class="rounded border-neutral-300 text-neutral-900 focus:ring-neutral-500" />
+                      <span>Preto e Branco</span>
+                    </label>
+                    <label class="flex items-center gap-2 text-neutral-700 dark:text-neutral-300 cursor-pointer">
+                      <input id="invert-check" type="checkbox" class="rounded border-neutral-300 text-neutral-900 focus:ring-neutral-500" />
+                      <span>Inverter Cores</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Ações principais -->
+                <div class="pt-4 border-t border-neutral-200 dark:border-neutral-800 flex flex-col gap-2">
+                  <button
+                    id="download-btn"
+                    type="button"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-3 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition shadow-sm"
+                  >
+                    📥 Baixar Imagem Processada
+                  </button>
+                  <button
+                    id="copy-btn"
+                    type="button"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 dark:border-neutral-700 text-xs font-medium px-4 py-2.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition"
+                  >
+                    📋 Copiar para Área de Transferência
+                  </button>
+                  <div id="action-status" class="text-xs text-center font-medium min-h-[1.25rem]"></div>
+                </div>
+
+              </div>
+
+              <!-- Coluna de Preview (7 colunas) -->
+              <div class="lg:col-span-7 space-y-4">
+                
+                <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm">
+                  <div class="flex items-center justify-between pb-3 border-b border-neutral-200 dark:border-neutral-800 text-xs">
+                    <span class="font-semibold text-neutral-700 dark:text-neutral-300">
+                      Pré-visualização em Tempo Real
+                    </span>
+                    <span id="preview-meta" class="font-mono text-neutral-500 dark:text-neutral-400">
+                      Calculando...
+                    </span>
+                  </div>
+
+                  <!-- Container com checkerboard para avaliar transparência -->
+                  <div class="relative mt-4 flex items-center justify-center min-h-[380px] max-h-[560px] overflow-auto rounded-xl checkerboard p-4 border border-neutral-200 dark:border-neutral-800">
+                    <canvas id="preview-canvas" class="max-w-full max-h-[500px] object-contain shadow-md rounded"></canvas>
+                  </div>
+
+                  <!-- Resumo Comparativo de Tamanho -->
+                  <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
+                    <div class="p-2.5 rounded-lg bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
+                      <div class="text-neutral-500 dark:text-neutral-400 text-[11px]">Original</div>
+                      <div id="stat-orig" class="font-mono font-semibold mt-0.5">-</div>
+                    </div>
+                    <div class="p-2.5 rounded-lg bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
+                      <div class="text-neutral-500 dark:text-neutral-400 text-[11px]">Novo Estimado</div>
+                      <div id="stat-new" class="font-mono font-semibold mt-0.5 text-emerald-600 dark:text-emerald-400">-</div>
+                    </div>
+                    <div class="p-2.5 rounded-lg bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
+                      <div class="text-neutral-500 dark:text-neutral-400 text-[11px]">Economia</div>
+                      <div id="stat-diff" class="font-mono font-bold mt-0.5 text-emerald-600 dark:text-emerald-400">-</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Informações Técnicas e de Privacidade -->
+          <div class="rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-white/40 dark:bg-neutral-900/40 p-6 text-sm text-neutral-600 dark:text-neutral-400 flex items-start gap-4">
+            <span class="text-2xl">🔒</span>
+            <div>
+              <div class="font-semibold text-neutral-900 dark:text-neutral-100">Zero Envio para Servidores</div>
+              <p class="mt-1 leading-relaxed">
+                Todas as transformações, cálculos de matriz de cor, rotações e codificações para WebP/JPEG/PNG acontecem via HTML5 Canvas e Web APIs no processador da sua própria máquina. Seus arquivos nunca saem do seu navegador.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+    <!-- Script de Processamento de Mídia -->
+    <script>
+      // Sidebar mobile
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const menuBtn = document.getElementById("menuBtn");
+
+      menuBtn?.addEventListener("click", () => {
+        sidebar.classList.remove("-translate-x-full");
+        overlay.classList.remove("hidden");
+      });
+      overlay?.addEventListener("click", () => {
+        sidebar.classList.add("-translate-x-full");
+        overlay.classList.add("hidden");
+      });
+
+      // Estado do Editor
+      const state = {
+        img: null,
+        filename: "imagem",
+        origWidth: 0,
+        origHeight: 0,
+        origSize: 0,
+        currentWidth: 0,
+        currentHeight: 0,
+        rotation: 0,
+        flipH: false,
+        grayscale: false,
+        invert: false,
+        format: "image/webp",
+        quality: 0.85,
+        aspectRatio: 1,
+        processedBlob: null
+      };
+
+      // Elementos do DOM
+      const dropzone = document.getElementById("dropzone");
+      const fileInput = document.getElementById("file-input");
+      const loadSampleBtn = document.getElementById("load-sample-btn");
+      const editorPanel = document.getElementById("editor-panel");
+      const clearBtn = document.getElementById("clear-btn");
+
+      const infoName = document.getElementById("info-name");
+      const infoOriginalDim = document.getElementById("info-original-dim");
+      const infoOriginalSize = document.getElementById("info-original-size");
+
+      const widthInput = document.getElementById("width-input");
+      const heightInput = document.getElementById("height-input");
+      const aspectLock = document.getElementById("aspect-lock");
+      const scaleBtns = document.querySelectorAll(".scale-btn");
+
+      const formatSelect = document.getElementById("format-select");
+      const qualityWrapper = document.getElementById("quality-wrapper");
+      const qualitySlider = document.getElementById("quality-slider");
+      const qualityValue = document.getElementById("quality-value");
+
+      const rotateBtn = document.getElementById("rotate-btn");
+      const flipHBtn = document.getElementById("flip-h-btn");
+      const grayscaleCheck = document.getElementById("grayscale-check");
+      const invertCheck = document.getElementById("invert-check");
+
+      const downloadBtn = document.getElementById("download-btn");
+      const copyBtn = document.getElementById("copy-btn");
+      const actionStatus = document.getElementById("action-status");
+
+      const previewCanvas = document.getElementById("preview-canvas");
+      const previewMeta = document.getElementById("preview-meta");
+      const statOrig = document.getElementById("stat-orig");
+      const statNew = document.getElementById("stat-new");
+      const statDiff = document.getElementById("stat-diff");
+
+      function formatBytes(bytes) {
+        if (!bytes || bytes === 0) return "0 B";
+        const k = 1024;
+        const sizes = ["B", "KB", "MB", "GB"];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
+      }
+
+      // Carregar arquivo de imagem
+      function handleFile(file) {
+        if (!file || !file.type.startsWith("image/")) {
+          alert("Por favor, selecione um arquivo de imagem válido.");
+          return;
+        }
+
+        state.filename = file.name.replace(/\.[^/.]+$/, "");
+        state.origSize = file.size;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            state.img = img;
+            state.origWidth = img.naturalWidth;
+            state.origHeight = img.naturalHeight;
+            state.currentWidth = img.naturalWidth;
+            state.currentHeight = img.naturalHeight;
+            state.aspectRatio = img.naturalWidth / img.naturalHeight;
+            state.rotation = 0;
+            state.flipH = false;
+            state.grayscale = false;
+            state.invert = false;
+            grayscaleCheck.checked = false;
+            invertCheck.checked = false;
+
+            // Preenche infos
+            infoName.textContent = file.name;
+            infoOriginalDim.textContent = `${img.naturalWidth} × ${img.naturalHeight} px`;
+            infoOriginalSize.textContent = formatBytes(file.size);
+            statOrig.textContent = formatBytes(file.size);
+
+            widthInput.value = img.naturalWidth;
+            heightInput.value = img.naturalHeight;
+
+            dropzone.classList.add("hidden");
+            editorPanel.classList.remove("hidden");
+
+            render();
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // Input file listener
+      fileInput.addEventListener("change", (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleFile(e.target.files[0]);
+        }
+      });
+
+      // Drag and drop listeners
+      ["dragenter", "dragover"].forEach((eventName) => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add("border-neutral-900", "dark:border-neutral-100");
+        });
+      });
+
+      ["dragleave", "drop"].forEach((eventName) => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove("border-neutral-900", "dark:border-neutral-100");
+        });
+      });
+
+      dropzone.addEventListener("drop", (e) => {
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      // Carregar exemplo
+      loadSampleBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        fetch("../../assets/images/profile.jpg")
+          .then((res) => res.blob())
+          .then((blob) => {
+            const file = new File([blob], "profile.jpg", { type: "image/jpeg" });
+            handleFile(file);
+          })
+          .catch(() => {
+            alert("Não foi possível carregar a imagem de exemplo.");
+          });
+      });
+
+      // Botão Limpar / Trocar
+      clearBtn.addEventListener("click", () => {
+        state.img = null;
+        fileInput.value = "";
+        dropzone.classList.remove("hidden");
+        editorPanel.classList.add("hidden");
+      });
+
+      // Controle de Largura/Altura
+      widthInput.addEventListener("input", () => {
+        const w = parseInt(widthInput.value, 10);
+        if (w > 0) {
+          state.currentWidth = w;
+          if (aspectLock.checked) {
+            const h = Math.round(w / state.aspectRatio);
+            state.currentHeight = h;
+            heightInput.value = h;
+          }
+          debouncedRender();
+        }
+      });
+
+      heightInput.addEventListener("input", () => {
+        const h = parseInt(heightInput.value, 10);
+        if (h > 0) {
+          state.currentHeight = h;
+          if (aspectLock.checked) {
+            const w = Math.round(h * state.aspectRatio);
+            state.currentWidth = w;
+            widthInput.value = w;
+          }
+          debouncedRender();
+        }
+      });
+
+      // Botões de escala %
+      scaleBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const factor = parseFloat(btn.dataset.scale);
+          state.currentWidth = Math.max(1, Math.round(state.origWidth * factor));
+          state.currentHeight = Math.max(1, Math.round(state.origHeight * factor));
+          widthInput.value = state.currentWidth;
+          heightInput.value = state.currentHeight;
+          render();
+        });
+      });
+
+      // Seleção de formato e slider de qualidade
+      formatSelect.addEventListener("change", () => {
+        state.format = formatSelect.value;
+        if (state.format === "image/png") {
+          qualityWrapper.classList.add("opacity-50", "pointer-events-none");
+        } else {
+          qualityWrapper.classList.remove("opacity-50", "pointer-events-none");
+        }
+        render();
+      });
+
+      qualitySlider.addEventListener("input", () => {
+        state.quality = parseInt(qualitySlider.value, 10) / 100;
+        qualityValue.textContent = qualitySlider.value + "%";
+        debouncedRender();
+      });
+
+      // Efeitos e rotação
+      rotateBtn.addEventListener("click", () => {
+        state.rotation = (state.rotation + 90) % 360;
+        // Inverte dimensões em 90 ou 270 graus
+        const temp = state.currentWidth;
+        state.currentWidth = state.currentHeight;
+        state.currentHeight = temp;
+        state.aspectRatio = state.currentWidth / state.currentHeight;
+        widthInput.value = state.currentWidth;
+        heightInput.value = state.currentHeight;
+        render();
+      });
+
+      flipHBtn.addEventListener("click", () => {
+        state.flipH = !state.flipH;
+        render();
+      });
+
+      grayscaleCheck.addEventListener("change", () => {
+        state.grayscale = grayscaleCheck.checked;
+        render();
+      });
+
+      invertCheck.addEventListener("change", () => {
+        state.invert = invertCheck.checked;
+        render();
+      });
+
+      let renderTimeout;
+      function debouncedRender() {
+        clearTimeout(renderTimeout);
+        renderTimeout = setTimeout(render, 150);
+      }
+
+      // Renderização do Canvas e Geração do Blob
+      function render() {
+        if (!state.img) return;
+
+        const canvas = previewCanvas;
+        const ctx = canvas.getContext("2d");
+
+        const targetW = Math.max(1, state.currentWidth);
+        const targetH = Math.max(1, state.currentHeight);
+
+        canvas.width = targetW;
+        canvas.height = targetH;
+
+        ctx.clearRect(0, 0, targetW, targetH);
+
+        // Salva estado de contexto
+        ctx.save();
+
+        // Filtros nativos de canvas
+        let filters = [];
+        if (state.grayscale) filters.push("grayscale(100%)");
+        if (state.invert) filters.push("invert(100%)");
+        ctx.filter = filters.length > 0 ? filters.join(" ") : "none";
+
+        // Aplica transformações (rotação e espelhamento)
+        ctx.translate(targetW / 2, targetH / 2);
+        ctx.rotate((state.rotation * Math.PI) / 180);
+        if (state.flipH) {
+          ctx.scale(-1, 1);
+        }
+
+        // Se a rotação for 90 ou 270, desenha com dimensões invertidas em relação ao centro
+        const isSwapped = state.rotation === 90 || state.rotation === 270;
+        const drawW = isSwapped ? targetH : targetW;
+        const drawH = isSwapped ? targetW : targetH;
+
+        ctx.drawImage(state.img, -drawW / 2, -drawH / 2, drawW, drawH);
+        ctx.restore();
+
+        // Geração do Blob com formato e qualidade selecionados
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) return;
+            state.processedBlob = blob;
+
+            previewMeta.textContent = `${targetW} × ${targetH} px`;
+            statNew.textContent = formatBytes(blob.size);
+
+            if (state.origSize > 0) {
+              const diffBytes = blob.size - state.origSize;
+              const diffPct = Math.round((diffBytes / state.origSize) * 100);
+              if (diffPct < 0) {
+                statDiff.textContent = `${diffPct}%`;
+                statDiff.className = "font-mono font-bold mt-0.5 text-emerald-600 dark:text-emerald-400";
+              } else if (diffPct > 0) {
+                statDiff.textContent = `+${diffPct}%`;
+                statDiff.className = "font-mono font-bold mt-0.5 text-amber-600 dark:text-amber-400";
+              } else {
+                statDiff.textContent = "0%";
+                statDiff.className = "font-mono font-bold mt-0.5 text-neutral-500";
+              }
+            }
+          },
+          state.format,
+          state.quality
+        );
+      }
+
+      // Download da imagem
+      downloadBtn.addEventListener("click", () => {
+        if (!state.processedBlob) return;
+
+        const extMap = {
+          "image/webp": "webp",
+          "image/jpeg": "jpg",
+          "image/png": "png"
+        };
+        const ext = extMap[state.format] || "png";
+        const downloadName = `${state.filename}_edit.${ext}`;
+
+        const url = URL.createObjectURL(state.processedBlob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = downloadName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        actionStatus.textContent = `✓ Imagem salva como ${downloadName}`;
+        actionStatus.className = "text-xs text-center font-medium text-emerald-600 dark:text-emerald-400 min-h-[1.25rem]";
+        setTimeout(() => { actionStatus.textContent = ""; }, 3000);
+      });
+
+      // Copiar para área de transferência
+      copyBtn.addEventListener("click", async () => {
+        if (!previewCanvas) return;
+
+        try {
+          // Clipboard API aceita prioritariamente image/png
+          previewCanvas.toBlob(async (blob) => {
+            if (!blob) return;
+            await navigator.clipboard.write([
+              new ClipboardItem({ "image/png": blob })
+            ]);
+            actionStatus.textContent = "✓ Imagem copiada para a área de transferência!";
+            actionStatus.className = "text-xs text-center font-medium text-emerald-600 dark:text-emerald-400 min-h-[1.25rem]";
+            setTimeout(() => { actionStatus.textContent = ""; }, 3000);
+          }, "image/png");
+        } catch (err) {
+          actionStatus.textContent = "⚠ Navegador bloqueou cópia direta. Use o botão Baixar.";
+          actionStatus.className = "text-xs text-center font-medium text-amber-600 dark:text-amber-400 min-h-[1.25rem]";
+          setTimeout(() => { actionStatus.textContent = ""; }, 3500);
+        }
+      });
+    </script>
+  </body>
+</html>
