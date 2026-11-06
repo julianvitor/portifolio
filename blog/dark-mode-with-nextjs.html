@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Currículo — Julian Carreiro</title>
+    <title>Dark Mode — Julian Carreiro</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
     <link rel="alternate icon" type="image/x-icon" href="../favicon.ico" />
 
@@ -38,6 +38,9 @@
         font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
           Cantarell, Noto Sans, sans-serif;
       }
+      pre {
+        overflow-x: auto;
+      }
     </style>
   </head>
 
@@ -59,11 +62,7 @@
       >
         <div class="p-6">
           <div class="flex items-center gap-3">
-            <img
-              src="../images/profile.jpg"
-              alt="Avatar"
-              class="h-10 w-10 rounded-full object-cover"
-            />
+            <img src="../images/profile.jpg" alt="Avatar" class="h-10 w-10 rounded-full object-cover" />
             <div class="text-sm">
               <div class="font-semibold">Julian Carreiro</div>
               <div class="text-neutral-500 dark:text-neutral-400">Desenvolvimento de Software</div>
@@ -72,11 +71,11 @@
 
           <nav class="mt-6 space-y-1 text-sm">
             <a href="../index.html" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Início</a>
-            <a href="../about/" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Sobre</a>
-            <a href="../projects/" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Projetos</a>
-            <a href="../blog/" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Artigos</a>
-            <a href="../contact/" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Contato</a>
-            <a href="../tools/" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Utilidades</a>
+            <a href="../about.html" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Sobre</a>
+            <a href="../projects.html" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Projetos</a>
+            <a href="../blog.html" class="block rounded-md px-2 py-2 bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 font-semibold shadow-sm">Artigos</a>
+            <a href="../contact.html" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Contato</a>
+            <a href="../tools.html" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Utilidades</a>
           </nav>
 
           <div class="mt-4">
@@ -96,43 +95,39 @@
 
         <!-- Resume desativado (para reativar, remova este comentário):
         <div class="p-6 border-t border-neutral-200">
-          <a href="./" class="inline-flex items-center justify-center w-full rounded-full bg-neutral-900 text-white text-sm font-semibold px-4 py-2 hover:bg-neutral-800">Ver currículo</a>
+          <a href="../resume.html" class="inline-flex items-center justify-center w-full rounded-full bg-neutral-900 text-white text-sm font-semibold px-4 py-2 hover:bg-neutral-800">Ver currículo</a>
         </div>
         -->
       </aside>
 
       <main class="flex-1 lg:ml-56">
-        <div class="max-w-4xl mx-auto px-4 md:px-10 py-12 md:py-20">
-          <h1 class="text-3xl md:text-4xl font-extrabold">Currículo</h1>
-          <p class="mt-3 text-neutral-600 dark:text-neutral-300">
-            Página simples para listar experiências e formação.
-          </p>
+        <article class="max-w-4xl mx-auto px-4 md:px-10 py-12 md:py-20">
+          <a href="../blog.html" class="inline-flex items-center text-sm text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">← Voltar</a>
 
-          <div class="mt-10 space-y-4">
-            <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
-              <div class="text-sm text-neutral-500">2024 — Atual</div>
-              <div class="mt-1 font-semibold">Empresa / Projeto</div>
-              <div class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
-                Descreva o que você fez, impacto e tecnologias.
-              </div>
-            </div>
+          <h1 class="mt-6 text-3xl md:text-4xl font-extrabold">Dark Mode (exemplo)</h1>
+          <p class="mt-2 text-sm text-neutral-500">2023-04-19 • Tailwind/CSS</p>
 
-            <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
-              <div class="text-sm text-neutral-500">2022 — 2024</div>
-              <div class="mt-1 font-semibold">Outra experiência</div>
-              <div class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
-                2–3 bullets curtos funcionam bem.
-              </div>
-            </div>
+          <div class="mt-6">
+            <img src="../images/profile.jpg" alt="Capa do post" class="w-full max-h-96 object-cover rounded-xl border border-neutral-200 bg-white" />
           </div>
 
-          <div class="mt-10 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
-            <div class="font-semibold">Download</div>
-            <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
-              Se você tiver um PDF, coloque em <code>portifolio_STATIC/assets/</code> e linke aqui.
+          <div class="mt-10 text-neutral-700 dark:text-neutral-200 space-y-4">
+            <p>
+              Em um site estático, você pode implementar tema claro/escuro com um
+              pouco de JavaScript e classes CSS.
+            </p>
+
+            <h2 class="pt-4 text-xl font-extrabold text-neutral-900 dark:text-neutral-100">Ideia simples</h2>
+            <pre class="mt-3 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-900 text-neutral-100 p-4 text-sm"><code>// 1) Alternar uma classe no &lt;html&gt;
+document.documentElement.classList.toggle('dark');
+</code></pre>
+            <p>
+              No Tailwind, o modo escuro normalmente usa a variante <code>dark:</code>.
+              Aqui estamos usando o Tailwind via CDN, então você pode optar por
+              classes comuns e um CSS pequeno.
             </p>
           </div>
-        </div>
+        </article>
 
       </main>
     </div>

@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Como ganhar clientes — Julian Carreiro</title>
-    <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
-    <link rel="alternate icon" type="image/x-icon" href="../../favicon.ico" />
+    <title>Utilidades — Julian Carreiro</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="favicon.ico" />
 
     <script>
       (function () {
@@ -22,8 +22,8 @@
       @custom-variant dark (&:where(.dark, .dark *));
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="../../theme.js" defer></script>
-    <script src="../../oneko.js" defer></script>
+    <script src="theme.js" defer></script>
+    <script src="oneko.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,7 +32,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="../../styles.css" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
       body {
         font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
@@ -59,7 +59,11 @@
       >
         <div class="p-6">
           <div class="flex items-center gap-3">
-            <img src="../../images/profile.jpg" alt="Avatar" class="h-10 w-10 rounded-full object-cover" />
+            <img
+              src="images/profile.jpg"
+              alt="Avatar"
+              class="h-10 w-10 rounded-full object-cover"
+            />
             <div class="text-sm">
               <div class="font-semibold">Julian Carreiro</div>
               <div class="text-neutral-500 dark:text-neutral-400">Desenvolvimento de Software</div>
@@ -67,12 +71,12 @@
           </div>
 
           <nav class="mt-6 space-y-1 text-sm">
-            <a href="../../index.html" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Início</a>
-            <a href="../../about/" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Sobre</a>
-            <a href="../../projects/" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Projetos</a>
-            <a href="../" class="block rounded-md px-2 py-2 bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 font-semibold shadow-sm">Artigos</a>
-            <a href="../../contact/" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Contato</a>
-            <a href="../../tools/" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Utilidades</a>
+            <a href="index.html" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Início</a>
+            <a href="about.html" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Sobre</a>
+            <a href="projects.html" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Projetos</a>
+            <a href="blog.html" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Artigos</a>
+            <a href="contact.html" class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">Contato</a>
+            <a href="tools.html" class="block rounded-md px-2 py-2 bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 font-semibold shadow-sm">Utilidades</a>
           </nav>
 
           <div class="mt-4">
@@ -92,31 +96,37 @@
 
         <!-- Resume desativado (para reativar, remova este comentário):
         <div class="p-6 border-t border-neutral-200">
-          <a href="../../resume/" class="inline-flex items-center justify-center w-full rounded-full bg-neutral-900 text-white text-sm font-semibold px-4 py-2 hover:bg-neutral-800">Ver currículo</a>
+          <a href="resume.html" class="inline-flex items-center justify-center w-full rounded-full bg-neutral-900 text-white text-sm font-semibold px-4 py-2 hover:bg-neutral-800">Ver currículo</a>
         </div>
         -->
       </aside>
 
       <main class="flex-1 lg:ml-56">
-        <article class="max-w-4xl mx-auto px-4 md:px-10 py-12 md:py-20">
-          <a href="../" class="inline-flex items-center text-sm text-neutral-600 hover:text-neutral-900">← Voltar</a>
+        <div class="max-w-4xl mx-auto px-4 md:px-10 py-12 md:py-20">
+          <h1 class="text-3xl md:text-4xl font-extrabold">Utilidades</h1>
+          <p class="mt-3 text-neutral-600 dark:text-neutral-300">
+            Lista curta de ferramentas que você usa no dia a dia.
+          </p>
 
-          <h1 class="mt-6 text-3xl md:text-4xl font-extrabold">Como ganhar clientes (exemplo)</h1>
-          <p class="mt-2 text-sm text-neutral-500">Post de exemplo</p>
-
-          <div class="mt-10 text-neutral-700 space-y-4">
-            <p>
-              Use este espaço para escrever um post mais “de negócio”: como
-              apresentar seu portfólio, como descrever projetos e como se
-              comunicar com clareza.
-            </p>
-            <ul class="list-disc pl-5 space-y-2">
-              <li>Mostre 2–3 projetos com resultados</li>
-              <li>Explique seu papel e seu impacto</li>
-              <li>Facilite contato (e-mail, LinkedIn)</li>
-            </ul>
+          <div class="mt-10 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
+              <div class="font-semibold">Editor</div>
+              <div class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">VS Code</div>
+            </div>
+            <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
+              <div class="font-semibold">Stack</div>
+              <div class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">Node / TypeScript / Tailwind</div>
+            </div>
+            <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
+              <div class="font-semibold">Deploy</div>
+              <div class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">Nginx / PM2</div>
+            </div>
+            <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
+              <div class="font-semibold">Banco</div>
+              <div class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">Postgres / SQLite</div>
+            </div>
           </div>
-        </article>
+        </div>
 
       </main>
     </div>

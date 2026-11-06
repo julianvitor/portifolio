@@ -31,26 +31,28 @@ Abra com a extensão **Live Server** diretamente pelo editor.
 ```text
 .
 ├── 404.html                # Página de erro 404 personalizada
-├── about/                  # Página "Sobre" (about/index.html)
-├── blog/                   # Artigos e publicações
-│   ├── clean-code/
-│   ├── dark-mode-with-nextjs/
-│   ├── how-to-win-clients/
-│   └── tailwindcss-tips-and-tricks/
-├── contact/                # Página de contato (contact/index.html)
+├── about.html              # Página "Sobre"
+├── blog.html               # Listagem de artigos
+├── blog/                   # Artigos e publicações individuais (.html)
+│   ├── clean-code.html
+│   ├── dark-mode-with-nextjs.html
+│   ├── how-to-win-clients.html
+│   └── tailwindcss-tips-and-tricks.html
+├── contact.html            # Página de contato
 ├── favicon.ico             # Favicon clássico
 ├── favicon.svg             # Favicon moderno em SVG
 ├── images/                 # Imagens de perfil, projetos e logos de tecnologias
 ├── index.html              # Página inicial / Home
 ├── oneko.gif               # Sprite do mascote
 ├── oneko.js                # Script de interação do mascote
-├── projects/               # Listagem e detalhes de projetos
-│   ├── projeto-1/
-│   └── projeto-2/
-├── resume/                 # Página de currículo
+├── projects.html           # Listagem de projetos
+├── projects/               # Páginas individuais de projetos (.html)
+│   ├── projeto-1.html
+│   └── projeto-2.html
+├── resume.html             # Página de currículo
 ├── styles.css              # Estilos complementares ao Tailwind
 ├── theme.js                # Alternador de tema claro/escuro com persistência (localStorage)
-└── tools/                  # Ferramentas e utilidades
+└── tools.html              # Ferramentas e utilidades
 ```
 
 ---
