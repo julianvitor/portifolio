@@ -1,528 +1,524 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Julian Carreiro — Desenvolvedor de Software e Hardware</title>
-    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
-    <link rel="alternate icon" type="image/x-icon" href="assets/icons/favicon.ico" />
 
-    <script>
-      (function () {
-        const stored = localStorage.getItem('theme');
-        const prefersDark =
-          window.matchMedia &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = stored || (prefersDark ? 'dark' : 'light');
-        if (theme === 'dark') document.documentElement.classList.add('dark');
-      })();
-    </script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Julian Carreiro — Desenvolvedor de Software e Hardware</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+  <link rel="alternate icon" type="image/x-icon" href="assets/icons/favicon.ico" />
 
-    <style type="text/tailwindcss">
-      @custom-variant dark (&:where(.dark, .dark *));
+  <script>
+    (function () {
+      const stored = localStorage.getItem('theme');
+      const prefersDark =
+        window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = stored || (prefersDark ? 'dark' : 'light');
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+
+  <style type="text/tailwindcss">
+    @custom-variant dark (&:where(.dark, .dark *));
     </style>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="assets/js/theme.js" defer></script>
-    <script src="assets/js/oneko.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="assets/js/theme.js" defer></script>
+  <script src="assets/js/oneko.js" defer></script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-    <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
 
-    <style>
-      body {
-        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
-          Cantarell, Noto Sans, sans-serif;
-      }
-    </style>
-  </head>
+  <style>
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+        Cantarell, Noto Sans, sans-serif;
+    }
+  </style>
+</head>
 
-  <body
-    class="min-h-screen bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100 antialiased"
-  >
-    <button
-      id="menuBtn"
-      class="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-neutral-200 dark:bg-neutral-800"
-    >
-      ☰
-    </button>
+<body class="min-h-screen bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100 antialiased">
+  <button id="menuBtn" class="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-neutral-200 dark:bg-neutral-800">
+    ☰
+  </button>
 
-    <div class="min-h-screen flex flex-col lg:flex-row">
-      <div
-        id="overlay"
-        class="fixed inset-0 bg-black/50 hidden lg:hidden z-40"
-      ></div>
+  <div class="min-h-screen flex flex-col lg:flex-row">
+    <div id="overlay" class="fixed inset-0 bg-black/50 hidden lg:hidden z-40"></div>
 
-      <!-- Sidebar fixa -->
-      <aside
-        id="sidebar"
-        class="fixed inset-y-0 left-0 z-50 w-56 bg-neutral-50 dark:bg-neutral-950 border-r border-neutral-200 dark:border-neutral-800 h-screen overflow-y-auto -translate-x-full transition-transform duration-200 lg:translate-x-0"
-      >
-        <div class="p-6">
-          <div class="flex items-center gap-3">
-            <img
-              src="assets/images/profile.jpg"
-              alt="Julian Carreiro"
-              class="h-10 w-10 rounded-full object-cover"
-            />
-            <div class="text-sm">
-              <div class="font-semibold">Julian Carreiro</div>
-              <div class="text-neutral-500 dark:text-neutral-400">
-                Software & Hardware
-              </div>
+    <!-- Sidebar fixa -->
+    <aside id="sidebar"
+      class="fixed inset-y-0 left-0 z-50 w-56 bg-neutral-50 dark:bg-neutral-950 border-r border-neutral-200 dark:border-neutral-800 h-screen overflow-y-auto -translate-x-full transition-transform duration-200 lg:translate-x-0">
+      <div class="p-6">
+        <div class="flex items-center gap-3">
+          <img src="assets/images/profile.jpg" alt="Julian Carreiro" class="h-10 w-10 rounded-full object-cover" />
+          <div class="text-sm">
+            <div class="font-semibold">Julian Carreiro</div>
+            <div class="text-neutral-500 dark:text-neutral-400">
+              Software & Hardware
             </div>
           </div>
+        </div>
 
-          <nav class="mt-6 space-y-1 text-sm">
-            <a
-              href="#inicio"
-              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
-            >
-              Início
+        <nav class="mt-6 space-y-1 text-sm">
+          <a href="#inicio"
+            class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">
+            Início
+          </a>
+
+          <a href="#sobre"
+            class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">
+            Sobre
+          </a>
+
+          <a href="pages/projects.html"
+            class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">
+            Projetos
+          </a>
+
+          <a href="pages/blog.html"
+            class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">
+            Artigos
+          </a>
+
+          <a href="pages/tools.html"
+            class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">
+            Utilidades
+          </a>
+
+          <a href="#contato"
+            class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">
+            Contato
+          </a>
+        </nav>
+
+        <div class="mt-4">
+          <button id="theme-toggle" type="button"
+            class="w-full rounded-md px-2 py-2 text-sm font-semibold bg-neutral-200 text-neutral-900 border border-neutral-300/60 dark:bg-neutral-800/60 dark:text-neutral-50 dark:border-neutral-700/60 hover:bg-neutral-300/70 dark:hover:bg-neutral-700/60 hover:-translate-y-px active:translate-y-0 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400">
+            Tema
+          </button>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-800">
+          <div class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">
+            Redes Sociais
+          </div>
+
+          <div class="mt-2 space-y-1 text-sm">
+            <a href="https://github.com/julianvitor" target="_blank" rel="noreferrer"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40">
+              GitHub
             </a>
 
-            <a
-              href="#sobre"
-              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
-            >
-              Sobre
+            <a href="https://www.linkedin.com/in/julian-carreiro/" target="_blank" rel="noreferrer"
+              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40">
+              LinkedIn
             </a>
+          </div>
+        </div>
+      </div>
+    </aside>
 
-            <a
-              href="pages/projects.html"
-              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
-            >
-              Projetos
+    <!-- Conteúdo Principal -->
+    <main class="flex-1 lg:ml-56">
+      <div class="max-w-4xl mx-auto px-4 md:px-10 py-12 md:py-20 space-y-20">
+
+        <!-- SEÇÃO 1: INÍCIO / HERO -->
+        <section id="inicio">
+          <span class="text-4xl">👋</span>
+
+          <h1 class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight">
+            Olá! Sou Julian.
+          </h1>
+
+          <p class="mt-4 text-lg text-neutral-700 dark:text-neutral-300 max-w-2xl leading-relaxed">
+            Desenvolvedor de software e hardware. Foco em backend com Go e Python, e sistemas embarcados com e C/C++.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="pages/projects.html"
+              class="inline-flex items-center gap-2 rounded-full bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition">
+              Projetos ↗
             </a>
-
-            <a
-              href="pages/blog.html"
-              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
-            >
-              Artigos
+            <a href="#sobre"
+              class="inline-flex items-center gap-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm font-medium px-5 py-2.5 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 transition">
+              Sobre ↓
             </a>
-
-            <a
-              href="pages/tools.html"
-              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
-            >
+            <a href="pages/tools.html"
+              class="inline-flex items-center gap-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm font-medium px-5 py-2.5 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 transition">
               Utilidades
             </a>
-
-            <a
-              href="#contato"
-              class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
-            >
-              Contato
+            <a href="#contato"
+              class="inline-flex items-center gap-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm font-medium px-5 py-2.5 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 transition">
+              Contato ↓
             </a>
-          </nav>
+          </div>
+        </section>
 
-          <div class="mt-4">
-            <button
-              id="theme-toggle"
-              type="button"
-              class="w-full rounded-md px-2 py-2 text-sm font-semibold bg-neutral-200 text-neutral-900 border border-neutral-300/60 dark:bg-neutral-800/60 dark:text-neutral-50 dark:border-neutral-700/60 hover:bg-neutral-300/70 dark:hover:bg-neutral-700/60 hover:-translate-y-px active:translate-y-0 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400"
-            >
-              Tema
-            </button>
+        <!-- SEÇÃO 2: SOBRE MIM -->
+        <section id="sobre" class="pt-8 border-t border-neutral-200 dark:border-neutral-800">
+          <span class="text-4xl">💬</span>
+          <h2 class="mt-4 text-2xl md:text-3xl font-extrabold">Sobre Mim</h2>
+
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+            <div class="md:col-span-1">
+              <img src="assets/images/profile.jpg" alt="Julian Carreiro"
+                class="w-full rounded-2xl border border-neutral-200 dark:border-neutral-800 object-cover shadow-sm" />
+            </div>
+
+            <div class="md:col-span-2 text-neutral-700 dark:text-neutral-300 space-y-4 leading-relaxed">
+              <p>
+                Sou <strong>Julian Carreiro</strong>, desenvolvedor formado pela <strong>Universidade Federal do
+                  ABC</strong> Projetando e Desenvolvendo produtos de software e hardware com pcb e firmware embarcado.
+              </p>
+              <p>
+                No software: APIs assíncronas em Python e Go, inferência local de modelos (LLMs com Cgo/GGUF) e
+                interfaces web objetivas. No hardware: firmware em C/C++ para ESP32 e arquitetura ARM, sensores I2C/SPI
+                e telemetria em tempo real via WebSockets.
+              </p>
+
+              <h3
+                class="pt-2 text-base font-bold text-neutral-900 dark:text-neutral-100 uppercase tracking-wider text-xs">
+                Domínio Técnico
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                <div
+                  class="p-3 rounded-xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
+                  <div class="font-semibold text-neutral-900 dark:text-neutral-100">Backend & Sistemas</div>
+                  <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Python (FastAPI), Go (Cgo, CLI)</div>
+                </div>
+                <div
+                  class="p-3 rounded-xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
+                  <div class="font-semibold text-neutral-900 dark:text-neutral-100">Hardware & IoT</div>
+                  <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">ESP32 (C/C++), MPU-6050, Linux ARM
+                  </div>
+                </div>
+                <div
+                  class="p-3 rounded-xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
+                  <div class="font-semibold text-neutral-900 dark:text-neutral-100">Bancos de Dados</div>
+                  <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">PostgreSQL, SQLite, Redis</div>
+                </div>
+                <div
+                  class="p-3 rounded-xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
+                  <div class="font-semibold text-neutral-900 dark:text-neutral-100">Frontend Web</div>
+                  <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">HTML5, JavaScript, Tailwind CSS</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SEÇÃO 3: PROJETOS EM DESTAQUE -->
+        <section id="projetos" class="pt-8 border-t border-neutral-200 dark:border-neutral-800">
+          <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
+            <div>
+              <span class="text-4xl">⚡</span>
+              <h2 class="mt-2 text-2xl md:text-3xl font-extrabold">Projetos em Destaque</h2>
+            </div>
+            <a href="pages/projects.html"
+              class="text-sm font-semibold text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white inline-flex items-center gap-1">
+              Ver todos os projetos →
+            </a>
           </div>
 
-          <div
-            class="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-800"
-          >
+          <div class="grid grid-cols-1 gap-6">
+            <!-- 1. Pontinho UFABC -->
+            <a href="pages/projects/pontinho-ufabc.html"
+              class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <div
+                    class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
+                    Pontinho UFABC
+                  </div>
+                  <p class="mt-1.5 text-sm text-neutral-700 dark:text-neutral-300 max-w-xl">
+                    Rede social mobile-first para a UFABC. Backend assíncrono em FastAPI, interface em Preact e
+                    moderação via visão computacional.
+                  </p>
+                </div>
+                <span
+                  class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
+                  Full Stack
+                </span>
+              </div>
+              <div class="mt-4 flex gap-2 flex-wrap">
+                <span
+                  class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">FastAPI</span>
+                <span
+                  class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Python</span>
+                <span
+                  class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Preact</span>
+                <span
+                  class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Tailwind
+                  CSS</span>
+              </div>
+            </a>
+
+            <!-- 2. llama3.go -->
+            <a href="pages/projects/llama3-go.html"
+              class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors">
+              <div class="flex flex-col md:flex-row gap-4 items-start">
+                <img src="assets/images/llama_go.jpg" alt="llama3.go"
+                  class="h-32 w-full md:w-44 rounded-xl object-cover border border-neutral-200 dark:border-neutral-800" />
+                <div class="flex-1">
+                  <div class="flex items-start justify-between gap-4">
+                    <div
+                      class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
+                      llama3.go
+                    </div>
+                    <span
+                      class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
+                      Local AI
+                    </span>
+                  </div>
+                  <p class="mt-1.5 text-sm text-neutral-700 dark:text-neutral-300">
+                    Inferência in-process de Llama 3.2 em Go e Cgo com aceleração SIMD (AVX2/NEON), sem dependência de
+                    nuvem.
+                  </p>
+                  <div class="mt-3 flex gap-2 flex-wrap">
+                    <span
+                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Go</span>
+                    <span
+                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Cgo</span>
+                    <span
+                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Llama
+                      3.2</span>
+                    <span
+                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">GGUF</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <!-- 3. Where-I-Went Library -->
+            <a href="pages/projects/where-i-went.html"
+              class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors">
+              <div class="flex flex-col md:flex-row gap-4 items-start">
+                <img src="assets/images/where_i_went.png" alt="Where-I-Went"
+                  class="h-32 w-full md:w-44 rounded-xl object-cover border border-neutral-200 dark:border-neutral-800" />
+                <div class="flex-1">
+                  <div class="flex items-start justify-between gap-4">
+                    <div
+                      class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
+                      Where-I-Went Library
+                    </div>
+                    <span
+                      class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
+                      Python Library
+                    </span>
+                  </div>
+                  <p class="mt-1.5 text-sm text-neutral-700 dark:text-neutral-300">
+                    Extração de coordenadas GPS em metadados EXIF de fotografias e geração de mapas interativos.
+                  </p>
+                  <div class="mt-3 flex gap-2 flex-wrap">
+                    <span
+                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Python</span>
+                    <span
+                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">EXIF</span>
+                    <span
+                      class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Folium</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <!-- 4. Apruma -->
+            <a href="pages/projects/apruma.html"
+              class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <div
+                    class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
+                    Apruma (Wearable IoT)
+                  </div>
+                  <p class="mt-1.5 text-sm text-neutral-700 dark:text-neutral-300 max-w-xl">
+                    Wearable ergonômico com ESP32 e sensor MPU-6050, transmitindo telemetria postural via WebSockets.
+                  </p>
+                </div>
+                <span
+                  class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
+                  IoT / Hardware
+                </span>
+              </div>
+              <div class="mt-4 flex gap-2 flex-wrap">
+                <span
+                  class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">C++</span>
+                <span
+                  class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">ESP32</span>
+                <span
+                  class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">MPU-6050</span>
+                <span
+                  class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">WebSockets</span>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- SEÇÃO 4: TECH STACK & TOOLS -->
+        <section id="stack" class="pt-8 border-t border-neutral-200 dark:border-neutral-800">
+          <h2 class="text-2xl font-extrabold mb-4">Tech Stack & Ferramentas</h2>
+
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="https://www.python.org/" target="_blank" rel="noreferrer" title="Python">
+              <img src="assets/images/logos/python.webp" alt="Python"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://aws.amazon.com/" target="_blank" rel="noreferrer" title="AWS">
+              <img src="assets/images/logos/aws.webp" alt="AWS"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://www.espressif.com/" target="_blank" rel="noreferrer" title="ESP32 / Espressif">
+              <img src="assets/images/logos/esp.webp" alt="ESP32"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://www.postgresql.org/" target="_blank" rel="noreferrer" title="PostgreSQL">
+              <img src="assets/images/logos/postgresql.webp" alt="PostgreSQL"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://nodejs.org/" target="_blank" rel="noreferrer" title="Node.js">
+              <img src="assets/images/logos/node.webp" alt="Node.js"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://redis.io/" target="_blank" rel="noreferrer" title="Redis">
+              <img src="assets/images/logos/redis.webp" alt="Redis"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://github.com/" target="_blank" rel="noreferrer" title="GitHub">
+              <img src="assets/images/logos/github.webp" alt="GitHub"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://nginx.org/" target="_blank" rel="noreferrer" title="Nginx">
+              <img src="assets/images/logos/nginx.webp" alt="Nginx"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://www.docker.com/" target="_blank" rel="noreferrer" title="Docker">
+              <img src="assets/images/logos/docker.webp" alt="Docker"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://www.rabbitmq.com/" target="_blank" rel="noreferrer" title="RabbitMQ">
+              <img src="assets/images/logos/rabbitmq.webp" alt="RabbitMQ"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://code.visualstudio.com/" target="_blank" rel="noreferrer" title="VS Code">
+              <img src="assets/images/logos/vscode.webp" alt="VS Code"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://www.linux.org/" target="_blank" rel="noreferrer" title="Linux">
+              <img src="assets/images/logos/linux.webp" alt="Linux"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://git-scm.com/" target="_blank" rel="noreferrer" title="Git">
+              <img src="assets/images/logos/git.webp" alt="Git"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://www.postman.com/" target="_blank" rel="noreferrer" title="Postman">
+              <img src="assets/images/logos/postman.webp" alt="Postman"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://www.diagrams.net/" target="_blank" rel="noreferrer" title="Draw.io">
+              <img src="assets/images/logos/drawio.webp" alt="Draw.io"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://www.kicad.org/" target="_blank" rel="noreferrer" title="KiCad EDA">
+              <img src="assets/images/logos/kicad.webp" alt="KiCad"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+            <a href="https://www.arduino.cc/en/software" target="_blank" rel="noreferrer" title="Arduino IDE">
+              <img src="assets/images/logos/arduino_ide.webp" alt="Arduino IDE"
+                class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
+            </a>
+          </div>
+        </section>
+
+        <!-- SEÇÃO 5: CONTATO -->
+        <section id="contato" class="pt-8 border-t border-neutral-200 dark:border-neutral-800">
+          <span class="text-4xl">📬</span>
+          <h2 class="mt-4 text-2xl md:text-3xl font-extrabold">Contato</h2>
+          <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+            Disponível para projetos e contato profissional.
+          </p>
+
+          <div class="mt-8 grid gap-4 sm:grid-cols-2">
             <div
-              class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide"
-            >
-              Redes Sociais
+              class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 shadow-sm">
+              <div class="text-xs uppercase tracking-wider font-semibold text-neutral-500 dark:text-neutral-400">Email
+              </div>
+              <a href="mailto:julian.vtr@gmail.com"
+                class="mt-2 block text-neutral-900 dark:text-white font-medium hover:underline">
+                julian.vtr@gmail.com
+              </a>
             </div>
 
-            <div class="mt-2 space-y-1 text-sm">
-              <a
-                href="https://github.com/julianvitor"
-                target="_blank"
-                rel="noreferrer"
-                class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40"
-              >
-                GitHub
+            <div
+              class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 shadow-sm">
+              <div class="text-xs uppercase tracking-wider font-semibold text-neutral-500 dark:text-neutral-400">
+                LinkedIn</div>
+              <a href="https://www.linkedin.com/in/julian-carreiro/" target="_blank" rel="noreferrer"
+                class="mt-2 block text-neutral-900 dark:text-white font-medium hover:underline">
+                linkedin.com/in/julian-carreiro
               </a>
+            </div>
 
-              <a
-                href="https://www.linkedin.com/in/julian-carreiro/"
-                target="_blank"
-                rel="noreferrer"
-                class="block rounded-md px-2 py-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/40"
-              >
-                LinkedIn
+            <div
+              class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 shadow-sm">
+              <div class="text-xs uppercase tracking-wider font-semibold text-neutral-500 dark:text-neutral-400">GitHub
+              </div>
+              <a href="https://github.com/julianvitor" target="_blank" rel="noreferrer"
+                class="mt-2 block text-neutral-900 dark:text-white font-medium hover:underline">
+                github.com/julianvitor
               </a>
+            </div>
+
+            <div
+              class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 shadow-sm">
+              <div class="text-xs uppercase tracking-wider font-semibold text-neutral-500 dark:text-neutral-400">
+                Localização</div>
+              <div class="mt-2 text-neutral-900 dark:text-white font-medium">
+                Santo André - SP, Brasil
+              </div>
             </div>
           </div>
-        </div>
-      </aside>
+        </section>
 
-      <!-- Conteúdo Principal -->
-      <main class="flex-1 lg:ml-56">
-        <div class="max-w-4xl mx-auto px-4 md:px-10 py-12 md:py-20 space-y-20">
-          
-          <!-- SEÇÃO 1: INÍCIO / HERO -->
-          <section id="inicio">
-            <span class="text-4xl">👋</span>
+        <!-- FOOTER -->
+        <footer
+          class="pt-8 pb-4 border-t border-neutral-200 dark:border-neutral-800 text-xs text-neutral-500 dark:text-neutral-400 flex flex-col sm:flex-row justify-between items-center gap-2">
+          <div>© Julian Carreiro. Todos os direitos reservados.</div>
+          <div>Feito com HTML estático, Tailwind & JavaScript.</div>
+        </footer>
 
-            <h1 class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight">
-              Olá! Sou Julian Carreiro.
-            </h1>
+      </div>
+    </main>
+  </div>
 
-            <p class="mt-4 text-lg text-neutral-700 dark:text-neutral-300 max-w-2xl leading-relaxed">
-              Desenvolvedor de software e hardware em Santo André - SP. Foco em backend com Go e Python, e sistemas embarcados com ESP32 e C/C++.
-            </p>
+  <script>
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const btn = document.getElementById("menuBtn");
 
-            <div class="mt-8 flex flex-wrap gap-3">
-              <a
-                href="pages/projects.html"
-                class="inline-flex items-center gap-2 rounded-full bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-semibold px-5 py-2.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition"
-              >
-                Projetos ↗
-              </a>
-              <a
-                href="#sobre"
-                class="inline-flex items-center gap-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm font-medium px-5 py-2.5 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 transition"
-              >
-                Sobre ↓
-              </a>
-              <a
-                href="pages/tools.html"
-                class="inline-flex items-center gap-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm font-medium px-5 py-2.5 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 transition"
-              >
-                Utilidades
-              </a>
-              <a
-                href="#contato"
-                class="inline-flex items-center gap-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm font-medium px-5 py-2.5 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50 transition"
-              >
-                Contato ↓
-              </a>
-            </div>
-          </section>
+    function openMenu() {
+      sidebar.classList.remove("-translate-x-full");
+      overlay.classList.remove("hidden");
+    }
 
-          <!-- SEÇÃO 2: SOBRE MIM -->
-          <section id="sobre" class="pt-8 border-t border-neutral-200 dark:border-neutral-800">
-            <span class="text-4xl">💬</span>
-            <h2 class="mt-4 text-2xl md:text-3xl font-extrabold">Sobre Mim</h2>
+    function closeMenu() {
+      sidebar.classList.add("-translate-x-full");
+      overlay.classList.add("hidden");
+    }
 
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-              <div class="md:col-span-1">
-                <img
-                  src="assets/images/profile.jpg"
-                  alt="Julian Carreiro"
-                  class="w-full rounded-2xl border border-neutral-200 dark:border-neutral-800 object-cover shadow-sm"
-                />
-              </div>
+    btn.addEventListener("click", openMenu);
+    overlay.addEventListener("click", closeMenu);
 
-              <div class="md:col-span-2 text-neutral-700 dark:text-neutral-300 space-y-4 leading-relaxed">
-                <p>
-                  Sou <strong>Julian Carreiro</strong>, desenvolvedor formado pela <strong>UFABC</strong> em Santo André - SP. Atuo na intersecção entre backend moderno e hardware embarcado.
-                </p>
-                <p>
-                  No software: APIs assíncronas em Python e Go, inferência local de modelos (LLMs com Cgo/GGUF) e interfaces web objetivas. No hardware: firmware em C/C++ para ESP32 e arquitetura ARM, sensores I2C/SPI e telemetria em tempo real via WebSockets.
-                </p>
-
-                <h3 class="pt-2 text-base font-bold text-neutral-900 dark:text-neutral-100 uppercase tracking-wider text-xs">
-                  Domínio Técnico
-                </h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                  <div class="p-3 rounded-xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
-                    <div class="font-semibold text-neutral-900 dark:text-neutral-100">Backend & Sistemas</div>
-                    <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Python (FastAPI), Go (Cgo, CLI)</div>
-                  </div>
-                  <div class="p-3 rounded-xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
-                    <div class="font-semibold text-neutral-900 dark:text-neutral-100">Hardware & IoT</div>
-                    <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">ESP32 (C/C++), MPU-6050, Linux ARM</div>
-                  </div>
-                  <div class="p-3 rounded-xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
-                    <div class="font-semibold text-neutral-900 dark:text-neutral-100">Bancos de Dados</div>
-                    <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">PostgreSQL, SQLite, Redis</div>
-                  </div>
-                  <div class="p-3 rounded-xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
-                    <div class="font-semibold text-neutral-900 dark:text-neutral-100">Frontend Web</div>
-                    <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">HTML5, JavaScript, Tailwind CSS</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- SEÇÃO 3: PROJETOS EM DESTAQUE -->
-          <section id="projetos" class="pt-8 border-t border-neutral-200 dark:border-neutral-800">
-            <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
-              <div>
-                <span class="text-4xl">⚡</span>
-                <h2 class="mt-2 text-2xl md:text-3xl font-extrabold">Projetos em Destaque</h2>
-              </div>
-              <a
-                href="pages/projects.html"
-                class="text-sm font-semibold text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white inline-flex items-center gap-1"
-              >
-                Ver todos os projetos →
-              </a>
-            </div>
-
-            <div class="grid grid-cols-1 gap-6">
-              <!-- 1. Pontinho UFABC -->
-              <a
-                href="pages/projects/pontinho-ufabc.html"
-                class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors"
-              >
-                <div class="flex items-start justify-between gap-4">
-                  <div>
-                    <div class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
-                      Pontinho UFABC
-                    </div>
-                    <p class="mt-1.5 text-sm text-neutral-700 dark:text-neutral-300 max-w-xl">
-                      Rede social mobile-first para a UFABC. Backend assíncrono em FastAPI, interface em Preact e moderação via visão computacional.
-                    </p>
-                  </div>
-                  <span class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
-                    Full Stack
-                  </span>
-                </div>
-                <div class="mt-4 flex gap-2 flex-wrap">
-                  <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">FastAPI</span>
-                  <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Python</span>
-                  <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Preact</span>
-                  <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Tailwind CSS</span>
-                </div>
-              </a>
-
-              <!-- 2. llama3.go -->
-              <a
-                href="pages/projects/llama3-go.html"
-                class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors"
-              >
-                <div class="flex flex-col md:flex-row gap-4 items-start">
-                  <img
-                    src="assets/images/llama_go.jpg"
-                    alt="llama3.go"
-                    class="h-32 w-full md:w-44 rounded-xl object-cover border border-neutral-200 dark:border-neutral-800"
-                  />
-                  <div class="flex-1">
-                    <div class="flex items-start justify-between gap-4">
-                      <div class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
-                        llama3.go
-                      </div>
-                      <span class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
-                        Local AI
-                      </span>
-                    </div>
-                    <p class="mt-1.5 text-sm text-neutral-700 dark:text-neutral-300">
-                      Inferência in-process de Llama 3.2 em Go e Cgo com aceleração SIMD (AVX2/NEON), sem dependência de nuvem.
-                    </p>
-                    <div class="mt-3 flex gap-2 flex-wrap">
-                      <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Go</span>
-                      <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Cgo</span>
-                      <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Llama 3.2</span>
-                      <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">GGUF</span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-
-              <!-- 3. Where-I-Went Library -->
-              <a
-                href="pages/projects/where-i-went.html"
-                class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors"
-              >
-                <div class="flex flex-col md:flex-row gap-4 items-start">
-                  <img
-                    src="assets/images/where_i_went.png"
-                    alt="Where-I-Went"
-                    class="h-32 w-full md:w-44 rounded-xl object-cover border border-neutral-200 dark:border-neutral-800"
-                  />
-                  <div class="flex-1">
-                    <div class="flex items-start justify-between gap-4">
-                      <div class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
-                        Where-I-Went Library
-                      </div>
-                      <span class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
-                        Python Library
-                      </span>
-                    </div>
-                    <p class="mt-1.5 text-sm text-neutral-700 dark:text-neutral-300">
-                      Extração de coordenadas GPS em metadados EXIF de fotografias e geração de mapas interativos.
-                    </p>
-                    <div class="mt-3 flex gap-2 flex-wrap">
-                      <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Python</span>
-                      <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">EXIF</span>
-                      <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">Folium</span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-
-              <!-- 4. Apruma -->
-              <a
-                href="pages/projects/apruma.html"
-                class="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 hover:bg-neutral-50 dark:hover:bg-neutral-800/40 transition-colors"
-              >
-                <div class="flex items-start justify-between gap-4">
-                  <div>
-                    <div class="text-lg font-extrabold text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
-                      Apruma (Wearable IoT)
-                    </div>
-                    <p class="mt-1.5 text-sm text-neutral-700 dark:text-neutral-300 max-w-xl">
-                      Wearable ergonômico com ESP32 e sensor MPU-6050, transmitindo telemetria postural via WebSockets.
-                    </p>
-                  </div>
-                  <span class="text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 rounded-full whitespace-nowrap font-medium text-neutral-600 dark:text-neutral-300">
-                    IoT / Hardware
-                  </span>
-                </div>
-                <div class="mt-4 flex gap-2 flex-wrap">
-                  <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">C++</span>
-                  <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">ESP32</span>
-                  <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">MPU-6050</span>
-                  <span class="text-xs bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 px-2 py-1 rounded-md font-medium">WebSockets</span>
-                </div>
-              </a>
-            </div>
-          </section>
-
-          <!-- SEÇÃO 4: TECH STACK & TOOLS -->
-          <section id="stack" class="pt-8 border-t border-neutral-200 dark:border-neutral-800">
-            <h2 class="text-2xl font-extrabold mb-4">Tech Stack & Ferramentas</h2>
-
-            <div class="flex flex-wrap items-center gap-4">
-              <a href="https://www.python.org/" target="_blank" rel="noreferrer" title="Python">
-                <img src="assets/images/logos/python.webp" alt="Python" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://aws.amazon.com/" target="_blank" rel="noreferrer" title="AWS">
-                <img src="assets/images/logos/aws.webp" alt="AWS" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://www.espressif.com/" target="_blank" rel="noreferrer" title="ESP32 / Espressif">
-                <img src="assets/images/logos/esp.webp" alt="ESP32" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://www.postgresql.org/" target="_blank" rel="noreferrer" title="PostgreSQL">
-                <img src="assets/images/logos/postgresql.webp" alt="PostgreSQL" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://nodejs.org/" target="_blank" rel="noreferrer" title="Node.js">
-                <img src="assets/images/logos/node.webp" alt="Node.js" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://redis.io/" target="_blank" rel="noreferrer" title="Redis">
-                <img src="assets/images/logos/redis.webp" alt="Redis" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://github.com/" target="_blank" rel="noreferrer" title="GitHub">
-                <img src="assets/images/logos/github.webp" alt="GitHub" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://nginx.org/" target="_blank" rel="noreferrer" title="Nginx">
-                <img src="assets/images/logos/nginx.webp" alt="Nginx" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://www.docker.com/" target="_blank" rel="noreferrer" title="Docker">
-                <img src="assets/images/logos/docker.webp" alt="Docker" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://www.rabbitmq.com/" target="_blank" rel="noreferrer" title="RabbitMQ">
-                <img src="assets/images/logos/rabbitmq.webp" alt="RabbitMQ" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://code.visualstudio.com/" target="_blank" rel="noreferrer" title="VS Code">
-                <img src="assets/images/logos/vscode.webp" alt="VS Code" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://www.linux.org/" target="_blank" rel="noreferrer" title="Linux">
-                <img src="assets/images/logos/linux.webp" alt="Linux" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://git-scm.com/" target="_blank" rel="noreferrer" title="Git">
-                <img src="assets/images/logos/git.webp" alt="Git" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://www.postman.com/" target="_blank" rel="noreferrer" title="Postman">
-                <img src="assets/images/logos/postman.webp" alt="Postman" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://www.diagrams.net/" target="_blank" rel="noreferrer" title="Draw.io">
-                <img src="assets/images/logos/drawio.webp" alt="Draw.io" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://www.kicad.org/" target="_blank" rel="noreferrer" title="KiCad EDA">
-                <img src="assets/images/logos/kicad.webp" alt="KiCad" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-              <a href="https://www.arduino.cc/en/software" target="_blank" rel="noreferrer" title="Arduino IDE">
-                <img src="assets/images/logos/arduino_ide.webp" alt="Arduino IDE" class="h-10 w-10 object-contain hover:scale-110 transition-transform" />
-              </a>
-            </div>
-          </section>
-
-          <!-- SEÇÃO 5: CONTATO -->
-          <section id="contato" class="pt-8 border-t border-neutral-200 dark:border-neutral-800">
-            <span class="text-4xl">📬</span>
-            <h2 class="mt-4 text-2xl md:text-3xl font-extrabold">Contato</h2>
-            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
-              Disponível para projetos e contato profissional.
-            </p>
-
-            <div class="mt-8 grid gap-4 sm:grid-cols-2">
-              <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 shadow-sm">
-                <div class="text-xs uppercase tracking-wider font-semibold text-neutral-500 dark:text-neutral-400">Email</div>
-                <a href="mailto:julian.vtr@gmail.com" class="mt-2 block text-neutral-900 dark:text-white font-medium hover:underline">
-                  julian.vtr@gmail.com
-                </a>
-              </div>
-
-              <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 shadow-sm">
-                <div class="text-xs uppercase tracking-wider font-semibold text-neutral-500 dark:text-neutral-400">LinkedIn</div>
-                <a href="https://www.linkedin.com/in/julian-carreiro/" target="_blank" rel="noreferrer" class="mt-2 block text-neutral-900 dark:text-white font-medium hover:underline">
-                  linkedin.com/in/julian-carreiro
-                </a>
-              </div>
-
-              <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 shadow-sm">
-                <div class="text-xs uppercase tracking-wider font-semibold text-neutral-500 dark:text-neutral-400">GitHub</div>
-                <a href="https://github.com/julianvitor" target="_blank" rel="noreferrer" class="mt-2 block text-neutral-900 dark:text-white font-medium hover:underline">
-                  github.com/julianvitor
-                </a>
-              </div>
-
-              <div class="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5 shadow-sm">
-                <div class="text-xs uppercase tracking-wider font-semibold text-neutral-500 dark:text-neutral-400">Localização</div>
-                <div class="mt-2 text-neutral-900 dark:text-white font-medium">
-                  Santo André - SP, Brasil
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- FOOTER -->
-          <footer class="pt-8 pb-4 border-t border-neutral-200 dark:border-neutral-800 text-xs text-neutral-500 dark:text-neutral-400 flex flex-col sm:flex-row justify-between items-center gap-2">
-            <div>© Julian Carreiro. Todos os direitos reservados.</div>
-            <div>Feito com HTML estático, Tailwind & JavaScript.</div>
-          </footer>
-
-        </div>
-      </main>
-    </div>
-
-    <script>
-      const sidebar = document.getElementById("sidebar");
-      const overlay = document.getElementById("overlay");
-      const btn = document.getElementById("menuBtn");
-
-      function openMenu() {
-        sidebar.classList.remove("-translate-x-full");
-        overlay.classList.remove("hidden");
-      }
-
-      function closeMenu() {
-        sidebar.classList.add("-translate-x-full");
-        overlay.classList.add("hidden");
-      }
-
-      btn.addEventListener("click", openMenu);
-      overlay.addEventListener("click", closeMenu);
-
-      // Fecha sidebar ao clicar em link âncora no mobile
-      document.querySelectorAll('#sidebar nav a').forEach(link => {
-        link.addEventListener('click', () => {
-          if (window.innerWidth < 1024) closeMenu();
-        });
+    // Fecha sidebar ao clicar em link âncora no mobile
+    document.querySelectorAll('#sidebar nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth < 1024) closeMenu();
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
+
 </html>
